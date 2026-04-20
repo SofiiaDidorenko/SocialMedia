@@ -1,0 +1,25 @@
+/* User App Styles */
+*{
+    display: flex;
+}
+body {
+    background-color: #E9E5EE;
+}
+.side-panel {
+    flex-direction: column;
+    text-align: left;
+}
+
+.side-panel a {
+    text-decoration: none;
+    
+}
+.side-panel a span {
+    display: block;
+    
+    color: #543C52;
+    font-size: 1vw;
+    font-weight: bold;
+    margin-left: 10px;
+
+}

@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block links %}
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock  %}
+
+{% block side-panel %}
+    <div class="side-panel">
+                <div class="profile-container">
+                    <div class="profile-head">
+                        <div class= "profile-picture">
+                            <img src= "{% static  'icons/example-photo.png' %}" alt="example-photo.png">
+                        </div>
+                        <div class="profile-name">
+                            <h3>Lina Li</h3>
+                            <p>@thelili</p>
+                        </div>
+                    </div>
+                    <div class="profile-info">
+                        <div class="info-container">
+                            <h3>566</h3>                       
+                            <p>Дописи</p>
+                        </div>
+                        <div class="info-container">
+                            <h3>12.1K</h3>                                
+                            <p>Читачі</p>
+                        </div>
+                        <div class="info-container">
+                            <h3>222</h3>                   
+                            <p>Друзі</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="request">
+                    <nav>
+                        <h3>Запити</h3>
+                        <a href="#">Дивитися всі</a>
+                   </nav>
+                </div>
+                <div class="message-block">
+                    <nav>
+                        <h3>Повідомлення</h3>
+                        <a href="#">Дивитися всі</a>
+                    </nav>
+                </div>
+            </div>
+{% endblock  %}
+
+{% block content %}
+    <h1 class="page-title">HOME PAGE</h1>
+{% endblock content %}

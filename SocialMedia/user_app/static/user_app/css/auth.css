@@ -1,0 +1,12 @@
+*{
+    display: flex;
+}
+.auth-section {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 33.8vw;
+    height: 53.9vh;
+    background-color: #fff;
+    border-radius: 10px;
+}

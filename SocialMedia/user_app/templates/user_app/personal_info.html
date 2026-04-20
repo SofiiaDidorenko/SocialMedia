@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Personal Information{% endblock title %}
+
+{% block links %}
+    <link rel="stylesheet" href="{% static 'user_app/css/user.css' %}">
+{% endblock links %}
+
+{% block info-profile %}
+    <div class="side-panel">
+        <div class="profile-container">
+            <div class="profile-head">
+                <a href= "{% url 'personal_info' %}">
+                    <span>Особиста інформація</span>
+                </a>
+                <a href= "{% url 'album' %}">
+                    <span>Альбоми</span>
+                </a>
+                        
+            </div>
+        </div>
+    </div>
+{% endblock  %}
+
+{% block content %}
+    <h1 class="page-title">settings</h1>
+{% endblock content %}
+
+{% block scripts %}
+    <script src="{% static 'user_app/js/user.js' %}"></script>
+{% endblock scripts %}
+

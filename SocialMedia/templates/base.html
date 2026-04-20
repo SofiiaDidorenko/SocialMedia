@@ -1,0 +1,60 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}World IT{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+</head>
+<body>
+
+    <header>
+        <a href="/">
+            <img src="{% static 'icons/logo.svg' %}" alt="World IT" class="logo">
+        </a>
+
+        {% if request.path != '/auth/' %}
+            <nav>
+                <div>
+                    <img src="{% static 'icons/home.svg' %}" class="icons">
+                    <a href="{% url 'home' %}">Головна</a>
+                </div>
+                <div>
+                    <img src="{% static 'icons/post.svg' %}" class="icons">
+                    <a href="{% url 'posts' %}">Пости</a>
+                </div>
+                <div>
+                    <img src="{% static 'icons/friend.svg' %}" class="icons">
+                    <a href="{% url 'friends' %}">Друзі</a>
+                </div>
+                <div>
+                    <img src="{% static 'icons/user.svg' %}" class="icons">
+                    <a href="{% url 'auth' %}">Налаштування</a>
+                </div>
+                
+                <div>
+                    <div class="button-div">
+                        <img src="{% static 'icons/exit.svg' %}" class="icons">
+                        <button class="button-exit">Вихід</button>
+                    </div>
+                </div>
+            </nav>
+        {% endif %}
+    </header>
+
+    <main>
+        <!-- Боковая панель -->
+        <aside>
+            {% block side-panel %}{% endblock %}
+        </aside>
+
+        
+        <div class="content-wrapper"> 
+            
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+</body>
+</html>

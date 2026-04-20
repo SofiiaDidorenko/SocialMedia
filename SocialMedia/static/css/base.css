@@ -1,0 +1,372 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+}
+
+body{
+    background-color: #FAF8FF;
+}
+
+.div-container{
+    position: fixed;
+
+    top: 10.2vh;
+    left: 35vw;
+
+    width: 64vw;
+    height: fit-content;
+}
+
+/* 
+width: 1440
+height: 1024
+*/
+header{
+    position: fixed;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    width: 100vw;
+    height: 8.5vh;
+    padding: 2.3vh 5.6vw 2.3vh 5.6vw;
+    
+    background-color: #FFFFFF;
+}
+
+.logo{
+    width: 10.1vw;
+    height: 2vh;
+}
+
+nav{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    width: 53.8vw;
+    height: 4vh;
+    gap: 1.7vw;
+    
+    /* background-color: #0000ff; */
+}
+
+nav div{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    width: fit-content;
+    height: 2.7vh;
+    gap: 0.5vw;
+    padding: 0.2vh 0.5vw 0.2vh 0.5vw;
+    
+    /* background-color: #ff0000; */
+}
+
+nav div a{
+    font-size: 1.1vw;
+    color: #070A1C;
+}
+
+nav div :hover{
+    background-color: #E9E5EE;
+}
+/* 
+.icons{
+    width: 1.4vw;
+    height: 1.2vh;
+} */
+
+nav div .icons{
+    width: 1.4vw;
+    height: 2vh;
+}
+
+nav div .button-div {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    width: 5vw;
+    height: 4vh;
+    padding: 1vh 1.1vw 1vh 1.1vw;
+    gap: 0.5vw;
+
+    color: #543C52;
+
+    border-radius: 1234px;
+    border: 0.1vw solid #543C52;
+}
+
+nav div .button-div .button-exit{
+    font-size: 1vw;
+    line-height: 1.4vw;
+    letter-spacing: -0.6%;
+
+    background-color: transparent;
+    border: none;
+}
+.profile-container {
+    position: fixed;
+    top: 10.2vh;
+    left: 5.6vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 22vw;
+    height: 26.5vh;
+    gap: 1.5vh;    
+    background-color: white;
+    border: 0.1vw solid #CDCED2;
+    border-radius: 0.7vw;
+}
+
+.profile-head {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;    
+    width: 24vw;
+    height: 17vh;
+    gap: 1.1vw;
+}
+
+.profile-picture {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 6.7vw;
+    height: 9vh;
+}
+
+.profile-picture img {  
+    height: 100%;
+}
+
+.profile-name {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 6.7vw;
+    height: 5vh;
+}
+
+.profile-name h3 {
+    font-size: 2.5vh;
+    color: rgba(7, 10, 28, 1);
+}
+
+.profile-name p {
+    font-size: 1.7vh;
+    font-weight: 700;
+    color: rgba(7, 10, 28, 1);
+}
+
+.profile-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;    
+    width: 23vw;
+    height: 5vh;
+}
+
+.info-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;    
+    width: 8vw;
+    height: 5vh;
+    border-right: 0.1vw solid #CDCED2;
+}
+
+.info-container:last-child {
+    border-right: none;
+}
+
+.info-container h3{
+    font-size: 3.5vh;
+    font-weight: 700;
+    color: #070A1C
+}
+
+.info-container p{
+    font-size: 1.6vh;
+    color: #81818D;
+}
+.profile-container {
+    position: fixed;
+    top: 10.2vh;
+    left: 5.6vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 22vw;
+    height: 26.5vh;
+    gap: 1.5vh;   
+    background-color: white;
+    border: 0.1vw solid #CDCED2;
+    border-radius: 0.7vw;
+}
+
+.profile-head {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;   
+    width: 24vw;
+    height: 17vh;
+    gap: 1.1vw;
+}
+
+.profile-picture {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 6.7vw;
+    height: 9vh;
+}
+
+.profile-picture img {  
+    height: 100%;
+}
+
+.profile-name {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 6.7vw;
+    height: 5vh;
+}
+
+.profile-name h3 {
+    font-size: 2.5vh;
+    color: rgba(7, 10, 28, 1);
+}
+
+.profile-name p {
+    font-size: 1.7vh;
+    font-weight: 700;
+    color: rgba(7, 10, 28, 1);
+}
+
+.profile-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;   
+    width: 23vw;
+    height: 5vh;
+}
+
+.info-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;  
+    width: 8vw;
+    height: 5vh;
+    border-right: 0.1vw solid #CDCED2;
+}
+
+.info-container:last-child {
+    border-right: none;
+}
+
+.info-container h3{
+    font-size: 3.5vh;
+    font-weight: 700;
+    color: #070A1C;
+}
+
+.info-container p{
+    font-size: 1.6vh;
+    color: #81818D;
+}
+
+.request{
+    position: fixed;
+    top: 38vh;
+    left: 5.6vw;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 22vw;
+    min-height: 7.5vh;
+    padding: 1.2vh 1.4vw;
+    background-color: #ffffff;
+    border: 0.1vw solid #CDCED2;
+    border-radius: 0.7vw;
+    box-shadow: 0 0.3vw 0.8vw rgba(7, 10, 28, 0.08);
+}
+.message-block{
+    position: fixed;
+    top: 46.5vh;
+    left: 5.6vw;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 22vw;
+    min-height: 7.5vh;
+    padding: 1.2vh 1.4vw;
+    background-color: #ffffff;
+    border: 0.1vw solid #CDCED2;
+    border-radius: 0.7vw;
+    box-shadow: 0 0.3vw 0.8vw rgba(7, 10, 28, 0.08);
+}
+
+.request nav{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 1vw;
+}
+.message-block nav{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 1vw;
+}
+
+.request h3{
+    margin: 0;
+    font-size: 1.95vh;
+    color: #070A1C;
+}
+
+.message-block h3{
+    margin: 0;
+    font-size: 1.95vh;
+    color: #070A1C;
+}
+
+.request a{
+     color: #5D3A6A;
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+    font-size: 1.55vh;
+}
+.message-block a{
+    color: #5D3A6A;
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+    font-size: 1.55vh;
+}
