@@ -134,3 +134,4 @@ STATICFILES_DIRS = [
     BASE_DIR / 'posts_app/static',
     BASE_DIR / 'user_app/static',
 ]
+STATIC_ROOT = BASE_DIR / 'staticfiles'

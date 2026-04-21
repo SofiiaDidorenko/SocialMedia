@@ -1,25 +1,31 @@
-/* User App Styles */
-*{
-    display: flex;
-}
-body {
-    background-color: #E9E5EE;
-}
+/* Reset and base styles */
+
 .side-panel {
+    display: flex;
     flex-direction: column;
     text-align: left;
+    gap: 12px;
 }
 
 .side-panel a {
     text-decoration: none;
-    
+    color: inherit;
 }
+
 .side-panel a span {
     display: block;
-    
     color: #543C52;
-    font-size: 1vw;
-    font-weight: bold;
+    font-size: clamp(0.95rem, 1vw, 1.05rem);
+    font-weight: 700;
     margin-left: 10px;
+}
 
+.side-panel .stat-number { 
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1C1930;
+}
+
+.side-panel .profile-head a span {
+    font-size: clamp(0.98rem, 1vw, 1.1rem);
 }

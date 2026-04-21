@@ -8,15 +8,28 @@
 {% endblock links %}
 
 {% block content %}
-    <div class="auth-container">
-        <div class="auth-section">
-            <form method="post", action="{% url 'register' %}" class="auth-form">
-                {% csrf_token %}
-                
-                {{ register_form.as_p }}
-                <button type="submit">Зареєструватися</button>
-            </form>
+    <section class="auth-page">
+        <div class="auth-inner">
+            <div class="auth-section">
+                <div class="auth-switch">
+                    <span class="active">Реєстрація</span>
+                    <span>Авторизація</span>
+                </div>
+                <h1>Приєднуйся до World IT</h1>
+                <p>Створи акаунт та почни спілкуватися з друзями.</p>
+
+                <form method="post" action="{% url 'register' %}" class="auth-form">
+                    {% csrf_token %}
+                    {{ register_form.as_p }}
+                    <button type="submit" class="submit-btn">Створити акаунт</button>
+                </form>
+            </div>
+
+            <div class="image-section">
+                <img src="{% static 'images/IMAGE 2026-04-21 20:29:39.jpg' %}" alt="Laptop" class="laptop">
+                <img src="{% static 'images/IMAGE 2026-04-21 20:29:28.jpg' %}" alt="Phone" class="phone">
+            </div>
         </div>
-        
-    </div>
+    </section>
 {% endblock %}
+
