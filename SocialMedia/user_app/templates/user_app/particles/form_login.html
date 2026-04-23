@@ -1,0 +1,14 @@
+<div id="login-container" style="display: none;"> <!-- По умолчанию скрыт -->
+    <nav class="auth-switch">
+        <p class="register-select">Реєстрація</p>
+        <p class="login-select">Авторизація</p> <!-- Класс select тут -->
+    </nav>
+    <h1>Раді тебе знову бачити!</h1>
+    <form method="post" action="{% url 'login' %}" class="form">
+        {% csrf_token %}
+        {{ login_form.as_p }}
+        <button type="submit" class="submit-btn">Увійти</button>
+    </form>
+</div>
+
+

@@ -1,31 +1,37 @@
-// User App JavaScript
+document.addEventListener('DOMContentLoaded', function() {
+    const regContainer = document.getElementById('register-container');
+    const loginContainer = document.getElementById('login-container');
+    const confirmContainer = document.getElementById('confirm-email-container');
 
-let registerSection = document.querySelector('.section-register')
-let loginSection = document.querySelector('.section-login')
-let registers = document.querySelectorAll('#register')
-let logins = document.querySelectorAll('#login')
-let buttonRegister = document.querySelector('.button-register')
-let confirmSection = document.querySelector('.section-confirm')
-let buttonBack = document.querySelector('.back')
+    const regButtons = document.querySelectorAll('.register-select');
+    const loginButtons = document.querySelectorAll('.login-select');
+
+    function switchForm(target) {
+        // Жестко скрываем всё
+        if (regContainer) regContainer.style.display = 'none';
+        if (loginContainer) loginContainer.style.display = 'none';
+        if (confirmContainer) confirmContainer.style.display = 'none';
+
+        if (target === 'login') {
+            if (loginContainer) loginContainer.style.display = 'block';
+            loginButtons.forEach(b => b.classList.add('select'));
+            regButtons.forEach(b => b.classList.remove('select'));
+        } else {
+            if (regContainer) regContainer.style.display = 'block';
+            regButtons.forEach(b => b.classList.add('select'));
+            loginButtons.forEach(b => b.classList.remove('select'));
+        }
+    }
+
+    loginButtons.forEach(btn => btn.onclick = () => switchForm('login'));
+    regButtons.forEach(btn => btn.onclick = () => switchForm('register'));
+
+    // Инициализация (по умолчанию регистрация)
+    switchForm('register');
+});
 
 
-registers.forEach(reg => {
-    reg.addEventListener('click', function() {
-        loginSection.style.display = "none"
-        registerSection.style.display = "flex"
-        
-        logins.forEach(log => login.classList.remove('select'))
-        registers.forEach(reg => reg.classList.add('select'))
-    })
-})
 
-logins.forEach(log => {
-    log.addEventListener('click', function() {
-        loginSection.style.display = "flex"
-        registerSection.style.display = "none"
-        
-        registers.forEach(reg => reg.classList.remove('select'))
-        logins.forEach(log => login.classList.add('select'))
-    })
-})
+
+
 

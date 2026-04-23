@@ -1,186 +1,170 @@
-html, body {
-    min-height: 100%;
+/* --- 1. БАЗОВЫЕ НАСТРОЙКИ --- */
+@import url('https://googleapis.com');
+
+* {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
 }
 
 body {
     background-color: #E9E5EE;
-    font-family: 'Inter', sans-serif;
-    color: #1E1E2E;
+    min-height: 100vh;
+    overflow: hidden; /* Чтобы не было лишнего скролла */
 }
 
-main {
-    padding-top: 8.5vh;
-}
-
-.auth-page {
-    min-height: calc(100vh - 8.5vh);
+/* --- 2. ХЕДЕР (ФИКСИРОВАННЫЙ) --- */
+header {
+    background: #FFFFFF;
+    width: 100%;
+    height: 60px;
     display: flex;
+    justify-content: center;
     align-items: center;
-    align-items: flex-start;
-    padding: 40px 20px 60px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    position: fixed;
+    top: 0;
+    z-index: 1000;
 }
 
+.logo {
+    height: 20px;
+    width: auto;
+}
+
+/* --- 3. ГЛАВНЫЙ КОНТЕЙНЕР (СМЕЩЕНИЕ ВЛЕВО) --- */
 .auth-inner {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 40px;
-    width: min(1180px, 100%);
+    justify-content: flex-start; /* Форма прижимается к левой стороне */
+    width: 100%;
+    max-width: 1500px;
+    height: 100vh;
+    padding-top: 60px;
+    padding-left: 12%; /* Регулирует отступ формы от левого края экрана */
+    margin: 0 auto;
+    position: relative;
 }
 
-.auth-card {
-    width: 470px;
+/* --- 4. КАРТОЧКА ФОРМЫ (ИДЕАЛЬНЫЕ РАЗМЕРЫ) --- */
+.auth-section {
     background: #FFFFFF;
-    border-radius: 32px;
-    padding: 40px 32px;
-    box-shadow: 0 30px 80px rgba(84, 60, 82, 0.12);
+    width: 460px; 
+    padding: 40px; 
+    border-radius: 35px;
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.03);
+    z-index: 2; /* Чтобы форма была поверх картинки, если они пересекутся */
 }
 
-.auth-card h1 {
-    font-size: 2.6rem;
-    margin: 0;
-    color: #1C1930;
-}
-
-.auth-card .auth-switch {
+/* --- 5. ПЕРЕКЛЮЧАТЕЛЬ (ТЕПЕРЬ СТРОГО ПО ЦЕНТРУ) --- */
+.auth-switch {
     display: flex;
-    gap: 16px;
-    margin-top: 14px;
-    margin-bottom: 28px;
+    gap: 30px;
+    margin-bottom: 30px;
+    justify-content: center; /* Центрирует "Регистрация" и "Авторизация" */
+    width: 100%;
 }
 
-.auth-card .auth-switch span {
-    font-size: 1rem;
-    color: #8A8699;
+.register-select, .login-select {
+    font-size: 28px;
+    font-weight: 850;
+    color: #E0E0E0;
     cursor: pointer;
+    border-bottom: 4px solid transparent;
+    padding-bottom: 6px;
+    transition: 0.3s ease;
+    white-space: nowrap;
 }
 
-.auth-card .auth-switch .active {
-    color: #1C1930;
+.select {
+    color: #1A1A1A !important;
+    border-bottom: 4px solid #1A1A1A !important;
+}
+
+/* --- 6. ЗАГОЛОВОК --- */
+h1 {
+    font-size: 18px;
     font-weight: 700;
-    border-bottom: 2px solid #543C52;
-    padding-bottom: 8px;
+    text-align: center;
+    color: #1A1A1A;
+    margin-bottom: 25px;
 }
 
-.auth-card p {
-    margin: 0;
-    color: #5F5B7B;
-    line-height: 1.7;
+/* --- 7. ПОЛЯ ВВОДА --- */
+.form p {
+    margin-bottom: 14px;
 }
 
-.auth-form {
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
- *{ 
-    display: flex; 
-}
- .auth-section {
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 33.8vw;
-    height: 53.9vh;
-    background-color: #fff;
-    border-radius: 10px;
-    padding: 40px 32px;
-    box-shadow: 0 30px 80px rgba(84, 60, 82, 0.12);
-}
-    margin-top: 32px;
+.form label {
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    color: #1A1A1A;
+    margin-bottom: 5px;
 }
 
-.auth-form p {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin: 0;
-}
-
-.auth-form label {
-    font-size: 0.95rem;
-    color: #5F5B7B;
-    font-weight: 600;
-}
-
-.auth-form input {
+.form input {
     width: 100%;
-    padding: 14px 16px;
-    border: 1px solid #E7E3EE;
-    border-radius: 16px;
-    background: #F8F6FB;
-    font-size: 0.98rem;
-    color: #1E1E2E;
+    height: 46px;
+    background: #FBFBFB;
+    border: 1px solid #EAEAEA;
+    border-radius: 12px;
+    padding: 0 15px;
+    font-size: 14px;
+    outline: none;
+    transition: 0.2s;
 }
 
-.field {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+.form input:focus {
+    border-color: #4B384C;
+    background: #FFFFFF;
 }
 
-.field label {
-    font-size: 0.95rem;
-    color: #5F5B7B;
-}
-
-.field input {
-    width: 100%;
-    padding: 14px 18px;
-    border: 1px solid #E7E3EE;
-    border-radius: 16px;
-    background: #F8F6FB;
-    font-size: 0.98rem;
-    color: #1E1E2E;
-}
-
+/* --- 8. КНОПКА --- */
 .submit-btn {
     width: 100%;
-    padding: 16px 0;
-    border: none;
-    border-radius: 28px;
-    background-color: #543C52;
+    height: 52px;
+    background-color: #4B384C;
     color: #FFFFFF;
-    font-size: 1rem;
+    border: none;
+    border-radius: 26px;
+    font-size: 16px;
     font-weight: 700;
     cursor: pointer;
     margin-top: 10px;
+    transition: 0.3s ease;
 }
 
-.image-panel {
-    position: relative;
-    width: 620px;
-    min-height: 520px;
+.submit-btn:hover {
+    background-color: #3b2c3c;
+    transform: translateY(-1px);
+}
+
+/* --- 9. УВЕЛИЧЕННАЯ КАРТИНКА (СПРАВА) --- */
+.image-section {
+    position: absolute;
+    right: 8%; /* Чуть больше отступ от правого края */
+    width: 680px; /* Уменьшили с 750px до 680px */
     display: flex;
-    align-items: flex-end;
-    justify-content: center;
-}
-
-.image-panel::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at 20% 20%, rgba(84, 60, 82, 0.12), transparent 35%);
-    border-radius: 40px;
-}
-
-.laptop {
-    width: 100%;
-    display: block;
-    border-radius: 36px;
-    position: relative;
+    align-items: center;
     z-index: 1;
-    box-shadow: 0 35px 70px rgba(84, 60, 82, 0.18);
+    pointer-events: none;
 }
 
-.phone {
-    position: absolute;
-    width: 250px;
-    left: 60px;
-    bottom: 60px;
-    z-index: 2;
-    border-radius: 32px;
-    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.18);
-    transform: translateX(-20%);
+.image-section img {
+    width: 100%;
+    height: auto;
+    filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.08));
+}
+
+/* --- 10. АДАПТИВ ПОД МАЛЕНЬКИЕ ЭКРАНЫ --- */
+@media (max-width: 1200px) {
+    .auth-inner {
+        justify-content: center;
+        padding-left: 0;
+    }
+    .image-section {
+        display: none; /* Скрываем на планшетах, чтобы не мешала */
+    }
 }

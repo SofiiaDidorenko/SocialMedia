@@ -31,7 +31,7 @@
                 </div>
                 <div>
                     <img src="{% static 'icons/user.svg' %}" class="icons">
-                    <a href="{% url 'auth' %}">Налаштування</a>
+                    <a href="{% url 'user' %}">Налаштування</a>
                 </div>
                 
                 <div>
@@ -43,21 +43,15 @@
             </nav>
         {% endif %}
     </header>
-
     <main>
-        <!-- Боковая панель -->
         <aside>
             {% block side-panel %}{% endblock %}
         </aside>
-
-        
         <div class="content-wrapper"> 
-            
             {% block content %}{% endblock %}
         </div>
     </main>
-
-    <script src="{% static 'js/base.js'%}"></script>
-
+   <!-- <script src="{% static ' js/base.js'%}"></script>-->
+    {% block script %}{% endblock  %}
 </body>
 </html>

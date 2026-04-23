@@ -1,0 +1,16 @@
+<div id="register-container"> <!-- Важно: ID контейнера -->
+    <nav class="auth-switch">
+        <p class="register-select">Реєстрація</p> <!-- Класс select тут сразу -->
+        <p class="login-select">Авторизація</p>
+    </nav>
+    <h1>Приєднуйся до World IT</h1>
+    <form method="post" action="{% url 'register' %}" class="form">
+        {% csrf_token %}
+        {{ register_form.as_p }}
+        <button type="submit" class="submit-btn">Створити акаунт</button>
+    </form>
+</div>
+
+
+
+

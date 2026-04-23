@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.views.generic.base import TemplateView
 from django.views import View
+from django.contrib.auth.forms import AuthenticationForm
 from django.http import HttpRequest, JsonResponse
 from .forms import RegisterForm
 # Create your views here.
@@ -9,6 +10,7 @@ class AuthTemplateView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['register_form'] = RegisterForm()
+        context['login_form'] = AuthenticationForm()
         return context
 
 class UserTemplateView(TemplateView):

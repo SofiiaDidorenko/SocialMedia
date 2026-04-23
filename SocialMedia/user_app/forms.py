@@ -1,7 +1,10 @@
 from django import forms
 from django.contrib.auth import get_user_model
+#from django.contrib.auth.forms import AuthenticationForm
 
 User = get_user_model()
+
+
 
 class RegisterForm(forms.ModelForm):
     confirm_password = forms.CharField(
@@ -24,7 +27,7 @@ class RegisterForm(forms.ModelForm):
     def clean_email(self):
         email = self.cleaned_data.get('email')
         if get_user_model().objects.filter(email=email).exists():
-            raise forms.ValidationError('Користувач з такою електронною поштою вже існує.')
+            raise forms.ValidationError('A user with this email address already exists.')
         return email
     def clean(self):
         cleaned_data = super().clean()
@@ -34,5 +37,15 @@ class RegisterForm(forms.ModelForm):
             self.add_error("password", "Password did'nt match")
             self.add_error("confirm_password", "Password did'nt match")
         return cleaned_data
+    
+#class UserLoginForm(AuthenticationForm):
+    #username = forms.CharField(widget = forms.EmailInput(attrs = {
+     #   'placeholder': 'Електронна пошта',
+    #}))
+    #password = forms.CharField(widget = forms.PasswordInput(attrs={
+     #   'placeholder' : 'Пароль'    
+  #  }))
+    
+
     
         

@@ -1,15 +1,14 @@
 {% extends 'base.html' %}
-
 {% load static %}
 
-{% block title %}
-    Friends
-{% endblock %}
+{% block title %}User Profile{% endblock title %}
 
 {% block links %}
-    <link rel="stylesheet" href="{% static 'friends_app/css/friends.css' %}">
-{% endblock  %}
-{% block info-profile %}
+    <link rel="stylesheet" href="{% static 'user_app/css/user.css' %}">
+{% endblock links %}
+
+{% block side-panel %}
+
     <div class="side-panel">
         <div class="profile-container">
             <div class="profile-head">
@@ -25,10 +24,17 @@
                 <a href= "{% url 'all_friends' %}">
                     <span>Всі друзі</span>
                 </a>
+                        
             </div>
         </div>
     </div>
-{% endblock %}
-{% block content %}
-    <h1 class="page-title">Friends</h1>
 {% endblock  %}
+
+{% block content %}
+    <h1 class="page-title">fRIENDS</h1>
+{% endblock content %}
+
+{% block scripts %}
+    <script src="{% static 'user_app/js/user.js' %}"></script>
+{% endblock scripts %}
+
