@@ -3,7 +3,7 @@ from django.views.generic.base import TemplateView
 from django.views import View
 from django.contrib.auth.forms import AuthenticationForm
 from django.http import HttpRequest, JsonResponse
-from .forms import RegisterForm
+from .forms import RegisterForm, ConfirmEmailForm
 # Create your views here.
 class AuthTemplateView(TemplateView):
     template_name = 'user_app/auth.html'
@@ -11,6 +11,7 @@ class AuthTemplateView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['register_form'] = RegisterForm()
         context['login_form'] = AuthenticationForm()
+        context['confirm_email_form'] = ConfirmEmailForm()
         return context
 
 class UserTemplateView(TemplateView):

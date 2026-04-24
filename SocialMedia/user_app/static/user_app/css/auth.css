@@ -11,7 +11,7 @@
 body {
     background-color: #E9E5EE;
     min-height: 100vh;
-    overflow: hidden; /* Чтобы не было лишнего скролла */
+    overflow: hidden; 
 }
 
 /* --- 2. ХЕДЕР (ФИКСИРОВАННЫЙ) --- */
@@ -33,36 +33,36 @@ header {
     width: auto;
 }
 
-/* --- 3. ГЛАВНЫЙ КОНТЕЙНЕР (СМЕЩЕНИЕ ВЛЕВО) --- */
+/* --- 3. ГЛАВНЫЙ КОНТЕЙНЕР --- */
 .auth-inner {
     display: flex;
     align-items: center;
-    justify-content: flex-start; /* Форма прижимается к левой стороне */
+    justify-content: flex-start;
     width: 100%;
     max-width: 1500px;
     height: 100vh;
     padding-top: 60px;
-    padding-left: 12%; /* Регулирует отступ формы от левого края экрана */
+    padding-left: 12%; 
     margin: 0 auto;
     position: relative;
 }
 
-/* --- 4. КАРТОЧКА ФОРМЫ (ИДЕАЛЬНЫЕ РАЗМЕРЫ) --- */
+/* --- 4. КАРТОЧКА ФОРМЫ --- */
 .auth-section {
     background: #FFFFFF;
     width: 460px; 
     padding: 40px; 
     border-radius: 35px;
     box-shadow: 0 15px 50px rgba(0, 0, 0, 0.03);
-    z-index: 2; /* Чтобы форма была поверх картинки, если они пересекутся */
+    z-index: 2;
 }
 
-/* --- 5. ПЕРЕКЛЮЧАТЕЛЬ (ТЕПЕРЬ СТРОГО ПО ЦЕНТРУ) --- */
+/* --- 5. ПЕРЕКЛЮЧАТЕЛЬ --- */
 .auth-switch {
     display: flex;
     gap: 30px;
     margin-bottom: 30px;
-    justify-content: center; /* Центрирует "Регистрация" и "Авторизация" */
+    justify-content: center;
     width: 100%;
 }
 
@@ -83,7 +83,7 @@ header {
 }
 
 /* --- 6. ЗАГОЛОВОК --- */
-h1 {
+h1, #confirm-email-container p:first-child {
     font-size: 18px;
     font-weight: 700;
     text-align: center;
@@ -141,11 +141,11 @@ h1 {
     transform: translateY(-1px);
 }
 
-/* --- 9. УВЕЛИЧЕННАЯ КАРТИНКА (СПРАВА) --- */
+/* --- 9. КАРТИНКА --- */
 .image-section {
     position: absolute;
-    right: 8%; /* Чуть больше отступ от правого края */
-    width: 680px; /* Уменьшили с 750px до 680px */
+    right: 8%;
+    width: 680px;
     display: flex;
     align-items: center;
     z-index: 1;
@@ -158,13 +158,78 @@ h1 {
     filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.08));
 }
 
-/* --- 10. АДАПТИВ ПОД МАЛЕНЬКИЕ ЭКРАНЫ --- */
+/* --- 10. АДАПТИВ --- */
 @media (max-width: 1200px) {
     .auth-inner {
         justify-content: center;
         padding-left: 0;
     }
     .image-section {
-        display: none; /* Скрываем на планшетах, чтобы не мешала */
+        display: none;
     }
 }
+
+/* --- 11. ПОДТВЕРЖДЕНИЕ ПОЧТЫ (НОВОЕ) --- */
+#confirm-email-container {
+    text-align: center;
+}
+
+/* Описание под заголовком */
+#confirm-email-container p {
+    font-size: 14px;
+    color: #1A1A1A;
+    margin-bottom: 25px;
+    line-height: 1.4;
+}
+
+/* Сетка для ячеек кода */
+.code-inputs-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 25px 0;
+}
+
+/* Стили ячеек кода */
+.code-input {
+    width: 50px;
+    height: 60px;
+    background: #FBFBFB;
+    border: 1px solid #EAEAEA;
+    border-radius: 12px;
+    font-size: 24px;
+    font-weight: 700;
+    text-align: center;
+    outline: none;
+    transition: 0.2s;
+}
+
+.code-input:focus {
+    border-color: #4B384C;
+    background: #FFFFFF;
+    box-shadow: 0 0 0 2px rgba(75, 56, 76, 0.05);
+}
+
+/* Кнопка "Назад" */
+#back {
+    display: inline-block;
+    margin-top: 20px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #1A1A1A;
+    cursor: pointer;
+    opacity: 0.6;
+    transition: 0.2s;
+}
+
+#back:hover {
+    opacity: 1;
+}
+
+/* Убираем стрелочки инпутов */
+.code-input::-webkit-outer-spin-button,
+.code-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+

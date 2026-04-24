@@ -9,9 +9,6 @@ urlpatterns = [
     path(route= 'album/', view= AlbumTemplateView.as_view(), name= 'album'),
     path(route= 'register/', view= RegisterView.as_view(), name= 'register'),
     path('login/', AuthTemplateView.as_view(), name='login'),
-
-    #path(route= 'register/', view= '', name= 'register'),
-    #path(route= 'login/', view= LoginTemplateView, name= 'login'),
-   #path(route= 'confirm-email/', view= '', name= 'confirm-email'),
+    path('confirm_email/', AuthTemplateView.as_view(), name='confirm_email'),
 ]
 

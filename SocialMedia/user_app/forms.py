@@ -38,13 +38,27 @@ class RegisterForm(forms.ModelForm):
             self.add_error("confirm_password", "Password did'nt match")
         return cleaned_data
     
-#class UserLoginForm(AuthenticationForm):
-    #username = forms.CharField(widget = forms.EmailInput(attrs = {
-     #   'placeholder': 'Електронна пошта',
-    #}))
-    #password = forms.CharField(widget = forms.PasswordInput(attrs={
-     #   'placeholder' : 'Пароль'    
-  #  }))
+class ConfirmEmailForm(forms.Form):
+
+    def __init__(self, *args, confirm_code=None, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.confirm_code = confirm_code
+
+        for i in range(1, 7):
+            self.fields[f'code{i}'] = forms.CharField(
+                max_length= 1,
+                required= True,
+                label= '',
+                widget=forms.TextInput(
+                    attrs={
+                        "class": "code-input",
+                        "placeholder": "___",
+                        "maxlength": 1,
+                        "inputmode": "numeric"
+                    }
+                )
+            )
     
 
     
