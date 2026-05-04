@@ -4,7 +4,7 @@
         <p class="login-select">Авторизація</p> 
     </nav>
     <h1>Раді тебе знову бачити!</h1>
-    <form method="post" action="{% url 'login' %}" class="form">
+    <form method="post" action="{% url 'login_view' %}" class="form">
         {% csrf_token %}
         {{ login_form.as_p }}
         <button type="submit" class="submit-btn">Увійти</button>

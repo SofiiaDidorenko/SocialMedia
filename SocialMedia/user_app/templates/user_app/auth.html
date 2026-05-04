@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block meta %}
+    <meta name="csrf-token" content="{{ csrf_token }}">
+{% endblock meta %}
+
 {% block title %}Auth | World IT{% endblock %}
 
 {% block links %}
@@ -10,14 +14,11 @@
 {% block content %}
 <main class="auth-page">
     <div class="auth-inner">
-        <!-- Левая часть: Формы -->
         <div class="auth-section">
             {% include 'user_app/particles/form_register.html' %}
             {% include 'user_app/particles/form_login.html' %}
             {% include 'user_app/particles/form_confirm_email.html' %}
         </div>
-
-        <!-- Правая часть: Картинка -->
         <div class="image-section">
             <img src="{% static 'icons/gadgets.png' %}" alt="Auth Image">
         </div>

@@ -1,14 +1,20 @@
-
 from django.urls import path
-from .views import AuthTemplateView, UserTemplateView, PersonalInfoTemplateView, AlbumTemplateView, RegisterView
+from .views import (
+    AuthTemplateView, UserTemplateView, PersonalInfoTemplateView, 
+    AlbumTemplateView, RegisterView, LoginView, 
+    ConfirmCodeView, UpdateProfileDetailsView, LogoutView
+)
 
 urlpatterns = [
-    path(route= 'auth/', view= AuthTemplateView.as_view(), name= 'auth'),
-    path(route= 'user/', view= UserTemplateView.as_view(), name= 'user'),
-    path(route= 'personal-info/', view= PersonalInfoTemplateView.as_view(), name= 'personal_info'),
-    path(route= 'album/', view= AlbumTemplateView.as_view(), name= 'album'),
-    path(route= 'register/', view= RegisterView.as_view(), name= 'register'),
-    path('login/', AuthTemplateView.as_view(), name='login'),
-    path('confirm_email/', AuthTemplateView.as_view(), name='confirm_email'),
+    path('auth/', AuthTemplateView.as_view(), name='auth'),
+    path('user/', UserTemplateView.as_view(), name='user'),
+    path('personal-info/', PersonalInfoTemplateView.as_view(), name='personal_info'),
+    path('album/', AlbumTemplateView.as_view(), name='album'),
+    path('register/', RegisterView.as_view(), name='register'),
+    path('confirm-code/', ConfirmCodeView.as_view(), name='confirm_code'), 
+    path('login/', LoginView.as_view(), name='login_view'),
+    path('update-profile/', UpdateProfileDetailsView.as_view(), name='update_profile'),
+    path('logout/', LogoutView.as_view(), name='logout')
 ]
+
 

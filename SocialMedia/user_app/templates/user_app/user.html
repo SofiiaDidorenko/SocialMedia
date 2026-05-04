@@ -1,34 +1,67 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}User Profile{% endblock title %}
+{% block meta %}
+    <!-- CSRF-токен для безпечних AJAX-запитів -->
+    <meta name="csrf-token" content="{{ csrf_token }}">
+{% endblock meta %}
+
+{% block title %}Налаштування профілю{% endblock title %}
 
 {% block links %}
     <link rel="stylesheet" href="{% static 'user_app/css/user.css' %}">
 {% endblock links %}
 
 {% block side-panel %}
-
     <div class="side-panel">
         <div class="profile-container">
             <div class="profile-head">
-                <a href= "{% url 'personal_info' %}">
+                <a href="{% url 'personal_info' %}">
                     <span>Особиста інформація</span>
                 </a>
-                <a href= "{% url 'album' %}">
+                <a href="{% url 'album' %}">
                     <span>Альбоми</span>
                 </a>
-                        
             </div>
         </div>
     </div>
-{% endblock  %}
+{% endblock %}
 
 {% block content %}
-    <h1 class="page-title">settings</h1>
+    <h1 class="page-title">Налаштування</h1>
+
+    <!-- Модальне вікно з'являється лише якщо show_details_modal == True -->
+    {% if show_details_modal %}
+    <div id="details-modal" class="modal-overlay" style="display: flex;">
+        <div class="modal-content">
+            <h2>Додай деталі про себе</h2>
+            
+            <!-- Форма використовує глобальну функцію window.saveProfile з вашого user.js -->
+            <form id="details-form" action="{% url 'update_profile' %}" onsubmit="return window.saveProfile(event, this)">
+                {% csrf_token %}
+                
+                <div class="input-block">
+                    <label>Псевдонім автора</label>
+                    <input type="text" name="author_name" placeholder="Введіть Псевдонім автора" required>
+                </div>
+
+                <div class="input-block">
+                    <label>Ім'я користувача</label>
+                    <div class="nickname-field">
+                        <span>@</span>
+                        <input type="text" name="nickname" placeholder="username" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-details-btn">Продовжити</button>
+            </form>
+        </div>
+    </div>
+    {% endif %}
+
 {% endblock content %}
 
-{% block scripts %}
+{% block script %}
+    <!-- Підключення вашого JS файлу -->
     <script src="{% static 'user_app/js/user.js' %}"></script>
-{% endblock scripts %}
-
+{% endblock script %}

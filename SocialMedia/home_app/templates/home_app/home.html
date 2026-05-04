@@ -2,6 +2,10 @@
 
 {% load static %}
 
+{% block meta %}
+    <meta name="csrf-token" content="{{ csrf_token }}">
+{% endblock meta %}
+
 {% block title %}
     Home
 {% endblock %}

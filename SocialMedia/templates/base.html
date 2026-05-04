@@ -1,9 +1,10 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uk">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block meta %}{% endblock meta %}
     <title>{% block title %}World IT{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     {% block links %}{% endblock %}
@@ -19,7 +20,7 @@
             <nav>
                 <div>
                     <img src="{% static 'icons/home.svg' %}" class="icons">
-                    <a href="{% url 'home' %}">Головна</a>
+                    <a href="{% url 'home_app:home' %}">Головна</a>
                 </div>
                 <div>
                     <img src="{% static 'icons/post.svg' %}" class="icons">
@@ -30,19 +31,24 @@
                     <a href="{% url 'friends' %}">Друзі</a>
                 </div>
                 <div>
-                    <img src="{% static 'icons/user.svg' %}" class="icons">
+                    <!-- ИСПРАВЛЕНО: Добавлен src для иконки настроек -->
+                    <img src="{% static 'icons/user.svg' %}" class="icons" alt="Settings">
                     <a href="{% url 'user' %}">Налаштування</a>
                 </div>
                 
                 <div>
                     <div class="button-div">
                         <img src="{% static 'icons/exit.svg' %}" class="icons">
-                        <button class="button-exit">Вихід</button>
+                        
+                        <button type="button"id="force-logout" class="button-exit"data-url="{% url 'logout' %}"> <!-- Django сам підставить шлях -->
+                            Вийти
+                        </button>
                     </div>
                 </div>
             </nav>
         {% endif %}
     </header>
+
     <main>
         <aside>
             {% block side-panel %}{% endblock %}
@@ -51,7 +57,9 @@
             {% block content %}{% endblock %}
         </div>
     </main>
-   <!-- <script src="{% static ' js/base.js'%}"></script>-->
-    {% block script %}{% endblock  %}
+
+    <!-- Подключаем базовый JS, который теперь отвечает за выход -->
+    <script src="{% static 'js/base.js' %}"></script>
+    {% block script %}{% endblock %}
 </body>
 </html>

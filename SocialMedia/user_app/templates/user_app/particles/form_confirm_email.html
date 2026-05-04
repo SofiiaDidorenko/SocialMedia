@@ -2,7 +2,7 @@
     <h2>Підтвердження пошти</h2>
     <p>Ми надіслали 6-значний код на вашу пошту (you@example.com). Введіть його нижче, щоб підтвердити акаунт</p>
     
-    <form action="{% url 'confirm_email' %}" method="post">
+    <form action="{% url 'confirm_code' %}" method="post">
         {% csrf_token %}
         <div class="code-inputs-wrapper">
             {% for field in confirm_email_form %}
