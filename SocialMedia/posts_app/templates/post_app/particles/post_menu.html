@@ -1,0 +1,15 @@
+{% load static %}
+<div class="card-options">
+    <img src="{% static 'icons/more.png' %}" alt="options" class="post-menu-trigger">
+    <div class="post-context-menu" style="display: none;">
+        <button type="button" class="post-menu-row edit-post" data-id="{{ post.id }}">
+            <img src="{% static 'icons/edit.png' %}" class="icons" alt="edit">
+            <p>Редагувати допис</p>
+        </button>
+        <div class="post-menu-divider"></div>
+        <button type="button" class="post-menu-row delete-post" data-id="{{ post.id }}">
+            <img src="{% static 'icons/delete.png' %}" class="icons" alt="delete">
+            <p>Видалити публікацію</p>
+        </button>
+    </div>
+</div>

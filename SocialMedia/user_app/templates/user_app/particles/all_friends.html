@@ -1,0 +1,35 @@
+{% load static %}
+
+<section class="friends-section">
+    <div class="row-bar">
+        <h2>Всі друзі</h2>
+        <p class="see-all-btn" data-target="friends">Дивитись всі</p>
+    </div>
+    <div class="cards-container">
+        {% for friend in friends %}
+
+            <div class="friend-card user-card" data-user-id="{{ friend.id }}">
+                <img src="{% if friend.avatar %}{{ friend.avatar.url }}{% else %}{% static 'icons/User1.png' %}{% endif %}" alt="User">
+                <div class="friend-info">
+                    <h1>
+                        {% if friend.first_name or friend.last_name %}
+                            {{ friend.first_name }} {{ friend.last_name }}
+                        {% else %}
+                            Користувач #{{ friend.id }}
+                        {% endif %}
+                    </h1>
+                    <h3>@{{ friend.username }}</h3>
+                </div>
+              
+                <div class="buttons-container">
+                    <button class="msg-btn">Повідомлення</button>
+
+                    <button class="remove-friend-btn friend-btn" 
+                            data-id="{{ friend.id }}" 
+                            data-action="delete">Видалити</button>
+                </div>
+            </div>
+        {% empty %}
+        {% endfor %}
+    </div>
+</section>

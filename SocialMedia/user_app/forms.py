@@ -46,7 +46,7 @@ class RegisterForm(forms.ModelForm):
 class ConfirmEmailForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # Створюємо 6 полів для введення коду
+      
         for i in range(1, 7):
             self.fields[f'code{i}'] = forms.CharField(
                 max_length=1,
@@ -60,7 +60,7 @@ class ConfirmEmailForm(forms.Form):
             )
 
 class LoginForm(AuthenticationForm):
-    # Ми залишаємо ім'я 'username', бо AuthenticationForm очікує саме його
+    
     username = forms.EmailField(
         label='Електронна пошта',
         widget=forms.EmailInput(attrs={
@@ -79,7 +79,7 @@ class LoginForm(AuthenticationForm):
     )
 
     def clean(self):
-        # Отримуємо дані через clean_fields
+        
         email = self.cleaned_data.get('username')
         password = self.cleaned_data.get('password')
 

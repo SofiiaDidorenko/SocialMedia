@@ -1,0 +1,155 @@
+
+main {
+    display: flex !important;
+    flex-direction: row !important; 
+    gap: 30px;
+    margin: 0 auto;
+    padding: 20px;
+    align-items: start;
+    width: 100%;
+    max-width: 1440px; 
+    height: 100%;
+    box-sizing: border-box;
+}
+
+
+aside {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 16px; 
+    width: 290px; 
+    flex-shrink: 0;
+    background: transparent !important; 
+    padding: 0 !important;
+}
+
+.profile-container,
+.request,
+.message-block {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background-color: #FFFFFF; 
+    border: 1px solid #E3E3E8; 
+    border-radius: 20px;       
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.profile-head {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+
+.profile-picture {
+    position: relative;
+    width: 84px;
+    height: 84px;
+    margin-bottom: 12px;
+}
+
+.profile-picture img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+
+.profile-picture::after {
+    content: '';
+    position: absolute;
+    bottom: 4px;
+    right: 4px;
+    width: 12px;
+    height: 12px;
+    background-color: #22C55E; 
+    border: 2px solid #FFFFFF;
+    border-radius: 50%;
+}
+
+.profile-name h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #111111;
+    margin: 0 0 4px 0;
+}
+
+.profile-name p {
+    font-size: 13px;
+    font-weight: 500;
+    color: #8A8A96;
+    margin: 0;
+}
+
+.profile-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    border-top: 1px solid #F3F3F6;
+    padding-top: 16px;
+}
+
+.info-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+}
+
+.info-container h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #111111;
+    margin: 0 0 2px 0;
+}
+
+.info-container p {
+    font-size: 12px;
+    font-weight: 500;
+    color: #8A8A96;
+    margin: 0;
+}
+
+
+.request nav,
+.message-block nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.request h3,
+.message-block h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #111111;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px; 
+}
+
+
+.request a,
+.message-block a {
+    font-size: 13px;
+    font-weight: 600;
+    color: #4B2C5E;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.request a:hover,
+.message-block a:hover {
+    color: #392049;
+}

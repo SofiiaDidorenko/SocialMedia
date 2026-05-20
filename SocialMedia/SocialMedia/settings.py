@@ -39,9 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'home_app',
-    'friends_app',
     'posts_app',
-    
+    'chat_app'
 ]
 AUTH_USER_MODEL = 'user_app.User'
 MIDDLEWARE = [
@@ -133,6 +132,7 @@ STATICFILES_DIRS = [
     BASE_DIR / 'friends_app/static',
     BASE_DIR / 'posts_app/static',
     BASE_DIR / 'user_app/static',
+    BASE_DIR / 'chat_app/static',
 ]
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 

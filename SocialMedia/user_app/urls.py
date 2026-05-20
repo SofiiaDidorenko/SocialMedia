@@ -1,8 +1,8 @@
 from django.urls import path
 from .views import (
-    AuthTemplateView, UserTemplateView, PersonalInfoTemplateView, 
+    AuthTemplateView, FriendActionView, HandleFriendshipView, UserTemplateView, PersonalInfoTemplateView, 
     AlbumTemplateView, RegisterView, LoginView, 
-    ConfirmCodeView, UpdateProfileDetailsView, LogoutView
+    ConfirmCodeView, UpdateProfileDetailsView, LogoutView, FriendTemplateView
 )
 
 urlpatterns = [
@@ -14,7 +14,10 @@ urlpatterns = [
     path('confirm-code/', ConfirmCodeView.as_view(), name='confirm_code'), 
     path('login/', LoginView.as_view(), name='login_view'),
     path('update-profile/', UpdateProfileDetailsView.as_view(), name='update_profile'),
-    path('logout/', LogoutView.as_view(), name='logout')
+    path('logout/', LogoutView.as_view(), name='logout'),
+    path('friends/', FriendTemplateView.as_view(), name='friends'),
+    path('friends/action/', HandleFriendshipView.as_view(), name='friend_action'),
+    path('friends/action/', FriendActionView.as_view(), name='friend_action'),
 ]
 
 

@@ -1,5 +1,5 @@
-/* --- 1. БАЗОВЫЕ НАСТРОЙКИ --- */
-@import url('https://googleapis.com');
+
+@import url('googleapis.com');
 
 * {
     margin: 0;
@@ -9,145 +9,190 @@
 }
 
 body {
-    background-color: #E9E5EE;
+
+    background: linear-gradient(180deg, #EAE6F0 0%, #DCD7E3 100%);
     min-height: 100vh;
-    overflow: hidden; 
+    display: flex;
+    flex-direction: column;
 }
 
-/* --- 2. ХЕДЕР (ФИКСИРОВАННЫЙ) --- */
+
 header {
     background: #FFFFFF;
     width: 100%;
-    height: 60px;
+    height: 70px;
     display: flex;
     justify-content: center;
     align-items: center;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.03);
     position: fixed;
     top: 0;
     z-index: 1000;
 }
 
 .logo {
-    height: 20px;
+    height: 24px;
     width: auto;
 }
 
-/* --- 3. ГЛАВНЫЙ КОНТЕЙНЕР --- */
+
 .auth-inner {
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
+    
     width: 100%;
-    max-width: 1500px;
-    height: 100vh;
-    padding-top: 60px;
-    padding-left: 12%; 
-    margin: 0 auto;
+    max-width: 1400px;
+    min-height: calc(100vh - 70px);
+    margin: 70px auto 0 auto;
+    padding: 40px 6%;
     position: relative;
 }
 
-/* --- 4. КАРТОЧКА ФОРМЫ --- */
+
 .auth-section {
     background: #FFFFFF;
-    width: 460px; 
-    padding: 40px; 
-    border-radius: 35px;
-    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.03);
+    width: 500px; 
+    padding: 50px 45px; 
+    border-radius: 40px; 
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.04);
     z-index: 2;
 }
 
-/* --- 5. ПЕРЕКЛЮЧАТЕЛЬ --- */
+
 .auth-switch {
     display: flex;
-    gap: 30px;
-    margin-bottom: 30px;
-    justify-content: center;
+    gap: 24px;
+    margin-bottom: 35px;
+    justify-content: flex-start;
     width: 100%;
 }
 
 .register-select, .login-select {
-    font-size: 28px;
+    font-size: 32px;
     font-weight: 850;
-    color: #E0E0E0;
+    color: #C8C5CD; 
     cursor: pointer;
     border-bottom: 4px solid transparent;
-    padding-bottom: 6px;
-    transition: 0.3s ease;
+    padding-bottom: 4px;
+    transition: 0.2s ease;
     white-space: nowrap;
 }
 
 .select {
-    color: #1A1A1A !important;
-    border-bottom: 4px solid #1A1A1A !important;
+    color: #111111 !important;
+    border-bottom: 4px solid #111111 !important;
 }
 
-/* --- 6. ЗАГОЛОВОК --- */
+
 h1, #confirm-email-container p:first-child {
-    font-size: 18px;
+    font-size: 20px;
     font-weight: 700;
     text-align: center;
-    color: #1A1A1A;
-    margin-bottom: 25px;
+    color: #111111;
+    margin-bottom: 30px;
+    letter-spacing: -0.3px;
 }
 
-/* --- 7. ПОЛЯ ВВОДА --- */
+
 .form p {
-    margin-bottom: 14px;
+    margin-bottom: 18px;
 }
 
 .form label {
     display: block;
-    font-size: 13px;
-    font-weight: 700;
-    color: #1A1A1A;
-    margin-bottom: 5px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #111111;
+    margin-bottom: 8px;
+}
+
+
+.password-input-wrapper {
+    position: relative;
+    width: 100%;
 }
 
 .form input {
     width: 100%;
-    height: 46px;
-    background: #FBFBFB;
-    border: 1px solid #EAEAEA;
-    border-radius: 12px;
-    padding: 0 15px;
-    font-size: 14px;
+    height: 52px; 
+    background: #FFFFFF;
+    border: 1px solid #D1CCD7;
+    border-radius: 14px;
+    padding: 0 20px;
+    font-size: 15px;
+    color: #111111;
     outline: none;
-    transition: 0.2s;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+
+.password-input-wrapper input {
+    padding-right: 50px;
+}
+
+.form input::placeholder {
+    color: #B0A9B7;
 }
 
 .form input:focus {
-    border-color: #4B384C;
-    background: #FFFFFF;
+    border-color: #4B2C5E;
+    box-shadow: 0 0 0 3px rgba(75, 44, 94, 0.05);
 }
 
-/* --- 8. КНОПКА --- */
+.password-toggle-icon {
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    opacity: 0.4;
+    transition: opacity 0.2s;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='w3.org' fill='none' viewBox='0 0 24 24' stroke='%23111111' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M15 12a3 3 0 11-6 0 3 3 0 016 0z' /%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z' /%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.password-toggle-icon:hover {
+    opacity: 0.8;
+}
+
+
+.password-toggle-icon.hidden {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='w3.org' fill='none' viewBox='0 0 24 24' stroke='%23111111' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18' /%3E%3C/svg%3E");
+}
+
+
 .submit-btn {
     width: 100%;
-    height: 52px;
-    background-color: #4B384C;
+    height: 56px;
+    background-color: #4B2C5E; 
     color: #FFFFFF;
     border: none;
-    border-radius: 26px;
+    border-radius: 18px;
     font-size: 16px;
-    font-weight: 700;
+    font-weight: 600;
     cursor: pointer;
-    margin-top: 10px;
-    transition: 0.3s ease;
+    margin-top: 15px;
+    transition: background-color 0.2s, transform 0.1s;
 }
 
 .submit-btn:hover {
-    background-color: #3b2c3c;
-    transform: translateY(-1px);
+    background-color: #392049;
 }
 
-/* --- 9. КАРТИНКА --- */
+.submit-btn:active {
+    transform: scale(0.99);
+}
+
 .image-section {
-    position: absolute;
-    right: 8%;
-    width: 680px;
+    width: 55%;
+    max-width: 680px;
     display: flex;
     align-items: center;
+    justify-content: center;
     z-index: 1;
     pointer-events: none;
 }
@@ -155,81 +200,74 @@ h1, #confirm-email-container p:first-child {
 .image-section img {
     width: 100%;
     height: auto;
-    filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.08));
+    filter: drop-shadow(0 25px 50px rgba(0, 0, 0, 0.12));
 }
 
-/* --- 10. АДАПТИВ --- */
-@media (max-width: 1200px) {
+@media (max-width: 1024px) {
     .auth-inner {
         justify-content: center;
-        padding-left: 0;
+        padding: 40px 20px;
     }
     .image-section {
         display: none;
     }
 }
 
-/* --- 11. ПОДТВЕРЖДЕНИЕ ПОЧТЫ (НОВОЕ) --- */
+
 #confirm-email-container {
     text-align: center;
 }
 
-/* Описание под заголовком */
 #confirm-email-container p {
-    font-size: 14px;
-    color: #1A1A1A;
+    font-size: 15px;
+    color: #333333;
     margin-bottom: 25px;
-    line-height: 1.4;
+    line-height: 1.5;
 }
 
-/* Сетка для ячеек кода */
 .code-inputs-wrapper {
     display: flex;
     justify-content: center;
-    gap: 10px;
-    margin: 25px 0;
+    gap: 12px;
+    margin: 30px 0;
 }
 
-/* Стили ячеек кода */
 .code-input {
-    width: 50px;
-    height: 60px;
-    background: #FBFBFB;
-    border: 1px solid #EAEAEA;
-    border-radius: 12px;
-    font-size: 24px;
+    width: 54px;
+    height: 64px;
+    background: #FFFFFF;
+    border: 1px solid #D1CCD7;
+    border-radius: 14px;
+    font-size: 26px;
     font-weight: 700;
     text-align: center;
     outline: none;
-    transition: 0.2s;
+    transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .code-input:focus {
-    border-color: #4B384C;
+    border-color: #4B2C5E;
     background: #FFFFFF;
-    box-shadow: 0 0 0 2px rgba(75, 56, 76, 0.05);
+    box-shadow: 0 0 0 3px rgba(75, 44, 94, 0.05);
 }
 
-/* Кнопка "Назад" */
 #back {
     display: inline-block;
-    margin-top: 20px;
+    margin-top: 25px;
     font-size: 15px;
     font-weight: 600;
-    color: #1A1A1A;
+    color: #4B2C5E;
     cursor: pointer;
-    opacity: 0.6;
-    transition: 0.2s;
+    transition: color 0.2s;
 }
 
 #back:hover {
-    opacity: 1;
+    color: #392049;
+    text-decoration: underline;
 }
 
-/* Убираем стрелочки инпутов */
 .code-input::-webkit-outer-spin-button,
 .code-input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
-

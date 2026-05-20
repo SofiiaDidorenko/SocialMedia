@@ -3,33 +3,31 @@
     margin: 0;
     box-sizing: border-box;
     text-decoration: none;
+    font-family: 'GT Walsheim Pro';
 }
 
 body{
     background-color: #FAF8FF;
+    font-family: 'GT Walsheim Pro';
 }
 
 .div-container{
     position: fixed;
 
-    top: 10.2vh;
-    left: 35vw;
+    display: none;
 
-    width: 64vw;
-    height: fit-content;
 }
 
-/* 
-width: 1440
-height: 1024
-*/
+
 header{
     position: fixed;
+    top: 0;
+    left: 0;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-
+    font-family: 'GT Walsheim Pro';
     width: 100vw;
     height: 8.5vh;
     padding: 2.3vh 5.6vw 2.3vh 5.6vw;
@@ -52,7 +50,7 @@ nav{
     height: 4vh;
     gap: 1.7vw;
     
-    /* background-color: #0000ff; */
+   
 }
 
 nav div{
@@ -66,7 +64,7 @@ nav div{
     gap: 0.5vw;
     padding: 0.2vh 0.5vw 0.2vh 0.5vw;
     
-    /* background-color: #ff0000; */
+    
 }
 
 nav div a{
@@ -77,11 +75,6 @@ nav div a{
 nav div :hover{
     background-color: #E9E5EE;
 }
-/* 
-.icons{
-    width: 1.4vw;
-    height: 1.2vh;
-} */
 
 nav div .icons{
     width: 1.4vw;
@@ -114,7 +107,7 @@ nav div .button-div .button-exit{
     border: none;
 }
 .profile-container {
-    position: fixed;
+    position: static;
     top: 10.2vh;
     left: 5.6vw;
     display: flex;
@@ -357,7 +350,7 @@ nav div .button-div .button-exit{
 }
 
 .request a{
-     color: #5D3A6A;
+    color: #5D3A6A;
     font-weight: 700;
     text-decoration: none;
     white-space: nowrap;
@@ -369,4 +362,25 @@ nav div .button-div .button-exit{
     text-decoration: none;
     white-space: nowrap;
     font-size: 1.55vh;
+}
+main{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin-top: 8.5vh;
+}
+
+.sidebar{
+    width: 22vw;
+    position: fixed;
+    left: 0;
+    top: 8.5vh;
+    height: calc(100vh - 8.5vh);
+}
+
+.content-wrapper{
+    flex: 1;
+    
+    display: flex;
+    justify-content: flex-start;
 }

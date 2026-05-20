@@ -1,173 +1,139 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // 1. Функція для отримання CSRF-токену
-    const getCsrfToken = () => document.querySelector('meta[name="csrf-token"]')?.content;
+    let currentPage = 1;
+    let isLoading = false;
+    let hasMorePosts = true;
+    let selectedFiles = [];
 
-    // 2. Словник основних контейнерів форм
-    const containers = {
-        register: document.getElementById('register-container'),
-        login: document.getElementById('login-container'),
-        confirm: document.getElementById('confirm-email-container')
+    const getCsrf = () => document.querySelector('[name=csrfmiddlewaretoken]')?.value || document.querySelector('meta[name="csrf-token"]')?.content;
+    
+    const regCont = document.getElementById('register-container');
+    const logCont = document.getElementById('login-container');
+    const confCont = document.getElementById('confirm-email-container');
+    const postModal = document.getElementById('post-modal');
+    const tagModal = document.getElementById('tag-modal');
+    
+    const loaderLine = document.getElementById('postLoaderLine');
+    const postList = document.querySelector('.posts-list');
+    const fileInput = document.getElementById('file-input');
+    const previewContainer = document.getElementById('image-preview-container');
+
+    const toggleM = (m, show) => {
+        if (m) m.style.display = show ? 'flex' : 'none';
+        document.body.style.overflow = show ? 'hidden' : 'auto';
     };
 
-    const modal = document.getElementById('details-modal');
-    const regButtons = document.querySelectorAll('.register-select');
-    const loginButtons = document.querySelectorAll('.login-select');
-    const backBtn = document.getElementById('back');
-    const codeInputs = document.querySelectorAll('.code-input');
-    const logoutBtn = document.getElementById('logout-btn');
+    const switchAuth = (mode) => {
+        if (regCont) regCont.style.display = mode === 'reg' ? 'block' : 'none';
+        if (logCont) logCont.style.display = mode === 'log' ? 'block' : 'none';
+        if (confCont) confCont.style.display = mode === 'conf' ? 'block' : 'none';
+        
+        document.querySelectorAll('.register-select').forEach(b => b.classList.toggle('select', mode === 'reg'));
+        document.querySelectorAll('.login-select').forEach(b => b.classList.toggle('select', mode === 'log'));
+    };
 
-    /**
-     * ПЕРЕМИКАЧ ФОРМ ТА ПІДСВІЧУВАННЯ
-     * Тепер функція примусово керує класом .select для обох груп кнопок
-     */
-    function switchForm(target) {
-        Object.keys(containers).forEach(key => {
-            if (containers[key]) {
-                containers[key].style.display = (key === target) ? 'block' : 'none';
-            }
-        });
+    document.querySelectorAll('.login-select').forEach(b => b.onclick = () => switchAuth('log'));
+    document.querySelectorAll('.register-select').forEach(b => b.onclick = () => switchAuth('reg'));
+    if (document.getElementById('back')) document.getElementById('back').onclick = () => switchAuth('reg');
 
-        // Керування класом підсвічування .select
-        loginButtons.forEach(b => b.classList.toggle('select', target === 'login'));
-        regButtons.forEach(b => b.classList.toggle('select', target === 'register'));
-
-        if (target !== 'none' && modal) {
-            modal.style.display = 'none';
-            modal.classList.remove('active');
-        }
-    }
-
-    // Встановлюємо початковий стан (якщо ми на сторінці auth)
-    if (containers.login) {
-        switchForm('login'); 
-    }
-
-    // --- ОБРОБКА ВИХОДУ (LOGOUT) ---
-    if (logoutBtn) {
-        logoutBtn.onclick = function() {
-            // Отримуємо URL з атрибуту (якщо ви додали data-url) або використовуємо прямий шлях
-            const logoutUrl = this.getAttribute('data-url') || '/logout/';
-            window.location.href = logoutUrl;
-        };
-    }
-
-    // --- ОБРОБКА ФОРМИ ВХОДУ ---
-    const loginForm = containers.login?.querySelector('form');
-    if (loginForm) {
-        loginForm.onsubmit = async (e) => {
+    const sendForm = async (form, onSuccess) => {
+        if (!form) return;
+        form.onsubmit = async (e) => {
             e.preventDefault();
+            const fd = new FormData(form);
             try {
-                const response = await fetch(loginForm.action, {
+                const res = await fetch(form.action, {
                     method: 'POST',
-                    body: new FormData(loginForm),
-                    headers: { 
-                        'X-CSRFToken': getCsrfToken(), 
-                        'X-Requested-With': 'XMLHttpRequest' 
-                    }
+                    body: fd,
+                    headers: { 'X-CSRFToken': getCsrf(), 'X-Requested-With': 'XMLHttpRequest' }
                 });
-                const data = await response.json();
-                
-                if (response.ok && data.success) {
-                    // Завжди йдемо за редиректом від Django (на сторінку /user/)
-                    window.location.href = data.redirect_url;
-                } else {
-                    alert('Помилка входу. Перевірте пошту та пароль.');
-                }
-            } catch (err) {
-                console.error("Login error:", err);
-            }
+                const data = await res.json();
+                onSuccess(res, data);
+            } catch (err) { console.error(err); }
         };
-    }
+    };
 
-    // --- ОБРОБКА ФОРМИ РЕЄСТРАЦІЇ ---
-    const registerForm = containers.register?.querySelector('form');
-    if (registerForm) {
-        registerForm.onsubmit = async (e) => {
-            e.preventDefault();
-            const response = await fetch(registerForm.action, {
-                method: 'POST',
-                body: new FormData(registerForm),
-                headers: { 
-                    'X-CSRFToken': getCsrfToken(), 
-                    'X-Requested-With': 'XMLHttpRequest' 
-                }
-            });
-            if (response.ok) {
-                switchForm('confirm');
-            } else {
-                const data = await response.json();
-                alert(data.errors ? 'Перевірте правильність даних' : 'Помилка реєстрації');
-            }
-        };
-    }
-
-    // --- ОБРОБКА ПІДТВЕРДЖЕННЯ КОДУ ---
-    const confirmForm = containers.confirm?.querySelector('form');
-    if (confirmForm) {
-        confirmForm.onsubmit = async (e) => {
-            e.preventDefault();
-            const response = await fetch(confirmForm.action, {
-                method: 'POST',
-                body: new FormData(confirmForm),
-                headers: { 
-                    'X-CSRFToken': getCsrfToken(), 
-                    'X-Requested-With': 'XMLHttpRequest' 
-                }
-            });
-            const data = await response.json();
-            if (response.ok && data.action === 'show_login') {
-                switchForm('login');
-            } else {
-                alert(data.error || 'Невірний код');
-            }
-        };
-    }
-
-    // --- КЕРУВАННЯ КОД-ІНПУТАМИ ---
-    codeInputs.forEach((input, index) => {
-        input.addEventListener('input', () => {
-            if (input.value.length === 1 && codeInputs[index + 1]) {
-                codeInputs[index + 1].focus();
-            }
-        });
-        input.addEventListener('keydown', (e) => {
-            if (e.key === 'Backspace' && !input.value && codeInputs[index - 1]) {
-                codeInputs[index - 1].focus();
-            }
-        });
+    sendForm(logCont?.querySelector('form'), (res, data) => {
+        if (res.ok && data.success) window.location.href = data.redirect_url;
+        else alert('Помилка входу');
     });
 
-    // Навігація кнопками Select
-    loginButtons.forEach(btn => btn.onclick = () => switchForm('login'));
-    regButtons.forEach(btn => btn.onclick = () => switchForm('register'));
-    if (backBtn) backBtn.onclick = () => switchForm('register');
+    sendForm(regCont?.querySelector('form'), (res) => {
+        if (res.ok) switchAuth('conf');
+        else alert('Помилка реєстрації');
+    });
+
+    sendForm(confCont?.querySelector('form'), (res, data) => {
+        if (res.ok && data.action === 'show_login') switchAuth('log');
+        else alert(data.error || 'Невірний код');
+    });
+
+    if (fileInput) {
+        fileInput.onchange = (e) => {
+            Array.from(e.target.files).forEach(file => {
+                const fId = Date.now() + Math.random();
+                file.tempId = fId;
+                selectedFiles.push(file);
+                const rd = new FileReader();
+                rd.onload = (ev) => {
+                    const d = document.createElement('div');
+                    d.className = 'image-preview-item';
+                    d.innerHTML = `
+                        <img src="${ev.target.result}" class="preview-img">
+                        <button type="button" class="remove-photo-btn" data-id="${fId}">
+                            <img src="/static/icons/trash.png">
+                        </button>`;
+                    previewContainer.appendChild(d);
+                };
+                rd.readAsDataURL(file);
+            });
+            fileInput.value = '';
+        };
+    }
+
+    if (previewContainer) {
+        previewContainer.onclick = (e) => {
+            const btn = e.target.closest('.remove-photo-btn');
+            if (btn) {
+                const id = parseFloat(btn.dataset.id);
+                selectedFiles = selectedFiles.filter(f => f.tempId !== id);
+                btn.parentElement.remove();
+            }
+        };
+    }
+
+    if (loaderLine && postList) {
+        const obs = new IntersectionObserver(async (entries) => {
+            if (entries[0].isIntersecting && !isLoading && hasMorePosts) {
+                isLoading = true;
+                currentPage++;
+                const res = await fetch(`${window.location.pathname}?page=${currentPage}`, { headers: { 'X-Requested-With': 'XMLHttpRequest' } });
+                const html = await res.text();
+                const newPosts = new DOMParser().parseFromString(html, 'text/html').querySelectorAll('.post-card');
+                if (newPosts.length) newPosts.forEach(p => loaderLine.insertAdjacentHTML('beforebegin', p.outerHTML));
+                else { hasMorePosts = false; obs.disconnect(); loaderLine.remove(); }
+                isLoading = false;
+            }
+        }, { rootMargin: '300px' });
+        obs.observe(loaderLine);
+    }
+
+    document.querySelectorAll('.code-input').forEach((input, i, arr) => {
+        input.oninput = () => input.value && arr[i+1]?.focus();
+        input.onkeydown = (e) => e.key === 'Backspace' && !input.value && arr[i-1]?.focus();
+    });
 });
 
-/**
- * Глобальна функція для збереження профілю (викликається через onsubmit в HTML)
- */
-window.saveProfile = async function(e, formElement) {
+window.saveProfile = async function(e, form) {
     e.preventDefault();
-    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
-    
     try {
-        const response = await fetch(formElement.action, {
+        const res = await fetch(form.action, {
             method: 'POST',
-            body: new FormData(formElement),
-            headers: { 
-                'X-CSRFToken': csrfToken, 
-                'X-Requested-With': 'XMLHttpRequest' 
-            }
+            body: new FormData(form),
+            headers: { 'X-CSRFToken': form.querySelector('[name=csrfmiddlewaretoken]')?.value, 'X-Requested-With': 'XMLHttpRequest' }
         });
-        
-        const data = await response.json();
-        if (response.ok && data.success) {
-            window.location.href = data.redirect_url;
-        } else {
-            alert(data.error || 'Цей нікнейм вже зайнятий або дані невірні');
-        }
-    } catch (err) {
-        console.error("Profile save error:", err);
-    }
+        const data = await res.json();
+        if (res.ok && data.success) window.location.href = data.redirect_url;
+        else alert(data.error || 'Помилка');
+    } catch (err) { console.error(err); }
     return false;
 };

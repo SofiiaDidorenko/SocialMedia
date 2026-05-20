@@ -1,0 +1,36 @@
+{% load static %}
+
+<section class="requests-section">
+    <div class="row-bar">
+        <h2>Запити</h2>
+        <p class="see-all-btn" data-target="requests">Дивитись всі</p>
+    </div>
+    <div class="cards-container">
+        {% for request in friend_requests %}
+            <div class="friend-card user-card" data-user-id="{{ request.id }}">
+                <img src="{% if request.avatar %}{{ request.avatar.url }}{% else %}{% static 'icons/User1.png' %}{% endif %}" alt="User">
+                <div class="friend-info">
+                    <h1>
+                        {% if request.first_name or request.last_name %}
+                            {{ request.first_name }} {{ request.last_name }}
+                        {% else %}
+                            Користувач #{{ request.id }}
+                        {% endif %}
+                    </h1>
+                    <h3>@{{ request.username }}</h3>
+                </div>
+
+                <div class="buttons-container">
+                    <button class="accept-btn friend-btn" 
+                            data-id="{{ request.id }}" 
+                            data-action="accept">Підтвердити</button>
+                    <button class="reject-btn friend-btn" 
+                            data-id="{{ request.id }}" 
+                            data-action="reject">Видалити</button>
+                </div>
+            </div>
+        {% empty %}
+            
+        {% endfor %}
+    </div>
+</section>

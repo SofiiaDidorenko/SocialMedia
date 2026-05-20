@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-
 {% load static %}
 
 {% block meta %}
@@ -11,51 +10,37 @@
 {% endblock %}
 
 {% block links %}
-    <link rel="stylesheet" href="{% static 'css/home.css' %}">
-{% endblock  %}
+    <link rel="stylesheet" href="{% static 'home_app/css/home.css' %}">
+{% endblock %}
 
 {% block side-panel %}
-    <div class="side-panel">
-                <div class="profile-container">
-                    <div class="profile-head">
-                        <div class= "profile-picture">
-                            <img src= "{% static  'icons/example-photo.png' %}" alt="example-photo.png">
-                        </div>
-                        <div class="profile-name">
-                            <h3>Lina Li</h3>
-                            <p>@thelili</p>
-                        </div>
-                    </div>
-                    <div class="profile-info">
-                        <div class="info-container">
-                            <h3>566</h3>                       
-                            <p>Дописи</p>
-                        </div>
-                        <div class="info-container">
-                            <h3>12.1K</h3>                                
-                            <p>Читачі</p>
-                        </div>
-                        <div class="info-container">
-                            <h3>222</h3>                   
-                            <p>Друзі</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="request">
-                    <nav>
-                        <h3>Запити</h3>
-                        <a href="#">Дивитися всі</a>
-                   </nav>
-                </div>
-                <div class="message-block">
-                    <nav>
-                        <h3>Повідомлення</h3>
-                        <a href="#">Дивитися всі</a>
-                    </nav>
-                </div>
-            </div>
-{% endblock  %}
+
+    {% include 'particles/side_panel.html' %}
+{% endblock %}
 
 {% block content %}
-    <h1 class="page-title">HOME PAGE</h1>
-{% endblock content %}
+    <div class="content-wrapper">
+        
+
+        <div class="quick-create-post">
+            <div class="quick-input-container">
+                <input type="text" class="quick-post-input" placeholder="Текст публікації" readonly id="quick-create-trigger-input">
+                <div class="quick-actions-bar">
+                    <div class="quick-emoji-wrapper" id="quick-emoji-trigger">
+                        <img src="{% static 'icons/emoji.png' %}" alt="emoji" class="quick-emoji">
+                    </div>
+                    <button type="button" class="btn-go-to-create" id="quick-create-trigger">Перейти до оформлення</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Лента постов -->        <div class="posts-list">
+            <div id="postLoaderLine" style="width: 100%; height: 1px; clear: both;"></div>
+        </div>
+        
+    </div>
+{% endblock %}
+
+{% block scripts %} 
+    <script src="{% static 'home_app/js/home.js' %}"></script>
+{% endblock scripts %}

@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block meta %}
+    <meta name="csrf-token" content="{{ csrf_token }}">
+{% endblock meta %}
+{% block title %}
+    Friends page
+{% endblock title %}
+
+{% block links %}
+    <link rel="stylesheet" href="{% static 'css/side_panel.css' %}">
+    <link rel="stylesheet" href="{% static 'user_app/css/friends.css' %}">
+{% endblock links %}
+
+{% block side-panel %}
+    <div class="friends-panel">
+        <h3 class="sidebar-main-link active-link" data-target="main">
+            Головна
+            <hr>
+        </h3>
+       
+        <p class="see-all-btn" data-target="requests">Запити</p>
+        <p class="see-all-btn" data-target="recommendations">Рекомендації</p>
+        <p class="see-all-btn" data-target="friends">Всі друзі</p>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <section class="friends-container-section" data-action-url="{% url 'friend_action' %}">
+        {% include 'user_app/particles/friends_request.html' %}
+        {% include 'user_app/particles/friend_recommendations.html' %}
+        {% include 'user_app/particles/all_friends.html' %}
+    </section>
+{% endblock content %}
+
+{% block script %}
+    <script src="{% static 'user_app/js/friends.js' %}"></script>
+{% endblock %}

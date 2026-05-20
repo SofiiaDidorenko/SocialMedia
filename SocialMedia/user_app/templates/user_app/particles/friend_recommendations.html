@@ -1,0 +1,35 @@
+{% load static %}
+
+<section class="recommendations-section">
+    <div class="row-bar">
+        <h2>Рекомендації</h2>
+        <p class="see-all-btn" data-target="recommendations">Дивитись всі</p>
+    </div>
+    <div class="cards-container">
+        {% for profile in recommendations %}
+            <div class="friend-card user-card" data-user-id="{{ profile.id }}">
+                <img src="{% if profile.avatar %}{{ profile.avatar.url }}{% else %}{% static 'icons/User1.png' %}{% endif %}" alt="User">
+                <div class="friend-info">
+                    <h1>
+                        {% if profile.first_name %}
+                            {{ profile.first_name }}
+                        {% else %}
+                            Користувач
+                        {% endif %}
+                    </h1>
+                    <h3>@{{ profile.username }}</h3>
+                </div>
+                <div class="buttons-container">
+                    <button class="add-btn friend-btn" 
+                            data-id="{{ profile.id }}" 
+                            data-action="request">Додати</button>
+                    <button class="remove-rec-btn friend-btn" 
+                            data-id="{{ profile.id }}" 
+                            data-action="reject">Видалити</button>
+                </div>
+            </div>
+        {% empty %}
+            <p>Немає нових рекомендацій</p>
+        {% endfor %}
+    </div>
+</section>

@@ -1,0 +1,66 @@
+
+.tag-badge {
+    width: 87px;
+    height: 28px;
+    background: #E9E5EE;
+    border-radius: 6px;
+    padding: 6px;
+    font-family: 'GT Walsheim Pro', Medium;
+    font-weight: 400;
+    font-size: 14px;
+}
+
+.modal-content {
+    width: 53.68vw;
+    height: 92.77vh;
+}
+
+.link-input {
+    width: 21.73vw;
+    height: 4.1vh;
+}
+
+
+
+.image-preview-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 20px;
+    padding: 0 5px;
+}
+
+.image-preview-item {
+    position: relative; 
+    width: 130px; 
+    height: 160px;
+}
+
+.preview-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 15px; 
+}
+
+.remove-photo-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    padding: 0;
+    z-index: 10;
+}
+
+.remove-photo-btn img {
+    width: 40px;
+    height: 40px;
+}

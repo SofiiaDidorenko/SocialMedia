@@ -24,9 +24,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', TemplateView.as_view(template_name='base.html'), name='index'),
     path('', include('home_app.urls', namespace='home_app')),
-    path('', include('friends_app.urls')),
     path('', include('posts_app.urls')),
     path('', include('user_app.urls')),
+    path('', include('chat_app.urls')),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

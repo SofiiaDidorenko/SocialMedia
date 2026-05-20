@@ -1,0 +1,213 @@
+@font-face {
+font-family: "GT Walsheim Pro";
+src: url("../fonts/GT-Walsheim-Pro-Regular.ttf") format("ttf");
+}
+*{
+font-family: "GT Walsheim Pro", sans-serif;
+box-sizing: border-box;
+}
+body {
+margin: 0;
+padding: 0;
+background-color: #FAF8FF !important;
+}
+main {
+display: flex !important;
+flex-direction: row !important;
+align-items: flex-start;
+justify-content: flex-start;
+gap: 10px;
+width: 100%;
+max-width: 1440px;
+background-color: #FAF8FF;
+margin: 30px auto 0 auto !important;
+}
+.friends-panel, .side-panel {
+display: flex;
+flex-direction: column;
+width: 17.63vw;
+margin: 22px 0 0 40px;
+gap: 16px;
+border: none;
+background-color: #FAF8FF;
+align-items: flex-start;
+}
+.friends-panel h3 {
+font-size: 16px;
+font-weight: 700;
+color: #070A1C;
+margin: 0;
+cursor: pointer;
+position: relative;
+padding-bottom: 5px;
+}
+.friends-panel h3 hr {
+border: none;
+height: 2px;
+background-color: #070A1C;
+position: absolute;
+bottom: 0;
+left: 0;
+width: 45px;
+transition: opacity 0.2s ease;
+opacity: 0;
+}
+.friends-panel h3.active-link hr {
+opacity: 1;
+}
+.friends-panel p, .friends-panel a {
+font-size: 16px;
+font-weight: 500;
+color: #8A8A96;
+text-decoration: none;
+cursor: pointer;
+margin: 0;
+transition: color 0.2s ease;
+}
+.friends-panel p:hover, .friends-panel a:hover,
+.friends-panel p.active-link, .friends-panel a.active-link {
+color: #5B445A !important;
+font-weight: 700;
+}
+.content-wrapper {
+flex: 1;
+display: flex;
+justify-content: flex-start;
+margin-left: 120px;
+margin-top: 25px;
+}
+.friends-container-section {
+display: flex;
+flex-direction: column;
+width: 64.09vw;
+gap: 25px;
+padding-right: 20px;
+overflow-y: auto;
+scrollbar-width: none;
+}
+.friends-container-section::-webkit-scrollbar {
+display: none;
+}
+.requests-section,
+.recommendations-section,
+.friends-section {
+background: #FFFFFF;
+border: 1px solid #E3E3E8;
+border-radius: 14px;
+padding: 24px;
+display: flex;
+flex-direction: column;
+gap: 18px;
+transition: all 0.3s ease-in-out;
+}
+.row-bar {
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
+.row-bar h2 {
+font-size: 18px;
+font-weight: 700;
+color: #070A1C;
+}
+.row-bar p {
+font-size: 14px;
+font-weight: 600;
+color: #5B445A;
+cursor: pointer;
+}
+.cards-container {
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+justify-items: start;
+gap: 16px;
+}
+.friend-card {
+display: flex;
+flex-direction: column;
+align-items: center;
+background: #FFFFFF;
+border: 1px solid #E2E2E7;
+margin: 0;
+width: 100%;
+border-radius: 12px;
+padding: 20px 16px;
+transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
+}
+.friend-card:hover {
+transform: translateY(-4px);
+box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+}
+.friend-card img {
+width: 84px;
+height: 84px;
+border-radius: 50%;
+object-fit: cover;
+margin-bottom: 12px;
+background-color: #f3f3f3;
+}
+.friend-info h1 {
+font-size: 18px;
+font-weight: 700;
+color: #111827;
+margin: 0;
+text-align: center;
+}
+.friend-info h3 {
+font-size: 14px;
+font-weight: 500;
+color: #8A8A96;
+margin: 5px 0 0 0;
+text-align: center;
+}
+.buttons-container {
+display: flex;
+gap: 10px;
+margin-top: 18px;
+width: 100%;
+}
+.buttons-container button {
+flex: 1;
+height: 38px;
+border-radius: 99px;
+font-size: 12px;
+font-weight: 600;
+cursor: pointer;
+border: none;
+transition: all 0.2s ease;
+}
+.accept-btn, .add-btn, .msg-btn {
+background: #5B445A;
+color: #FFFFFF;
+}
+.accept-btn:hover, .add-btn:hover, .msg-btn:hover {
+background: #4A3649;
+}
+.reject-btn, .remove-rec-btn, .remove-friend-btn {
+background: #FFFFFF;
+color: #5B445A;
+border: 1.5px solid #5B445A;
+}
+.reject-btn:hover, .remove-rec-btn:hover, .remove-friend-btn:hover {
+background: #FAF8FF;
+border-color: #5B445A;
+}
+button:disabled {
+background: #E3E3E8 !important;
+color: #8A8A96 !important;
+cursor: not-allowed;
+border: none !important;
+}
+.requests-section .friend-card:nth-child(n+4) {
+display: none;
+}
+.recommendations-section .friend-card:nth-child(n+7),
+.friends-section .friend-card:nth-child(n+7) {
+display: none;
+}
+.expanded-view .friend-card {
+display: flex !important;
+}
+.hidden-section {
+display: none !important;
+}

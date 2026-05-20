@@ -24,14 +24,18 @@
                 </div>
                 <div>
                     <img src="{% static 'icons/post.svg' %}" class="icons">
-                    <a href="{% url 'posts' %}">Пости</a>
+                    <a href="{% url 'posts' %}">Мої публікації</a>
                 </div>
                 <div>
                     <img src="{% static 'icons/friend.svg' %}" class="icons">
                     <a href="{% url 'friends' %}">Друзі</a>
                 </div>
                 <div>
-                    <!-- ИСПРАВЛЕНО: Добавлен src для иконки настроек -->
+                    <img src="{% static 'icons/chat.svg' %}" class="icons">
+                    <a href="">Чати</a>
+                </div>
+                <div>
+                    
                     <img src="{% static 'icons/user.svg' %}" class="icons" alt="Settings">
                     <a href="{% url 'user' %}">Налаштування</a>
                 </div>
@@ -40,7 +44,7 @@
                     <div class="button-div">
                         <img src="{% static 'icons/exit.svg' %}" class="icons">
                         
-                        <button type="button"id="force-logout" class="button-exit"data-url="{% url 'logout' %}"> <!-- Django сам підставить шлях -->
+                        <button type="button"id="force-logout" class="button-exit"data-url="{% url 'logout' %}"> 
                             Вийти
                         </button>
                     </div>
@@ -58,7 +62,7 @@
         </div>
     </main>
 
-    <!-- Подключаем базовый JS, который теперь отвечает за выход -->
+
     <script src="{% static 'js/base.js' %}"></script>
     {% block script %}{% endblock %}
 </body>
