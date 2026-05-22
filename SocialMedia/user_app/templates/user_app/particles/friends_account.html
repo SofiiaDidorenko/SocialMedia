@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block meta %}
+    <meta name="csrf-token" content="{{ csrf_token }}">
+{% endblock meta %}
+
+{% block title %}Профіль @{{ profile_user.username }}{% endblock title %}
+
+{% block links %}
+    <link rel="stylesheet" href="{% static 'user_app/css/sidebar.css' %}">
+{% endblock links %}
+
+/* Мы оставляем этот блок ПУСТЫМ, чтобы не ломать fixed-позиции вашего базового шаблона */
+{% block side-panel %}
+{% endblock side-panel %}
+
+{% block content %}
+<!-- ИСПРАВЛЕНО: Автономная двухколоночная Flex-сетка, которая работает внутри контента и полностью защищена от поломок base.css -->
+<div class="custom-profile-grid" style="display: flex !important; flex-direction: row !important; gap: 30px; width: 100%; max-width: 1140px; margin: 0; align-items: start; box-sizing: border-box;">
+    
+    <!-- ЛЕВАЯ КОЛОНКА (Ширина 290px как в вашем примере CSS для aside) -->
+    <div class="custom-aside-column" style="width: 290px; flex-shrink: 0; display: flex; flex-direction: column; gap: 16px; box-sizing: border-box;">
+        
+        <!-- Карточка информации о пользователе -->
+        <div class="custom-card-container" style="display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; background-color: #FFFFFF; border: 1px solid #E3E3E8; border-radius: 20px; padding: 20px; box-sizing: border-box;">
+            
+            <div class="custom-profile-head" style="display: flex; flex-direction: column; align-items: center; text-align: center; width: 100%; margin-bottom: 20px;">
+                <div class="custom-avatar-wrapper" style="position: relative; width: 84px; height: 84px; margin-bottom: 12px;">
+                    {% if profile_user.avatar %}
+                        <img src="{{ profile_user.avatar.url }}" alt="Avatar" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
+                    {% else %}
+                        <img src="{% static 'icons/User1.png' %}" alt="Avatar" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
+                    {% endif %}
+                </div>
+                <div class="custom-profile-name">
+                    <h3 style="font-size: 18px; font-weight: 700; color: #111111; margin: 0 0 4px 0;">
+                        {% if profile_user.first_name or profile_user.last_name %}
+                            {{ profile_user.first_name }} {{ profile_user.last_name }}
+                        {% else %}
+                            Користувач #{{ profile_user.id }}
+                        {% endif %}
+                    </h3>
+                    <p style="font-size: 13px; font-weight: 500; color: #8A8A96; margin: 0;">@{{ profile_user.username }}</p>
+                </div>
+            </div>
+
+            <div class="custom-profile-info" style="display: flex; justify-content: space-between; align-items: center; width: 100%; border-top: 1px solid #F3F3F6; padding-top: 16px;">
+                <div class="custom-info-item" style="display: flex; flex-direction: column; align-items: center; flex: 1;">
+                    <h3 style="font-size: 16px; font-weight: 700; color: #111111; margin: 0 0 2px 0;">{{ posts_count|default:"0" }}</h3>
+                    <p style="font-size: 12px; font-weight: 500; color: #8A8A96; margin: 0;">Дописи</p>
+                </div>
+                <div class="custom-info-item" style="display: flex; flex-direction: column; align-items: center; flex: 1; border-left: 1px solid #F3F3F6; border-right: 1px solid #F3F3F6;">
+                    <h3 style="font-size: 16px; font-weight: 700; color: #111111; margin: 0 0 2px 0;">{{ followers_count|default:"12.1K" }}</h3>
+                    <p style="font-size: 12px; font-weight: 500; color: #8A8A96; margin: 0;">Читачі</p>
+                </div>
+                <div class="custom-info-item" style="display: flex; flex-direction: column; align-items: center; flex: 1;">
+                    <h3 style="font-size: 16px; font-weight: 700; color: #111111; margin: 0 0 2px 0;">{{ friends_count|default:"222" }}</h3>
+                    <p style="font-size: 12px; font-weight: 500; color: #8A8A96; margin: 0;">Друзі</p>
+                </div>
+            </div>
+            <div class="friend-actions-container" id="friend-actions-block" style="display: flex; gap: 10px; width: 100%; box-sizing: border-box;">
+                {% if friendship_status != 'self' %}
+                    {% if friendship_status == 'none' %}
+                        <button class="btn-sidebar-action btn-friend-accept full-width-btn" data-user-id="{{ profile_user.id }}" data-action="send">
+                            Додати в друзі
+                        </button>
+                    {% elif friendship_status == 'received' %}
+                        <button class="btn-sidebar-action btn-friend-accept" data-user-id="{{ profile_user.id }}" data-action="accept">
+                            Підтвердити
+                        </button>
+                        <button class="btn-sidebar-action btn-friend-reject" data-user-id="{{ profile_user.id }}" data-action="reject_or_delete">
+                            Видалити
+                        </button>
+                    {% elif friendship_status == 'sent' %}
+                        <button class="btn-sidebar-action btn-friend-reject full-width-btn" data-user-id="{{ profile_user.id }}" data-action="reject_or_delete">
+                            Скасувати запит
+                        </button>
+                    {% elif friendship_status == 'friends' %}
+                        <button class="btn-sidebar-action btn-friend-reject full-width-btn" data-user-id="{{ profile_user.id }}" data-action="reject_or_delete">
+                            Видалити з друзів
+                        </button>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Контейнер интерактивных кнопок действий под карточкой -->
+
+    </div>
+
+    <!-- ПРАВАЯ КОЛОНКА: ЛЕНТА ПУБЛИКАЦИЙ -->
+    <div class="custom-posts-column" style="flex: 1; display: flex; flex-direction: column; gap: 20px; width: 100%; box-sizing: border-box;">
+        <h1 class="page-title" style="font-size: 22px; font-weight: 700; color: #111111; margin: 0 0 10px 0;">Публікації користувача</h1>
+        
+        <div class="posts-list" style="display: flex; flex-direction: column; gap: 20px; width: 100%;">
+            {% for post in posts %}
+            <div class="post-card" style="pointer-events: none; user-select: none;">
+                <div class="card-header">
+                    <div class="author-block">
+                        {% if profile_user.avatar %}
+                            <img src="{{ profile_user.avatar.url }}" class="author-ava">
+                        {% else %}
+                            <img src="{% static 'icons/example-photo.png' %}" class="author-ava">
+                        {% endif %}
+                        <div class="author-meta">
+                            <h4>{{ post.author.username }}</h4>
+                            <span>{{ post.created_at|date:"d M Y" }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h3 class="post-title">{{ post.title }}</h3>
+                    <p class="post-text">{{ post.content }}</p>
+                    <div class="post-tags">
+                        {% for tag in post.tags.all %}
+                            <span class="tag-item">#{{ tag.name }}</span>
+                        {% endfor %}
+                    </div>
+                    <div class="post-image-grid">
+                        {% for img in post.images.all %}
+                            <div class="grid-image-item">
+                                <img src="{{ img.original_image.url }}" alt="post image">
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+                <p class="no-posts">
+                    Користувач ще не створив жодної публікації.
+                </p>
+            {% endfor %}
+        </div>
+    </div>
+
+</div>
+{% endblock content %}
+
+{% block script %}
+    <script src="{% static 'user_app/js/friends.js' %}"></script>
+{% endblock %}

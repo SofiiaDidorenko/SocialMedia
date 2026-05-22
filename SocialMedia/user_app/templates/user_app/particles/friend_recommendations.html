@@ -1,33 +1,31 @@
 {% load static %}
 
-<section class="recommendations-section">
+<section class="recommendations-section" id="sec-recommendations">
     <div class="row-bar">
         <h2>Рекомендації</h2>
         <p class="see-all-btn" data-target="recommendations">Дивитись всі</p>
     </div>
     <div class="cards-container">
         {% for profile in recommendations %}
-            <div class="friend-card user-card" data-user-id="{{ profile.id }}">
-                <img src="{% if profile.avatar %}{{ profile.avatar.url }}{% else %}{% static 'icons/User1.png' %}{% endif %}" alt="User">
-                <div class="friend-info">
-                    <h1>
-                        {% if profile.first_name %}
-                            {{ profile.first_name }}
-                        {% else %}
-                            Користувач
-                        {% endif %}
-                    </h1>
-                    <h3>@{{ profile.username }}</h3>
+            <a href="{% url 'user_profile' username=profile.username|default:profile.id %}" style="text-decoration: none; width: 100%; color: inherit;">
+                <div class="friend-card user-card" data-user-id="{{ profile.id }}" data-username="{{ profile.username|default:profile.id }}">
+                    <img src="{% if profile.avatar %}{{ profile.avatar.url }}{% else %}{% static 'icons/User1.png' %}{% endif %}" alt="User">
+                    <div class="friend-info">
+                        <h1>
+                            {% if profile.first_name or profile.last_name %}
+                                {{ profile.first_name }} {{ profile.last_name }}
+                            {% else %}
+                                Користувач #{{ profile.id }}
+                            {% endif %}
+                        </h1>
+                        <h3>@{{ profile.username|default:profile.id }}</h3>
+                    </div>
+                    <div class="buttons-container">
+                        <button class="add-btn friend-btn" type="button">Додати</button>
+                        <button class="remove-rec-btn friend-btn" type="button" onclick="event.stopPropagation(); event.preventDefault();" data-id="{{ profile.id }}">Приховати</button>
+                    </div>
                 </div>
-                <div class="buttons-container">
-                    <button class="add-btn friend-btn" 
-                            data-id="{{ profile.id }}" 
-                            data-action="request">Додати</button>
-                    <button class="remove-rec-btn friend-btn" 
-                            data-id="{{ profile.id }}" 
-                            data-action="reject">Видалити</button>
-                </div>
-            </div>
+            </a>
         {% empty %}
             <p>Немає нових рекомендацій</p>
         {% endfor %}

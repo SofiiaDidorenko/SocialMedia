@@ -1,0 +1,314 @@
+
+.custom-profile-grid {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 50px;
+    width: 100%;
+    align-items: start;
+    box-sizing: border-box;
+
+    /* ================================================================ */
+    /* !!! ДВИГАТЬ ВСЮ СТРАНИЦУ ЦЕЛИКОМ (СЕТКУ) ЗДЕСЬ !!!               */
+    /* Первый параметр (40px) — отступ сверху от шапки сайта           */
+    /* Второй параметр (auto) — центрирует всю страницу на экране       */
+    /* Третий параметр (0px)  — отступ снизу                           */
+    /* Четвертый параметр (40px) — отступ слева от края экрана          */
+    /* ================================================================ */
+    margin: 15px auto 0px 40px !important; 
+}
+
+/* Левая колонка (сайдбар) */
+.custom-aside-column {
+    width: 290px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    box-sizing: border-box;
+    margin: 0px 0px 0px 50px; 
+}
+
+/* Карточка информации о пользователе */
+.custom-card-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 24.36599731445313vw;
+    background-color: #FFFFFF;
+    border: 1px solid #E3E3E8;
+    border-radius: 5px;
+    padding: 24px 20px;
+    box-sizing: border-box;
+    
+}
+
+.custom-profile-head {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.custom-avatar-wrapper {
+    position: relative;
+    width: 84px;
+    height: 84px;
+    margin-bottom: 12px;
+}
+
+.custom-avatar-wrapper img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+}
+
+.custom-avatar-wrapper::after {
+    content: '';
+    position: absolute;
+    bottom: 4px;
+    right: 4px;
+    width: 12px;
+    height: 12px;
+    background-color: #22C55E;
+    border: 2px solid #FFFFFF;
+    border-radius: 50%;
+}
+
+.custom-profile-name h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #111111;
+    margin: 0 0 4px 0;
+}
+
+.custom-profile-name p {
+    font-size: 13px;
+    font-weight: 500;
+    color: #8A8A96;
+    margin: 0;
+}
+
+.custom-profile-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    border-top: 1px solid #F3F3F6;
+    padding-top: 16px;
+}
+
+.custom-info-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+}
+
+.custom-info-item h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #111111;
+    margin: 0 0 2px 0;
+}
+
+.custom-info-item p {
+    font-size: 12px;
+    font-weight: 500;
+    color: #8A8A96;
+    margin: 0;
+}
+
+/* --- КНОПКИ ДЕЙСТВИЙ (ПОД КАРТОЧКОЙ) --- */
+.friend-actions-container {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+    justify-content: center;
+    margin-top: 20px !important; 
+}
+
+.btn-sidebar-action {
+    flex: 1;
+    height: 38px;
+    border-radius: 99px; 
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+}
+
+.btn-friend-accept {
+    background: #5B445A;
+    color: #FFFFFF;
+    border: none;
+}
+
+.btn-friend-accept:hover {
+    background: #4A3649;
+}
+
+.btn-friend-reject {
+    background: #FFFFFF;
+    color: #5B445A;
+    border: 1.5px solid #5B445A;
+}
+
+.btn-friend-reject:hover {
+    background: #FAF8FF;
+}
+
+.full-width-btn {
+    flex: none;
+    width: 100%;
+}
+
+.status-confirmed, .status-rejected {
+    font-size: 13px;
+    font-weight: 600;
+    padding: 10px 0;
+    text-align: center;
+    width: 100%;
+}
+.status-confirmed { color: #22C55E; }
+.status-rejected { color: #5B445A; }
+
+/* --- ЛЕНТА ПОСТОВ (ПРАВАЯ КОЛОНКА) --- */
+.custom-posts-column {
+    /* ================================================================ */
+    /* !!! ПОЛНЫЙ ЗАПРЕТ НА ЛЮБОЕ СЖАТИЕ И ИЗМЕНЕНИЕ РАЗМЕРОВ !!!       */
+    /* flex: none полностью изолирует блок от влияния .content-wrapper   */
+    /* ================================================================ */
+    flex: none !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 20px !important;
+    
+    /* ================================================================ */
+    /* !!! ЧЕТКАЯ ФИКСИРОВАННАЯ ШИРИНА В ПИКСЕЛЯХ !!!                   */
+    /* Заменяем vw на пиксели, чтобы блок физически не мог сжаться      */
+    /* ================================================================ */
+    width: 64.09vw !important; 
+    box-sizing: border-box !important;
+
+    /* ================================================================ */
+    /* !!! ОТСТУП ДЛЯ КОРРЕКТИРОВКИ ПОЛОЖЕНИЯ ПОСТОВ !!!                */
+    /* Если нужно подвинуть посты правее/левее, меняйте четвертый ноль  */
+    /* ================================================================ */
+    margin: 0px 0px 0px 35px !important; 
+}
+
+
+.post-card {
+    background: #FFFFFF;
+    border: 1px solid #E3E3E8;
+    border-radius: 20px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.author-block {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.author-ava {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.author-meta h4 {
+    font-size: 15px;
+    font-weight: 700;
+    color: #070A1C;
+    margin: 0 0 2px 0;
+}
+
+.author-meta span {
+    font-size: 12px;
+    color: #8A8A96;
+}
+
+.post-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #070A1C;
+    margin: 0 0 4px 0;
+}
+
+.post-text {
+    font-size: 15px;
+    line-height: 1.6;
+    color: #070A1C;
+    margin: 0;
+}
+
+.post-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.tag-item {
+    font-size: 14px;
+    color: #5B445A;
+    font-weight: 600;
+}
+
+.no-posts {
+    background: #FFFFFF; 
+    border: 1px solid #E3E3E8;
+    border-radius: 20px;
+    padding: 30px; 
+    text-align: center; 
+    color: #8A8A96; 
+    font-size: 16px; 
+    font-weight: 500;
+    margin: 0;
+}
+
+/* --- СЕТКА ДЛЯ ФОТОГРАФИЙ ПОСТА --- */
+.post-image-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    width: 100%;
+}
+
+.grid-image-item {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: #f3f3f3;
+    aspect-ratio: 4 / 3; 
+}
+
+.grid-image-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.post-image-grid:has(.grid-image-item:nth-child(1):last-child) { grid-template-columns: 1fr; }
+.post-image-grid:has(.grid-image-item:nth-child(2):last-child) { grid-template-columns: repeat(2, 1fr); }
+.post-image-grid:has(.grid-image-item:nth-child(3):last-child) { grid-template-columns: repeat(3, 1fr); }

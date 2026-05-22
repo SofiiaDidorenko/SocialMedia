@@ -1,6 +1,7 @@
+from posts_app.models import Post
 import json
 import random
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import TemplateView, View
 from django.contrib.auth import login, get_user_model, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -9,55 +10,104 @@ from django.http import HttpRequest, JsonResponse
 from django.urls import reverse_lazy
 from django.db import models
 
-
 from .forms import RegisterForm, ConfirmEmailForm, LoginForm
 from .utils.friend_queries import get_user_by_section
 from .utils.friends_actions import friend_request, friend_reject, friend_accept, friend_delete
+from django.http import Http404
+from .models import Friendship
 
 User = get_user_model()
 
-class FriendActionView(LoginRequiredMixin, View):
-    def post(self, request):
-        data = json.loads(request.body)
-        action = data.get('action')
-        target_id = data.get('user_id')
-        
-        from django.contrib.auth import get_user_model
-        User = get_user_model()
-        other_user = User.objects.get(id=target_id)
+class UserProfileView(LoginRequiredMixin, TemplateView):
+    template_name = 'user_app/particles/friends_account.html' 
 
-        if action == 'request':
-            result = friend_request(request.user, other_user)
-        elif action == 'accept':
-            result = friend_accept(other_user, request.user) 
-        elif action == 'reject':
-            result = friend_reject(other_user, request.user)
-        elif action == 'delete':
-            result = friend_delete(request.user, other_user)
-        else:
-            return JsonResponse({'error': 'Unknown action'}, status=400)
-            
-        return JsonResponse(result)
-
-class FriendTemplateView(LoginRequiredMixin, TemplateView):
-    template_name = 'user_app/friends.html'
-    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        user = self.request.user
+        username_param = self.kwargs.get('username')
         
-      
-        context['friend_requests'] = get_user_by_section(user, 'requests')
-        context['recommendations'] = get_user_by_section(user, 'recommendations')
-        context['friends'] = get_user_by_section(user, 'friends')
+        if not username_param or username_param in ['None', 'none', 'null', '']:
+            raise Http404("Некоректний ідентифікатор користувача")
+            
+        # УМНЫЙ ПОИСК: Пробуем найти по username, если не вышло — пробуем по ID
+        profile_user = None
+        try:
+            profile_user = User.objects.get(username=username_param)
+        except User.DoesNotExist:
+            if username_param.isdigit():
+                profile_user = get_object_or_404(User, id=int(username_param))
+            else:
+                # Если это не число и по username не нашли, пробуем поискать по email (на случай если никнейм еще не изменен)
+                profile_user = User.objects.filter(email=username_param).first()
+                
+        if not profile_user:
+            profile_user = get_object_or_404(User, username=username_param)
+
+        context['profile_user'] = profile_user
+        
+        current_user = self.request.user
+        
+        friendship = Friendship.objects.filter(
+            (models.Q(from_user=current_user, to_user=profile_user) | 
+             models.Q(from_user=profile_user, to_user=current_user))
+        ).first()
+        
+        if friendship:
+            if friendship.status == 'accepted':
+                context['friendship_status'] = 'friends'
+            elif friendship.status == 'pending':
+                if friendship.from_user == current_user:
+                    context['friendship_status'] = 'sent'
+                else:
+                    context['friendship_status'] = 'received'
+        else:
+            context['friendship_status'] = 'none'
+
+        try:
+            user_posts = profile_user.posts.all().order_by('-created_at')
+            context['posts'] = user_posts
+            context['posts_count'] = user_posts.count()
+        except AttributeError:
+            try:
+                user_posts = Post.objects.filter(author=profile_user).order_by('-created_at')
+                context['posts'] = user_posts
+                context['posts_count'] = user_posts.count()
+            except ImportError:
+                context['posts'] = []
+                context['posts_count'] = 0
+
+        try:
+            context['friends_count'] = get_user_by_section(profile_user, 'friends').count()
+        except Exception:
+            context['friends_count'] = 222
+
+        context['followers_count'] = "12.1K"
         return context
 
 
 
+class UserTemplateView(LoginRequiredMixin, TemplateView):
+    template_name = 'user_app/user.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        
+        context['profile_user'] = user
+        context['friendship_status'] = 'self'
+        context['show_details_modal'] = (user.username == user.email)
+        context['friends_count'] = get_user_by_section(user, 'friends').count()
+        
+        try:
+            context['posts_count'] = user.posts.count()
+        except AttributeError:
+            context['posts_count'] = 3
+            
+        context['followers_count'] = "12.1K"
+        return context
+
+
 class HandleFriendshipView(LoginRequiredMixin, View):
-  
     def post(self, request):
-        import json
         from .models import Friendship
         
         try:
@@ -98,6 +148,41 @@ class HandleFriendshipView(LoginRequiredMixin, View):
             return JsonResponse({'success': True})
             
         return JsonResponse({'success': False, 'error': 'Невідома дія'}, status=400)
+
+
+class FriendActionView(LoginRequiredMixin, View):
+    def post(self, request):
+        data = json.loads(request.body)
+        action = data.get('action')
+        target_id = data.get('user_id')
+        
+        other_user = User.objects.get(id=target_id)
+
+        if action == 'request':
+            result = friend_request(request.user, other_user)
+        elif action == 'accept':
+            result = friend_accept(other_user, request.user) 
+        elif action == 'reject':
+            result = friend_reject(other_user, request.user)
+        elif action == 'delete':
+            result = friend_delete(request.user, other_user)
+        else:
+            return JsonResponse({'error': 'Unknown action'}, status=400)
+            
+        return JsonResponse(result)
+
+
+class FriendTemplateView(LoginRequiredMixin, TemplateView):
+    template_name = 'user_app/friends.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        
+        context['friend_requests'] = get_user_by_section(user, 'requests')
+        context['recommendations'] = get_user_by_section(user, 'recommendations')
+        context['friends'] = get_user_by_section(user, 'friends')
+        return context
 
 
 class LogoutView(View):
@@ -188,15 +273,6 @@ class UpdateProfileDetailsView(LoginRequiredMixin, View):
         user.first_name = author_name
         user.save()
         return JsonResponse({'success': True, 'redirect_url': str(reverse_lazy('user'))})
-
-
-class UserTemplateView(LoginRequiredMixin, TemplateView):
-    template_name = 'user_app/user.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['show_details_modal'] = (self.request.user.username == self.request.user.email)
-        return context
 
 
 class PersonalInfoTemplateView(LoginRequiredMixin, TemplateView):

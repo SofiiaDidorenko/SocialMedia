@@ -1,8 +1,10 @@
 {% extends 'base.html' %}
 {% load static %}
+
 {% block meta %}
     <meta name="csrf-token" content="{{ csrf_token }}">
 {% endblock meta %}
+
 {% block title %}
     Friends page
 {% endblock title %}
@@ -26,7 +28,8 @@
 {% endblock %}
 
 {% block content %}
-    <section class="friends-container-section" data-action-url="{% url 'friend_action' %}">
+    <!-- ИСПРАВЛЕНО: data-action-url теперь ведет на правильный эндпоинт handle_friendship -->
+    <section class="friends-container-section" data-action-url="{% url 'handle_friendship' %}">
         {% include 'user_app/particles/friends_request.html' %}
         {% include 'user_app/particles/friend_recommendations.html' %}
         {% include 'user_app/particles/all_friends.html' %}

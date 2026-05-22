@@ -2,12 +2,17 @@ from django.urls import path
 from .views import (
     AuthTemplateView, FriendActionView, HandleFriendshipView, UserTemplateView, PersonalInfoTemplateView, 
     AlbumTemplateView, RegisterView, LoginView, 
-    ConfirmCodeView, UpdateProfileDetailsView, LogoutView, FriendTemplateView
+    ConfirmCodeView, UpdateProfileDetailsView, LogoutView, FriendTemplateView, UserProfileView
 )
 
 urlpatterns = [
     path('auth/', AuthTemplateView.as_view(), name='auth'),
     path('user/', UserTemplateView.as_view(), name='user'),
+    
+    # Виправлено: тепер суворо обробляється будь-який формат нікнейму з автоматичним редиректом слеша
+    path('profile/<str:username>/', UserProfileView.as_view(), name='user_profile'),
+    path('profile/<str:username>', UserProfileView.as_view()), 
+    
     path('personal-info/', PersonalInfoTemplateView.as_view(), name='personal_info'),
     path('album/', AlbumTemplateView.as_view(), name='album'),
     path('register/', RegisterView.as_view(), name='register'),
@@ -16,8 +21,6 @@ urlpatterns = [
     path('update-profile/', UpdateProfileDetailsView.as_view(), name='update_profile'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('friends/', FriendTemplateView.as_view(), name='friends'),
-    path('friends/action/', HandleFriendshipView.as_view(), name='friend_action'),
+    path('api/friendship/handle/', HandleFriendshipView.as_view(), name='handle_friendship'),
     path('friends/action/', FriendActionView.as_view(), name='friend_action'),
 ]
-
-
