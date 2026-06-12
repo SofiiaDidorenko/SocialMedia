@@ -10,6 +10,7 @@
 {% endblock %}
 
 {% block links %}
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <link rel="stylesheet" href="{% static 'home_app/css/home.css' %}">
 {% endblock %}
 
@@ -33,8 +34,7 @@
                 </div>
             </div>
         </div>
-
-        <!-- Лента постов -->        <div class="posts-list">
+       <div class="posts-list">
             <div id="postLoaderLine" style="width: 100%; height: 1px; clear: both;"></div>
         </div>
         

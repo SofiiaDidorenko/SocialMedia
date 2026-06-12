@@ -1,0 +1,188 @@
+.chat-side {
+    flex: 0 0 340px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 24.3vw;
+    height: 81.44vh;
+    max-height: 100%;
+    overflow: hidden;
+    margin-right: 24px !important;
+}
+
+.chat-block {
+    background: var(--white, #ffffff);
+    border-radius: var(--border-radius, 16px);
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 50%;
+    height: calc(50% - 10px);
+    min-height: 0;
+}
+
+/* Жестко фиксирует иконку и заголовок рядом */
+.chat-block-header {
+    display: flex !important;
+    justify-content: flex-start !important;
+    align-items: center !important;
+    gap: 8px !important;
+    margin-bottom: 15px;
+    flex-shrink: 0;
+}
+
+.chat-block-header h2 {
+    margin: 0 !important;
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    color: #1a1a1a !important;
+}
+
+.contacts-list, 
+#group-list {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding-right: 5px;
+}
+
+.chat-user-button,
+.chat-group-button {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px;
+    border: none;
+    background: none;
+    border-radius: 12px;
+    cursor: pointer;
+    text-align: left;
+    transition: background 0.2s;
+    box-sizing: border-box;
+}
+
+.chat-user-button:hover,
+.chat-group-button:hover {
+    background: #f5f5f7;
+}
+
+.chat-user-button.select,
+.chat-group-button.select {
+    background: #e8e3ed;
+}
+
+/* Обертка для позиционирования кружочка поверх фото */
+.avatar-wrapper {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+}
+
+.avatar-wrapper img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+}
+
+/* 🌟 ОБНОВЛЕНО: Сбалансированные координаты для идеальной посадки */
+.status-badge {
+    position: absolute;
+    bottom: 0.5px;
+    right: 0.5px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid #ffffff;
+    box-sizing: border-box;
+    display: block;
+    transition: background-color 0.3s ease;
+}
+
+.status-badge.online {
+    background-color: #2ecc71;
+}
+
+.status-badge.offline {
+    background-color: #bdc3c7;
+}
+
+.chat-user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.group-text-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #4e4359;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 13px;
+    flex-shrink: 0;
+}
+
+.chat-user-info {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.chat-user-meta,
+.chat-group-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.chat-user-name {
+    font-weight: 600;
+    font-size: 13px;
+    color: #1a1a1a;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: 4px;
+}
+
+.chat-time,
+.chat-user-time {
+    font-size: 11px;
+    color: #8c8c8c;
+    font-weight: 400;
+    white-space: nowrap;
+}
+
+.chat-last-msg,
+.chat-user-message {
+    margin: 0;
+    font-size: 12px;
+    color: #6c757d;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: 400;
+}
+
+.see-all-btn {
+    font-size: 13px;
+    color: var(--text-muted);
+    text-decoration: underline;
+    cursor: pointer;
+}

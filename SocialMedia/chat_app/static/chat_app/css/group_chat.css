@@ -1,0 +1,339 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    max-height: 100vh;
+    overflow: hidden;
+}
+
+.chat-page {
+    height: 100vh;
+    max-height: 100vh;
+    overflow: hidden;
+}
+
+#group-modal.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    z-index: 99999;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.modal-window {
+    background-color: #ffffff;
+    width: 100%;
+    max-width: 420px;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+    box-sizing: border-box;
+    animation: fadeInModal 0.2s ease-out;
+}
+
+@keyframes fadeInModal {
+    from { transform: scale(0.95); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: 20px;
+    color: #1a1a1a;
+    font-weight: 600;
+}
+
+.close-modal-btn {
+    font-size: 28px;
+    color: #8c8c8c;
+    cursor: pointer;
+    line-height: 1;
+    transition: color 0.2s;
+}
+
+.close-modal-btn:hover {
+    color: #1a1a1a;
+}
+
+.modal-search-wrapper {
+    margin-bottom: 12px;
+}
+
+.modal-search-wrapper input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 15px;
+    box-sizing: border-box;
+    outline: none;
+    background-color: #f9f9f9;
+    transition: border-color 0.2s, background-color 0.2s;
+}
+
+.modal-search-wrapper input:focus {
+    border-color: #007bff;
+    background-color: #ffffff;
+}
+
+.modal-selected-counter {
+    font-size: 14px;
+    color: #666666;
+    margin-bottom: 12px;
+}
+
+.modal-friends-list {
+    max-height: 260px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+    padding-right: 4px;
+}
+
+.modal-friends-list::-webkit-scrollbar {
+    width: 4px;
+}
+
+.modal-friends-list::-webkit-scrollbar-thumb {
+    background: #cccccc;
+    border-radius: 4px;
+}
+
+.modal-friend-item-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 8px;
+    border-radius: 8px;
+    transition: background-color 0.2s;
+}
+
+.modal-friend-item-row:hover {
+    background-color: #f5f5f5;
+}
+
+.friend-item-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.friend-item-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    background-color: #e0e0e0;
+}
+
+.friend-item-name {
+    font-size: 15px;
+    color: #1a1a1a;
+    font-weight: 500;
+}
+
+.group-user-checkbox {
+    display: none;
+}
+
+.checkbox-custom-label {
+    display: block;
+    width: 22px;
+    height: 22px;
+    border: 2px solid #b3b3b3;
+    border-radius: 50%;
+    cursor: pointer;
+    position: relative;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.group-user-checkbox:checked + .checkbox-custom-label {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.group-user-checkbox:checked + .checkbox-custom-label::after {
+    content: '';
+    position: absolute;
+    left: 7px;
+    top: 3px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.modal-footer-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+.modal-footer-buttons button {
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.2s, opacity 0.2s;
+}
+
+.cancel-btn, .back-btn {
+    background-color: #e9ecef;
+    color: #495057;
+}
+
+.cancel-btn:hover, .back-btn:hover {
+    background-color: #dee2e6;
+}
+
+.next-btn, .create-group-submit-btn {
+    background-color: #007bff;
+    color: #ffffff;
+}
+
+.next-btn:hover, .create-group-submit-btn:hover {
+    background-color: #0056b3;
+}
+
+.modal-footer-buttons button:disabled {
+    background-color: #cccccc;
+    color: #ffffff;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.form-group-field {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-group-field label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #495057;
+}
+
+.input-field {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 15px;
+    box-sizing: border-box;
+    outline: none;
+}
+
+.input-field:focus {
+    border-color: #007bff;
+}
+
+.group-avatar-section {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.group-avatar-preview-default, .group-avatar-preview-circle {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: bold;
+    color: #ffffff;
+    background-color: #6c757d;
+    background-size: cover;
+    background-position: center;
+}
+
+.avatar-upload-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.upload-photo-label-btn {
+    font-size: 14px;
+    color: #007bff;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.upload-photo-label-btn:hover {
+    text-decoration: underline;
+}
+
+.select-photo-label-btn {
+    font-size: 12px;
+    color: #6c757d;
+}
+
+.hidden-file-input {
+    display: none;
+}
+
+.participants-section-wrapper h3 {
+    font-size: 14px;
+    color: #495057;
+    margin-bottom: 10px;
+}
+
+.final-participants-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    max-height: 120px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+    padding: 4px 0;
+}
+
+.final-participant-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background-color: #f1f3f5;
+    padding: 6px 12px;
+    border-radius: 20px;
+}
+
+.participant-avatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.participant-name {
+    font-size: 13px;
+    color: #212529;
+    font-weight: 500;
+}
+
+.no-friends-text {
+    text-align: center;
+    color: #6c757d;
+    padding: 20px 0;
+    font-size: 14px;
+}

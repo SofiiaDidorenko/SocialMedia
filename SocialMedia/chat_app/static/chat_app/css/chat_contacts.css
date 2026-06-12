@@ -1,0 +1,68 @@
+.chat-contacts-wrapper {
+    flex: 0 0 320px;
+    display: flex;
+    flex-direction: column;
+    width: 24.375vw;
+    height: 81.44vh;
+    margin-left: 20px !important;
+}
+
+.create-group-btn {
+    background-color: var(--accent-purple);
+    color: var(--white);
+    border: none;
+    padding: 14px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-bottom: 15px;
+    width: 100%;
+    transition: background-color 0.2s ease;
+}
+
+.create-group-btn:hover {
+    background-color: #432e41;
+}
+
+.chat-contacts {
+    background: var(--white);
+    border-radius: var(--border-radius);
+    padding: 20px 10px 20px 20px; 
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.chat-block {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+}
+
+.chat-block h2 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #4F4F4F;
+    margin: 0 0 15px 0;
+}
+
+.search-input {
+    width: 100%;
+    padding: 12px 15px;
+    background: #FDFDFD;
+    border: 1px solid #E0E0E0;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+    outline: none;
+    font-size: 14px;
+}
+
+.contacts-list {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 10px;
+}

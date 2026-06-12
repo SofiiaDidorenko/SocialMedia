@@ -10,8 +10,9 @@
 {% endblock title %}
 
 {% block links %}
-    <link rel="stylesheet" href="{% static 'css/side_panel.css' %}">
+    <link rel="stylesheet" href="{% static 'user_app/css/side_panel.css' %}">
     <link rel="stylesheet" href="{% static 'user_app/css/friends.css' %}">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
 {% endblock links %}
 
 {% block side-panel %}
@@ -28,7 +29,6 @@
 {% endblock %}
 
 {% block content %}
-    <!-- ИСПРАВЛЕНО: data-action-url теперь ведет на правильный эндпоинт handle_friendship -->
     <section class="friends-container-section" data-action-url="{% url 'handle_friendship' %}">
         {% include 'user_app/particles/friends_request.html' %}
         {% include 'user_app/particles/friend_recommendations.html' %}

@@ -1,4 +1,7 @@
-
+@font-face {
+font-family: "GT Walsheim Pro";
+src: url("../fonts/GT-Walsheim-Pro-Regular.ttf") format("ttf");
+}
 .modal-overlay {
     position: fixed;
     top: 0;

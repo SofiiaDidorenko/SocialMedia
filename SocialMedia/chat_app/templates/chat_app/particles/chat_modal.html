@@ -1,0 +1,58 @@
+<!-- Ховаємо модальне вікно створення групи до натискання кнопки "Нова група". -->
+<div id="group-modal" class="group-modal" hidden>
+    <!-- Створюємо основний блок модального вікна. -->
+    <div class="group-modal__box">
+        <!-- Перший крок: користувач вибирає друзів для майбутньої групи. -->
+        <div id="group-step-users">
+            <!-- Закриваємо модальне вікно без створення групи. -->
+            <button id="close-group-modal" class="group-modal__close" type="button">×</button>
+            <!-- Показуємо заголовок першого кроку. -->
+            <h2>Нова група</h2>
+            <!-- Показуємо кількість вибраних друзів. -->
+            <p>Вибрано: <span id="selected-count">0</span></p>
+            <!-- Виводимо список друзів, яких можна додати до групи. -->
+            <div class="group-friends">
+                <!-- Перебираємо друзів поточного користувача. -->
+                {% for friend in friends %}
+                    <!-- Один рядок друга з чекбоксом вибору. -->
+                    <label class="group-friend">
+                        <!-- Зберігаємо id друга у value, а email у data-атрибуті для другого кроку. -->
+                        <input class="group-user-checkbox" type="checkbox" value="{{ friend.id }}" data-user-name="{{ friend.email }}">
+                        <!-- Показуємо email друга. -->
+                        <span>{{ friend.email }}</span>
+                    </label>
+                <!-- Закриваємо цикл друзів. -->
+                {% endfor %}
+            </div>
+            <!-- Кнопки першого кроку модального вікна. -->
+            <div class="group-modal__actions">
+                <!-- Скасовуємо створення групи. -->
+                <button id="cancel-group-modal" type="button">Скасувати</button>
+                <!-- Переходимо до введення назви групи. -->
+                <button id="next-group-step" type="button">Далі</button>
+            </div>
+        </div>
+        <!-- Другий крок: користувач вводить назву групи й підтверджує створення. -->
+        <div id="group-step-name" hidden>
+            <!-- Закриваємо модальне вікно з другого кроку. -->
+            <button id="close-group-name-modal" class="group-modal__close" type="button">×</button>
+            <!-- Показуємо заголовок другого кроку. -->
+            <h2>Нова група</h2>
+            <!-- Підписуємо поле назви. -->
+            <label for="group-name">Назва</label>
+            <!-- Поле, з якого JS передає назву групи на backend. -->
+            <input id="group-name" type="text" placeholder="Введіть назву">
+            <!-- Показуємо заголовок списку вибраних учасників. -->
+            <h3>Учасники</h3>
+            <!-- JS заповнює цей блок email-ами вибраних друзів. -->
+            <div id="selected-users-list"></div>
+            <!-- Кнопки другого кроку модального вікна. -->
+            <div class="group-modal__actions">
+                <!-- Повертаємося до вибору друзів. -->
+                <button id="back-group-step" type="button">Назад</button>
+                <!-- Надсилаємо POST-запит створення групи. -->
+                <button id="create-group" type="button">Створити групу</button>
+            </div>
+        </div>
+    </div>
+</div>

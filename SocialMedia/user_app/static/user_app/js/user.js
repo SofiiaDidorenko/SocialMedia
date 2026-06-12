@@ -17,6 +17,17 @@ document.addEventListener('DOMContentLoaded', function() {
     const fileInput = document.getElementById('file-input');
     const previewContainer = document.getElementById('image-preview-container');
 
+    // ВИПРАВЛЕНО: Фокусуємося строго на ПЕРШИЙ елемент списку [0]
+    const clearCodeInputs = () => {
+        const codeInputs = document.querySelectorAll('.code-input');
+        codeInputs.forEach(input => {
+            input.value = '';
+        });
+        if (codeInputs.length > 0) {
+            setTimeout(() => codeInputs[0].focus(), 100);
+        }
+    };
+
     const toggleM = (m, show) => {
         if (m) m.style.display = show ? 'flex' : 'none';
         document.body.style.overflow = show ? 'hidden' : 'auto';
@@ -29,17 +40,39 @@ document.addEventListener('DOMContentLoaded', function() {
         
         document.querySelectorAll('.register-select').forEach(b => b.classList.toggle('select', mode === 'reg'));
         document.querySelectorAll('.login-select').forEach(b => b.classList.toggle('select', mode === 'log'));
+
+        // АВТОФОКУС: Коли відкривається вікно коду, автоматично фокусуємося на першу комірку
+        if (mode === 'conf') {
+            setTimeout(() => {
+                const firstInput = document.querySelector('.code-input');
+                if (firstInput) firstInput.focus();
+            }, 150);
+        }
     };
 
     document.querySelectorAll('.login-select').forEach(b => b.onclick = () => switchAuth('log'));
     document.querySelectorAll('.register-select').forEach(b => b.onclick = () => switchAuth('reg'));
-    if (document.getElementById('back')) document.getElementById('back').onclick = () => switchAuth('reg');
+    
+    if (document.getElementById('back')) {
+        document.getElementById('back').onclick = () => {
+            clearCodeInputs();
+            switchAuth('reg');
+        };
+    }
 
     const sendForm = async (form, onSuccess) => {
         if (!form) return;
         form.onsubmit = async (e) => {
             e.preventDefault();
             const fd = new FormData(form);
+            if (form.closest('#confirm-email-container')) {
+                let fullCode = "";
+                document.querySelectorAll('.code-input').forEach(input => {
+                    fullCode += input.value;
+                });
+                fd.append('code', fullCode);
+            }
+
             try {
                 const res = await fetch(form.action, {
                     method: 'POST',
@@ -58,7 +91,10 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     sendForm(regCont?.querySelector('form'), (res) => {
-        if (res.ok) switchAuth('conf');
+        if (res.ok) {
+            clearCodeInputs(); 
+            switchAuth('conf');
+        }
         else alert('Помилка реєстрації');
     });
 
@@ -103,7 +139,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (loaderLine && postList) {
         const obs = new IntersectionObserver(async (entries) => {
-            if (entries[0].isIntersecting && !isLoading && hasMorePosts) {
+            if (entries.isIntersecting && !isLoading && hasMorePosts) {
                 isLoading = true;
                 currentPage++;
                 const res = await fetch(`${window.location.pathname}?page=${currentPage}`, { headers: { 'X-Requested-With': 'XMLHttpRequest' } });
@@ -117,9 +153,49 @@ document.addEventListener('DOMContentLoaded', function() {
         obs.observe(loaderLine);
     }
 
-    document.querySelectorAll('.code-input').forEach((input, i, arr) => {
-        input.oninput = () => input.value && arr[i+1]?.focus();
-        input.onkeydown = (e) => e.key === 'Backspace' && !input.value && arr[i-1]?.focus();
+    // ВИПРАВЛЕНО: Повністю безпечна логіка введення без блокування системних клавіш
+    const codeInputs = document.querySelectorAll('.code-input');
+    
+    codeInputs.forEach((input, i) => {
+        input.setAttribute('autocomplete', 'off');
+        input.setAttribute('maxlength', '1');
+
+        input.oninput = (e) => {
+            const cleanValue = input.value.replace(/[^0-9]/g, '');
+            input.value = cleanValue;
+            
+            if (cleanValue && codeInputs[i + 1]) {
+                setTimeout(() => codeInputs[i + 1].focus(), 10);
+            }
+        };
+
+        input.onkeydown = (e) => {
+            if (e.key === 'Backspace') {
+                if (input.value) {
+                    input.value = '';
+                } else if (codeInputs[i - 1]) {
+                    e.preventDefault(); // Скасовуємо системний Backspace ТІЛЬКИ для стрибка назад
+                    codeInputs[i - 1].value = '';
+                    codeInputs[i - 1].focus();
+                }
+            } else if (e.key === 'ArrowLeft' && codeInputs[i - 1]) {
+                codeInputs[i - 1].focus();
+            } else if (e.key === 'ArrowRight' && codeInputs[i + 1]) {
+                codeInputs[i + 1].focus();
+            }
+        };
+
+        input.onpaste = (e) => {
+            e.preventDefault();
+            const pasteData = (e.clipboardData || window.clipboardData).getData('text').trim().replace(/[^0-9]/g, '');
+            if (pasteData) {
+                codeInputs.forEach((inp, idx) => {
+                    if (pasteData[idx]) inp.value = pasteData[idx];
+                });
+                const nextFocusIdx = Math.min(pasteData.length, codeInputs.length - 1);
+                if (codeInputs[nextFocusIdx]) codeInputs[nextFocusIdx].focus();
+            }
+        };
     });
 });
 

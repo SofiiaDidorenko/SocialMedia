@@ -1,0 +1,40 @@
+{% load static %}
+<div class="chat-contacts-wrapper" style="display: flex; flex-direction: column; gap: 16px;">
+    
+
+    <button type="button" id="open-group-modal" class="create-group-btn-main" style="width: 100%; background-color: #5d4257; color: #ffffff; border: none; padding: 12px; border-radius: 12px; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: background-color 0.2s;">
+        <span style="font-size: 16px;">+</span> Створити груповий чат
+    </button>
+    
+    <aside class="chat-contacts" style="background: #ffffff; padding: 20px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
+        <section class="chat-block">
+            <!-- Заголовок контактов с иконкой из макета -->
+            <h2 style="font-size: 16px; font-weight: 700; color: #1a1a1a; margin-top: 0; margin-bottom: 15px; display: flex; align-items: center; gap: 8px;">
+                <img src="{% static 'icons/contacts.png' %}" class="icons">
+                 Контакти
+            </h2>
+            
+            <input type="text" class="search-input" placeholder="Пошук" style="width: 100%; padding: 10px 14px; border: 1px solid #e0e0e0; border-radius: 8px; font-size: 14px; margin-bottom: 16px; box-sizing: border-box; outline: none; background-color: #f9f9f9;">
+            
+            <div class="contacts-list" style="display: flex; flex-direction: column; gap: 4px; max-height: calc(100vh - 240px); overflow-y: auto;">
+                {% for friend in friends %}
+                    <button type="button" class="chat-user-button" data-chat-user="{{ friend.id }}" data-chat-username="{{ friend.username }}" style="width: 100%; display: flex; align-items: center; gap: 12px; padding: 10px; border: none; background: none; border-radius: 12px; cursor: pointer; text-align: left; transition: background 0.2s;">
+                        <img src="{% if friend.avatar %}{{ friend.avatar.url }}{% else %}{% static 'icons/User1.png' %}{% endif %}" alt="User" class="chat-user-avatar" style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover; flex-shrink: 0;">
+                        
+                        <div class="chat-user-info" style="flex-grow: 1; display: flex; flex-direction: column; min-width: 0;">
+                            <span class="chat-user-name" style="font-weight: 600; font-size: 14px; color: #1a1a1a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                {% if friend.first_name or friend.last_name %}
+                                    {{ friend.first_name }} {{ friend.last_name }}
+                                {% else %}
+                                    {{ friend.username }}
+                                {% endif %}
+                            </span>
+                        </div>
+                    </button>
+                {% empty %}
+                    <p style="color: var(--text-muted); font-size: 14px; padding: 8px 4px; margin: 0;">Контактів поки немає</p>
+                {% endfor %}
+            </div>
+        </section>
+    </aside>
+</div>

@@ -1,6 +1,9 @@
 
 @import url('googleapis.com');
-
+@font-face {
+font-family: "GT Walsheim Pro";
+src: url("../fonts/GT-Walsheim-Pro-Regular.ttf") format("ttf");
+}
 * {
     margin: 0;
     padding: 0;

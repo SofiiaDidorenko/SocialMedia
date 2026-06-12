@@ -1,0 +1,34 @@
+{% load static %}
+<section class="chat-block">
+    <div class="chat-block-header">
+        <img src="{% static 'icons/chat.svg' %}" class="icons" alt="Group Icon">
+        <h2>Групові чати</h2>
+    </div>
+    
+    <div id="group-list">
+        {% for item in group_chats %}
+            <button type="button" class="chat-group-button" data-chat-id="{{ item.chat.id }}" data-chat-title="{{ item.name }}">
+                
+                {% if item.avatar_url %}
+                    <img src="{{ item.avatar_url }}" alt="Group" class="chat-user-avatar">
+                {% else %}
+                    <div class="group-text-avatar">
+                        {{ item.initials }}
+                    </div>
+                {% endif %}
+                
+                <div class="chat-user-info">
+                    <div class="chat-group-meta">
+                        <span class="chat-user-name">{{ item.name }}</span>
+                        <span class="chat-user-time">{{ item.last_time }}</span>
+                    </div>
+                    <p class="chat-user-message">
+                        {{ item.last_message }}
+                    </p>
+                </div>
+            </button>
+        {% empty %}
+            <p id="group-empty" style="color: #6c757d; font-size: 13px; padding: 4px 0; margin: 0;">Порожньо</p>
+        {% endfor %}
+    </div>
+</section>

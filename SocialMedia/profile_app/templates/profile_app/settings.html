@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    User page
+{% endblock title %}
+
+{% block links %}
+    <link rel="stylesheet" href="{% static 'css/side_panel.css' %}">
+    <link rel="stylesheet" href="{% static 'profile_app/css/settings.css' %}">
+{% endblock links %}
+
+{% block side_panel %}
+    <div class="settings-panel">
+        <h3>
+            Особиста інформація
+            <hr>
+        </h3>
+        <p>Альбоми</p>
+    </div>
+{% endblock side_panel %}
+
+{% block content %}
+    <div class="settings-container">
+        <div class="profile-panel">
+            <div class="edit-info">
+                <p>Картка профілю</p>
+                <div class="edit-container">
+                    <p>
+                        <img src="{% static 'user_app/icons/edit-info.svg' %}" alt="">
+                    </p>
+                </div>
+            </div>
+            <div class = "author-profile">
+                <div class = "image-container">
+                    <img src="{% static 'user_app/icons/Profile.png' %}" alt="">
+                </div>
+                <h3>Lina Li</h3>
+                <p>@thelili</p>
+            </div>
+        </div>
+        <div class="setting-info">
+            <div class = "own-info">
+                <p>Особиста інформація</p>
+                <div class="edit-info">
+                    <p>
+                        <img src="{% static 'user_app/icons/edit-info.svg' %}" alt="">
+                    </p>
+                </div>
+            </div>
+
+            <div class = "personal-info">
+                <label for="first-name">Ім'я</label>
+                <input type="text" name="first-name" id="first-name">
+                <label for="second-name">Прізвище</label>
+                <input type="text" name="second-name" id="second-name">
+                <label for="born-date">Дата народження</label>
+                <input type="text" name="born-date" id="born-date">
+                <label for="email-adress">Електронна адреса</label>
+                <input type="text" name="email-adress" id="email-adress">    
+                
+                
+            <div class = "personal-password">
+                <p>Пароль</p>
+                <div class="edit-info">
+                    <p>
+                        <img src="" alt="">
+                        <span>Редагувати пароль</span>
+                    </p>
+                </div>
+            </div>
+
+                <label for="password">Пароль</label>
+                <input type="text" name="password" id="password">               
+            </div>           
+        </div>
+        <div class="settings-signature">
+            <div class = "signature-info">
+                <p>Варіанти підпису</p>
+                <div class="edit-info">
+                    <p>
+                    <img src="{% static 'user_app/icons/edit-info.svg' %}" alt="">
+                    </p>
+                </div>
+            </div>
+
+            <div class= "author-info">
+                <div class = "pseudonym-info">
+                    <input type="checkbox" id = "pseudonym" name="pseudonym">
+                    <label for="pseudonym">Псевдонім автора</label>
+                </div>
+                <p>Lina Li</p>
+                <div class = "signature-info">
+                    <input type="checkbox" name = "signature" id="signature">
+                    <label for="signature">Мій електронний підпис</label>
+                    <img src="" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block script %}
+    <script src="{% static 'profile_app/js/settings.js' %}"></script>
+{% endblock %}

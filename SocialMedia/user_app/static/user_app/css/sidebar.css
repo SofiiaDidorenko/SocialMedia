@@ -1,3 +1,7 @@
+@font-face {
+    font-family: "GT Walsheim Pro";
+    src: url("../fonts/GT-Walsheim-Pro-Regular.ttf") format("truetype"); /* Виправлено на truetype */
+}
 
 .custom-profile-grid {
     display: flex !important;
@@ -6,18 +10,9 @@
     width: 100%;
     align-items: start;
     box-sizing: border-box;
-
-    /* ================================================================ */
-    /* !!! ДВИГАТЬ ВСЮ СТРАНИЦУ ЦЕЛИКОМ (СЕТКУ) ЗДЕСЬ !!!               */
-    /* Первый параметр (40px) — отступ сверху от шапки сайта           */
-    /* Второй параметр (auto) — центрирует всю страницу на экране       */
-    /* Третий параметр (0px)  — отступ снизу                           */
-    /* Четвертый параметр (40px) — отступ слева от края экрана          */
-    /* ================================================================ */
-    margin: 15px auto 0px 40px !important; 
+    margin: 15px 0px 0px 0px !important; /* ЗМІНЕНО: прибрано авто-центрирування та відступ зліва 40px */
 }
 
-/* Левая колонка (сайдбар) */
 .custom-aside-column {
     width: 290px;
     flex-shrink: 0;
@@ -25,10 +20,9 @@
     flex-direction: column;
     gap: 16px;
     box-sizing: border-box;
-    margin: 0px 0px 0px 50px; 
+    margin: 0px; /* ЗМІНЕНО: прибрано лівий відступ у 50px */
 }
 
-/* Карточка информации о пользователе */
 .custom-card-container {
     display: flex;
     flex-direction: column;
@@ -40,7 +34,6 @@
     border-radius: 5px;
     padding: 24px 20px;
     box-sizing: border-box;
-    
 }
 
 .custom-profile-head {
@@ -123,7 +116,6 @@
     margin: 0;
 }
 
-/* --- КНОПКИ ДЕЙСТВИЙ (ПОД КАРТОЧКОЙ) --- */
 .friend-actions-container {
     display: flex;
     gap: 8px;
@@ -179,31 +171,15 @@
 .status-confirmed { color: #22C55E; }
 .status-rejected { color: #5B445A; }
 
-/* --- ЛЕНТА ПОСТОВ (ПРАВАЯ КОЛОНКА) --- */
 .custom-posts-column {
-    /* ================================================================ */
-    /* !!! ПОЛНЫЙ ЗАПРЕТ НА ЛЮБОЕ СЖАТИЕ И ИЗМЕНЕНИЕ РАЗМЕРОВ !!!       */
-    /* flex: none полностью изолирует блок от влияния .content-wrapper   */
-    /* ================================================================ */
     flex: none !important;
     display: flex !important;
     flex-direction: column !important;
     gap: 20px !important;
-    
-    /* ================================================================ */
-    /* !!! ЧЕТКАЯ ФИКСИРОВАННАЯ ШИРИНА В ПИКСЕЛЯХ !!!                   */
-    /* Заменяем vw на пиксели, чтобы блок физически не мог сжаться      */
-    /* ================================================================ */
     width: 64.09vw !important; 
     box-sizing: border-box !important;
-
-    /* ================================================================ */
-    /* !!! ОТСТУП ДЛЯ КОРРЕКТИРОВКИ ПОЛОЖЕНИЯ ПОСТОВ !!!                */
-    /* Если нужно подвинуть посты правее/левее, меняйте четвертый ноль  */
-    /* ================================================================ */
-    margin: 0px 0px 0px 35px !important; 
+    margin: 0px 0px 0px 35px !important; /* Тут залишено відступ між колонками, щоб картки не злипалися */
 }
-
 
 .post-card {
     background: #FFFFFF;
@@ -286,7 +262,6 @@
     margin: 0;
 }
 
-/* --- СЕТКА ДЛЯ ФОТОГРАФИЙ ПОСТА --- */
 .post-image-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));

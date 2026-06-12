@@ -1,15 +1,16 @@
 <div id="confirm-email-container" class="section-confirm" style="display: none;"> 
     <h2>Підтвердження пошти</h2>
-    <p>Ми надіслали 6-значний код на вашу пошту (you@example.com). Введіть його нижче, щоб підтвердити акаунт</p>
+    <p>Ми надіслали 6-значний код на вашу пошту. Введіть його нижче, щоб підтвердити акаунт</p>
     
-    <form action="{% url 'confirm_code' %}" method="post">
+    <form action="{% url 'confirm_code' %}" method="post" autocomplete="one-time-code">
         {% csrf_token %}
         <div class="code-inputs-wrapper">
             {% for field in confirm_email_form %}
+                <!-- Прибираємо зайві обгортки, залишаємо чисте виведення поля -->
                 {{ field }}
             {% endfor %}
         </div>
         <button type="submit" class="submit-btn">Підтвердити</button>
     </form>
-    <p id="back">Назад</p>
+    <p id="back" style="cursor: pointer; margin-top: 15px; color: #5B445A; font-weight: 600;">Назад</p>
 </div>

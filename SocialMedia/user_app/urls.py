@@ -9,7 +9,6 @@ urlpatterns = [
     path('auth/', AuthTemplateView.as_view(), name='auth'),
     path('user/', UserTemplateView.as_view(), name='user'),
     
-    # Виправлено: тепер суворо обробляється будь-який формат нікнейму з автоматичним редиректом слеша
     path('profile/<str:username>/', UserProfileView.as_view(), name='user_profile'),
     path('profile/<str:username>', UserProfileView.as_view()), 
     

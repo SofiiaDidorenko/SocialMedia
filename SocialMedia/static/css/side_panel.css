@@ -1,36 +1,11 @@
 
-main {
-    display: flex !important;
-    flex-direction: row !important; 
-    gap: 30px;
-    margin: 0 auto;
-    padding: 20px;
-    align-items: start;
-    width: 100%;
-    max-width: 1440px; 
-    height: 100%;
-    box-sizing: border-box;
-}
-
-
-aside {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    gap: 16px; 
-    width: 290px; 
-    flex-shrink: 0;
-    background: transparent !important; 
-    padding: 0 !important;
-}
-
 .profile-container,
 .request,
 .message-block {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: 24.375vw; 
+    margin-left: 50px;
     background-color: #FFFFFF; 
     border: 1px solid #E3E3E8; 
     border-radius: 20px;       

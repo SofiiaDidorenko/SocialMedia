@@ -1,0 +1,32 @@
+{% load static %}
+<section class="chat-block">
+    <div class="chat-block-header">
+        <img src="{% static 'icons/chat.svg' %}" class="icons" alt="Chat Icon">
+        <h2>Повідомлення</h2>
+    </div>
+    
+    <div class="contacts-list">
+        {% for item in personal_chats %}
+            <button type="button" class="chat-user-button" 
+                    data-chat-user="{{ item.friend_id }}" 
+                    data-chat-username="{{ item.username }}">
+                
+                <!-- Новая структура аватарки с индикатором -->
+                <div class="avatar-wrapper">
+                    <img src="{{ item.avatar_url }}" alt="User">
+                    <span class="status-badge offline"></span>
+                </div>
+                
+                <div class="chat-user-info">
+                    <div class="chat-user-meta">
+                        <span class="chat-user-name">{{ item.username }}</span>
+                        <span class="chat-time" data-chat-time-id="{{ item.friend_id }}">{{ item.last_time }}</span>
+                    </div>
+                    <p class="chat-last-msg" data-chat-preview-id="{{ item.friend_id }}">{{ item.last_message }}</p>
+                </div>
+            </button>
+        {% empty %}
+            <p class="no-chats-yet-text" style="color: var(--text-muted); font-size: 14px; padding: 15px; text-align: center;">Чатів поки немає</p>
+        {% endfor %}
+    </div>
+</section>

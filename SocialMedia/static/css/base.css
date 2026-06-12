@@ -35,7 +35,6 @@ header{
     width: 100vw;
     height: 8.5vh;
     padding: 2.3vh 5.6vw 2.3vh 5.6vw;
-    
     background-color: #FFFFFF;
 }
 
@@ -117,6 +116,7 @@ nav div .button-div .button-exit{
     display: flex;
     flex-direction: column;
     justify-content: center;
+    margin-left: 13px;
     align-items: center;
     width: 22vw;
     height: 26.5vh;
@@ -303,6 +303,7 @@ nav div .button-div .button-exit{
     align-items: center;
     justify-content: space-between;
     width: 22vw;
+    margin-left: 13px;
     min-height: 7.5vh;
     padding: 1.2vh 1.4vw;
     background-color: #ffffff;
@@ -318,6 +319,7 @@ nav div .button-div .button-exit{
     align-items: center;
     justify-content: space-between;
     width: 22vw;
+    margin-left: 13px;
     min-height: 7.5vh;
     padding: 1.2vh 1.4vw;
     background-color: #ffffff;
@@ -372,6 +374,7 @@ main{
     flex-direction: row;
     width: 100%;
     margin-top: 8.5vh;
+    padding: 2.3vh 5.5vw 2.3vh 5.5vw;
 }
 
 .sidebar{
@@ -385,5 +388,6 @@ main{
 .content-wrapper{
     flex: 1;
     display: flex;
-    justify-content: flex-start;
+
+    
 }

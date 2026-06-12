@@ -1,127 +1,78 @@
-*{
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-    text-decoration: none;
-    font-family: 'GT Walsheim Pro';
-    font-weight: 500;
-}
-
-html {
-    height: 100%;
-    overflow: hidden;
-}
-
-body{
+/* ==========================================================================
+   ИСПРАВЛЕНИЕ РОДИТЕЛЬСКОГО БЛОКА ASIDE
+   ========================================================================== */
+aside {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-
-    gap: 2vh;
-    height: 100%;
-
-    background-color: #FAF8FF;
-}
-
-main{
-    display: flex;
-    flex-direction: row-reverse;
-    gap: 30px;
-   
-    margin: 0 auto;
-    padding: 20px;
-    align-items: start;
-    width: 100%;
-    height: 100%;
-}
-
-aside{
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-
-    gap: 1vw;
-    width: 250px;
-    height: 100%;
-    background-color: #FFFBFF;
-    padding: 20px;
+    width: 200px;        /* НАЖЕСТКО задаем ширину для всего контейнера */
+    margin: 0 !important; /* Убираем любые внешние отступы */
+    padding: 0 !important;/* Убираем внутренние отступы, чтобы текст прижался влево */
     flex-shrink: 0;
 }
 
-.content-wrapper{
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-
-    flex: 1;
-    height: 100%;
-    background-color: transparent;
-}
-
-.side-panel-container{
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-
-    gap: 1vw;
-    width: 100%;
-    height: auto;
-    background-color: transparent;
-}
-
-.friends-panel{
+/* ==========================================================================
+   ОБНОВЛЕННАЯ БОКОВАЯ ПАНЕЛЬ
+   ========================================================================== */
+.friends-panel {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
-
-    height: auto;
-    width: 100%;
-    gap: 1vh;
-    background-color: white;
-    border: 1px solid rgba(205, 206, 210, 1);
-    border-radius: 10px;
-    padding: 20px;
+    
+    width: 100%;          /* Теперь панель занимает ровно всю ширину aside */
+    
+    border: none;         /* Убираем рамку, чтобы текст визуально сливался с левым краем */
+    background-color: transparent; /* Убираем белый фон, чтобы панель "прилипла" к фону страницы */
+    padding: 10px 0; 
+    margin: 0 !important;
 }
 
-.friends-panel h3{
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-
+/* Заголовок "Головна" */
+.friends-panel h3 {
+    position: relative;
     font-size: 16px;
-    font-weight: 700;
+    font-weight: 700; 
     color: #070A1C;
-    gap: 0;
-    margin: 0;
-    margin-bottom: 8px;
+    margin: 0 0 15px 0;
+    padding: 0 0 8px 0;   /* ИЗМЕНЕНО: убрали padding-left (0), текст прижался вплотную влево */
+    width: 100%;
+    text-align: left;
 }
 
-.friends-panel h3 hr{
-    width: 100%;
+/* Полоска под словом "Головна" */
+.friends-panel h3 hr {
+    position: absolute;
+    bottom: 0;
+    left: 0;              /* ИЗМЕНЕНО: линия начинается строго от левого края (0) */
+    width: 45px; 
     border: none;
     height: 3px;
     background-color: #543C52;
-    margin-left: 8px;
+    margin: 0;
 }
 
-.friends-panel p{
+/* Пункты меню (Запити, Рекомендації, Всі друзі) */
+.friends-panel p,
+.friends-panel a {
     font-size: 14px;
     font-weight: 500;
     color: #81818D;
     width: 100%;
-    padding: 10px 0;
+    padding: 10px 0;      /* ИЗМЕНЕНО: убрали padding-left (0), теперь текст прилип к левому краю */
     cursor: pointer;
-    transition: all 0.3s ease;
-    padding-left: 8px;
+    transition: all 0.2s ease-in-out;
+    margin: 0;
+    text-align: left; 
+    display: block;
+    text-decoration: none;
 }
 
-.friends-panel p:hover{
-    color: #543C52;
+/* Эффект наведения */
+.friends-panel p:hover,
+.friends-panel a:hover,
+.friends-panel p.active-link,
+.friends-panel a.active-link {
+    color: #543C52 !important;
+    background-color: transparent; /* Убрали заливку фона, чтобы не ломать прижатый текст */
     font-weight: 600;
 }

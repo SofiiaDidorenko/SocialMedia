@@ -27,8 +27,6 @@ class UserProfileView(LoginRequiredMixin, TemplateView):
         
         if not username_param or username_param in ['None', 'none', 'null', '']:
             raise Http404("Некоректний ідентифікатор користувача")
-            
-        # УМНЫЙ ПОИСК: Пробуем найти по username, если не вышло — пробуем по ID
         profile_user = None
         try:
             profile_user = User.objects.get(username=username_param)
@@ -36,7 +34,6 @@ class UserProfileView(LoginRequiredMixin, TemplateView):
             if username_param.isdigit():
                 profile_user = get_object_or_404(User, id=int(username_param))
             else:
-                # Если это не число и по username не нашли, пробуем поискать по email (на случай если никнейм еще не изменен)
                 profile_user = User.objects.filter(email=username_param).first()
                 
         if not profile_user:
@@ -200,8 +197,7 @@ class AuthTemplateView(TemplateView):
         context['login_form'] = LoginForm()
         context['confirm_email_form'] = ConfirmEmailForm()
         return context
-
-
+    
 class RegisterView(View):
     def post(self, request: HttpRequest):
         form = RegisterForm(request.POST)
@@ -223,23 +219,36 @@ class RegisterView(View):
 
 class ConfirmCodeView(View):
     def post(self, request: HttpRequest):
-        user_code = "".join([request.POST.get(f'code{i}', '') for i in range(1, 7)])
+        # Спочатку перевіряємо, чи надіслав наш новий JavaScript вже повністю зібраний код
+        user_code = request.POST.get('code', '').strip()
+
+        # Якщо новий параметр порожній, використовуємо твій старий цикл як запасний варіант
+        if not user_code:
+            user_code = "".join([request.POST.get(f'code{i}', '') for i in range(1, 7)]).strip()
+
         server_code = request.session.get('confirm_code')
         reg_data = request.session.get('register_data')
 
-        if not server_code or not reg_data:
-            return JsonResponse({'error': 'Сесія закінчилася. Спробуйте ще раз.'}, status=400)
+        print(f"[DEBUG] Отримано код від користувача: '{user_code}', Очікуваний код на сервері: '{server_code}'")
 
-        if user_code == server_code:
+        if not server_code or not reg_data:
+            return JsonResponse({'error': 'Сесія закінчилася або дані реєстрації відсутні. Спробуйте ще раз.'}, status=400)
+
+        # Перевіряємо відповідність кодів
+        if user_code == str(server_code):
+            # Створюємо користувача в базі даних
             User.objects.create_user(
                 username=reg_data['email'], 
                 email=reg_data['email'],
                 password=reg_data['password']
             )
+            # Очищаємо дані сесії після успішної реєстрації
             del request.session['confirm_code']
             del request.session['register_data']
             return JsonResponse({'success': True, 'action': 'show_login'}, status=200)
+            
         return JsonResponse({'error': 'Невірний код підтвердження'}, status=400)
+
 
 
 class LoginView(View):

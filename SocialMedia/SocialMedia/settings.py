@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 from pathlib import Path
-
+from sshtunnel import SSHTunnelForwarder
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -31,6 +31,8 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 # Application definition
 
 INSTALLED_APPS = [
+    'channels',
+    'daphne',
     'user_app',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -40,7 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'home_app',
     'posts_app',
-    'chat_app'
+    'chat_app',
+    'profile_app'
 ]
 AUTH_USER_MODEL = 'user_app.User'
 MIDDLEWARE = [
@@ -62,7 +65,7 @@ TEMPLATES = [
         'DIRS': [ 
             BASE_DIR / 'templates',
             BASE_DIR / 'home_app/templates',
-            BASE_DIR / 'friends_app/templates',
+            BASE_DIR / 'profile_app/templates',
             BASE_DIR / 'posts_app/templates',
             BASE_DIR / 'user_app/templates',
             ],
@@ -82,14 +85,39 @@ WSGI_APPLICATION = 'SocialMedia.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
-
+# server = SSHTunnelForwarder(
+#    ('ssh.pythonanywhere.com', 22),      
+#    ssh_username='WorldITSocialNetwork', 
+#    ssh_password='oL4qhR8vzO9p',      
+#     remote_bind_address=('WorldITSocialNetwork-5274.postgres.pythonanywhere-services.com', 15274) 
+# )
+# server.start()
 DATABASES = {
-    'default': {
+     'default': {
+#        'ENGINE': 'django.db.backends.postgresql',
+#        'NAME': 'data',
+#        'USER': 'super',
+#        'PASSWORD': 'kC9gN3bqA',
+#        'HOST': '127.0.0.1',
+#        'PORT': str(server.local_bind_port),
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
-    }
+     }    
 }
-
+# from django.db.backends.base.base import BaseDatabaseWrapper
+# BaseDatabaseWrapper.check_database_version_supported = lambda self: None
+        
+        #sqlite3
+        #'ENGINE': 'django.db.backends.sqlite3',
+        #'NAME': BASE_DIR / 'db.sqlite3',
+        
+        #'ENGINE': 'django.db.backends.postgresql',
+        #'NAME': 'data',
+        #'USER': 'data',
+        #'PASSWORD': 'kC9gN3bqA',
+        #'HOST': 'WorldITSocialNetwork-5274.postgres.pythonanywhere-services.com',
+        #'PORT': '15274'
+#postgresql://data:kC9gN3bqA@ WorldITSocialNetwork-5274.postgres.pythonanywhere-services.com:15274/data
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
@@ -129,7 +157,7 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [ 
     BASE_DIR / 'static',
     BASE_DIR / 'home_app/static',
-    BASE_DIR / 'friends_app/static',
+    BASE_DIR / 'profile_app/static',
     BASE_DIR / 'posts_app/static',
     BASE_DIR / 'user_app/static',
     BASE_DIR / 'chat_app/static',
@@ -145,3 +173,11 @@ EMAIL_HOST_PASSWORD = 'pxke odym mmjf elqs'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+ASGI_APPLICATION = 'SocialMedia.asgi.application'
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer",
+    },
+}

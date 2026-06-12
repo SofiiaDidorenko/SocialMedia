@@ -1,0 +1,124 @@
+.msg-row {
+    display: flex;
+    width: 100%;
+    margin-bottom: 6px;
+    align-items: flex-end;
+    gap: 12px;
+}
+
+/* Моє повідомлення (Фіолетове, праворуч) */
+.msg-row--me {
+    justify-content: flex-end;
+}
+
+/* Повідомлення друга (Сіре, ліворуч, з аватаркою) */
+.msg-row--friend {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+    margin-bottom: 12px;
+    width: 100%;
+}
+
+.msg-author-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+    margin-bottom: 4px;
+}
+
+.msg-body-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    max-width: 70%; /* Обмежуємо загальну ширину контенту друга */
+    flex-grow: 1;    /* Дозволяє блоку займати доступне місце, але не більше max-width */
+}
+
+.msg-author-name {
+    font-size: 11px;
+    color: #543C52;
+    font-weight: 500;
+    padding-left: 4px;
+}
+
+.msg-bubble {
+    display: flex;
+    align-items: flex-end; 
+    gap: 10px;              
+    padding: 10px 14px;
+    border-radius: 15px;
+    width: fit-content;    /* Стискає бабл під довжину тексту */
+    min-width: 60px;       /* Щоб короткі слова не стискали час */
+}
+/* Повідомлення друга */
+.msg-bubble--friend {
+    background: #FFFFFF;
+    color: #070A1C;
+    border: 1px solid;
+    border-color: #E9E5EE;
+    border-bottom-left-radius: 4px;
+    flex-shrink: 0;        /* КРИТИЧНО: забороняє flex-контейнеру сплющувати цей блок */
+    max-width: 100%;
+}
+.content-wrapper .quick-emoji-wrapper {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 44px !important;
+    height: 44px !important;
+    background: transparent !important; /* Убираем серый фон фона */
+    border: 1px solid var(--border-color) !important; /* Тонкая рамка вокруг */
+    border-radius: 50% !important;
+    cursor: pointer !important;
+    transition: background-color 0.2s ease !important;
+}
+
+.content-wrapper .quick-emoji-wrapper:hover {
+    background: #F5F5F7 !important;
+}
+
+/* Иконка смайлика внутри */
+.content-wrapper .quick-emoji {
+    width: 42px !important;
+    height:42px !important;
+    object-fit: contain !important;
+    filter: invert(30%) sepia(0%) saturate(0%) hue-rotate(0deg) opacity(0.6) !important; /* Серый цвет под макет */
+}
+/* Твоє особисте повідомлення */
+.msg-bubble--me {
+    background: #CDCED2;
+    color: #070A1C;
+    border-bottom-right-radius: 4px;
+    max-width: 70%;
+}
+
+.msg-text {
+    font-size: 14px;
+    line-height: 1.4;
+    display: inline; 
+    word-break: break-word;
+}
+
+/* Контейнер для часу та галочки */
+.msg-meta {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    white-space: nowrap;   /* Забороняє часу переноситися окремо від галочки */
+    margin-left: auto;     /* Якщо текст довгий, притискає мета-дані праворуч */
+    font-size: 11px;
+    opacity: 0.7;
+    padding-bottom: 1px;   /* Опускає час трохи нижче для балансу */
+}
+.msg-bubble--me .msg-time,
+.msg-bubble--me .msg-status-check {
+    color: #81818D;
+}
+
+.msg-bubble--friend .msg-time,
+.msg-bubble--friend .msg-status-check {
+    color: #81818D;
+}

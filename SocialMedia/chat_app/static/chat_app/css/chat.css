@@ -1,0 +1,113 @@
+@font-face {
+    font-family: "GT Walsheim Pro";
+    src: url("../fonts/GT-Walsheim-Pro-Regular.ttf") format("truetype");
+}
+:root {
+    --bg-color: #F8F7FA;
+    --white: #FFFFFF;
+    --accent-purple: #543C52;
+    --text-main: #333333;
+    --text-muted: #888888;
+    --border-radius: 20px;
+}
+
+body {
+    background-color: var(--bg-color);
+    font-family: "GT Walsheim Pro", sans-serif;
+    margin: 0;
+    padding: 0;
+    color: var(--text-main);
+}
+
+.chat-page {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    padding: 0px 0px 20px 0px; 
+    margin-top: 20px;
+    height: calc(100vh - 110px);
+    box-sizing: border-box;
+}
+/* --- ЕЛЕМЕНТИ СПИСКІВ ТА КНОПКИ КОРИСТУВАЧІВ --- */
+.chat-user-button {
+    width: 100%;
+    padding: 10px 5px;
+    background: transparent;
+    border: none;
+    text-align: left;
+    font-family: inherit;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 15px; 
+    border-radius: 10px;
+    transition: background-color 0.2s ease;
+}
+
+.chat-user-button:hover {
+    background-color: #F5F5F7;
+}
+
+.chat-user-button img {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.chat-user-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    overflow: hidden;
+}
+
+.chat-user-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-main);
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.chat-user-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    width: 100%;
+}
+
+.chat-last-msg {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-transform: none;
+    text-overflow: ellipsis;
+    max-width: 150px;
+}
+
+.chat-time {
+    font-size: 12px;
+    color: #BDBDBD;
+}
+
+.contacts-list::-webkit-scrollbar,
+.chat-side .contacts-list::-webkit-scrollbar {
+    width: 5px;
+}
+.contacts-list::-webkit-scrollbar-track,
+.chat-side .contacts-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+.contacts-list::-webkit-scrollbar-thumb,
+.chat-side .contacts-list::-webkit-scrollbar-thumb {
+    background: #E0E0E0;
+    border-radius: 10px;
+}
+

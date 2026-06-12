@@ -55,7 +55,8 @@ class ConfirmEmailForm(forms.Form):
                     "class": "code-input",
                     "placeholder": "_",
                     "maxlength": 1,
-                    "inputmode": "numeric"
+                    "inputmode": "numeric",
+                    "autocomplete": "one-time-code"
                 })
             )
 

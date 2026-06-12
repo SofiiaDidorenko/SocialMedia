@@ -2,7 +2,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') 
                       || document.querySelector('[name=csrfmiddlewaretoken]')?.value;
 
-    // --- ЛОГИКА БОКОВОЙ ПАНЕЛИ ПРОФИЛЯ (ДЛЯ ДРУГА) ---
     const actionsBlock = document.getElementById('friend-actions-block');
     if (actionsBlock) {
         actionsBlock.addEventListener('click', async (e) => {
@@ -43,7 +42,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- ЛОГИКА ТАБОВ И ВКЛАДОК НА СТРАНИЦЕ СПИСКОВ ---
     const sections = {
         requests: document.getElementById('sec-requests') || document.querySelector('.requests-section'),
         recommendations: document.getElementById('sec-recommendations') || document.querySelector('.recommendations-section'),
@@ -110,7 +108,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (mainHeaderLink) mainHeaderLink.onclick = showAllSections;
 
-    // --- ОБРАБОТКА ДЕЙСТВИЙ ВНУТРИ СПИСКОВ ДРУЗЕЙ ---
     const containerSection = document.querySelector('.friends-container-section');
     if (containerSection) {
         containerSection.addEventListener('click', async (e) => {
@@ -123,13 +120,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const userId = card.getAttribute('data-user-id') || btn?.getAttribute('data-id');
             const username = card.getAttribute('data-username');
 
-            // ЕСЛИ КЛИКНУЛИ ПО КНОПКЕ
             if (btn) {
-                // Всегда отменяем стандартное поведение ссылки для точечной обработки в JS
                 e.preventDefault();
                 e.stopPropagation();
 
-                // ИСПРАВЛЕНО: Кнопки "Додати" или "Підтвердити" принудительно перенаправляют в профиль
                 if (btn.classList.contains('add-btn') || btn.classList.contains('accept-btn')) {
                     if (username) {
                         window.location.href = `/profile/${username}/`;
@@ -139,7 +133,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     return;
                 }
 
-                // Кнопки удаления ("Видалити" или "Приховати") работают на месте в фоне через AJAX
                 if (btn.classList.contains('reject-btn') || btn.classList.contains('remove-rec-btn') || btn.classList.contains('remove-friend-btn')) {
                     try {
                         const response = await fetch('/api/friendship/handle/', {
@@ -166,7 +159,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }
             } 
-            // ЕСЛИ КЛИКНУЛИ ПРОСТО ПО КАРТОЧКЕ (НА ФОН, ИМЯ ИЛИ АВАТАР)
             else {
                 if (username) {
                     window.location.href = `/profile/${username}/`;
