@@ -443,9 +443,10 @@
 }
 
 .remove-participant-btn::after {
-    content: "Х";
+    content: url("/static/icons/exit.png"); 
     font-size: 16px;
 }
+
 .modal-footer-buttons {
     display: flex;
     justify-content: flex-end;

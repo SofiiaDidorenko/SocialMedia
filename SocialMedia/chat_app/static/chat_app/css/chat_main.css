@@ -117,7 +117,7 @@
 .msg-body-wrapper {
     display: flex;
     flex-direction: column;
-    max-width: 70%; /* Ограничение ширины всей области сообщения до 70% */
+    max-width: 70%;
 }
 
 .msg-row--me .msg-body-wrapper {
@@ -136,24 +136,24 @@
     margin-bottom: 4px;
 }
 
-/* 🌟 ИСПРАВЛЕНО: Теперь пузырек четко подстраивается под ширину текста (width: max-content) */
+/* 🌟 ИСПРАВЛЕНО: Полностью заблокировано вертикальное сжатие пузырей */
 .msg-bubble {
     padding: 12px 16px;
     font-size: 14px;
     line-height: 1.4;
     position: relative;
     box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    width: max-content; /* Расширяется ровно под самую длинную строчку текста */
-    max-width: 100%;    /* Ограничен 70% родительского msg-body-wrapper */
+    display: block;                  /* Строгий блочный режим */
+    width: max-content !important;    /* Принудительно растягиваем по строке контента */
+    min-width: max-content !important;/* 🌟 ЖЕЛЕЗОБЕТОННО: Запрещает сжимать пузырь меньше текста */
+    max-width: 100%;                  /* Удерживает блок в пределах 70% от ширины экрана */
 }
 
 .msg-bubble--me {
-    background: #dcdcdc; 
-    color: #1a1a1a;
+    background: #4e4359;
+    color: #ffffff;
     border-radius: 14px 14px 4px 14px;
-    align-items: flex-start; /* Внутренние элементы (текст, картинка) равняются по левому краю пузыря */
+    text-align: left;
 }
 
 .msg-bubble--friend {
@@ -161,35 +161,37 @@
     color: #1a1a1a;
     border: 1px solid #e8e8e8;
     border-radius: 14px 14px 14px 4px;
-    align-items: flex-start;
+    text-align: left;
 }
 
-/* 🌟 ИСПРАВЛЕНО: Текст выравнивается нормально слева направо, без переноса по буквам */
+/* 🌟 ИСПРАВЛЕНО: Текст больше никогда не разорвется по буквам */
 .msg-text {
-    width: 100%;
     display: block;
+    width: 100%;
     white-space: pre-wrap;
     word-wrap: break-word;
-    word-break: normal; /* Полностью убрали разрыв слов */
-    text-align: left;   /* Чтение всегда слева направо внутри пузырька */
+    word-break: normal !important;   /* Жестко запрещает разрывать слова */
+    hyphens: none !important;        /* Отключает любые переносы букв */
 }
 
 .msg-text:empty {
     display: none;
 }
 
-/* 🌟 ИСПРАВЛЕНО: Время аккуратно стоит в правом нижнем углу и не прыгает */
 .msg-meta {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     gap: 3px;
     font-size: 10px;
     margin-top: 4px;
-    align-self: flex-end; /* Всегда прижимает время в правый нижний угол капсулы */
+    float: right;                    /* Прижимает время к правому нижнему углу капсулы */
+    margin-left: 15px;               /* Безопасное расстояние от текста до времени */
+    position: relative;
+    top: 2px;
 }
 
 .msg-bubble--me .msg-time {
-    color: #7a7a7a;
+    color: rgba(255, 255, 255, 0.7);
 }
 
 .msg-bubble--friend .msg-time {
@@ -202,7 +204,7 @@
 }
 
 .msg-bubble--me .msg-status-check {
-    color: #7a7a7a;
+    color: #2ecc71;
 }
 
 .msg-bubble--friend .msg-status-check {
@@ -216,7 +218,6 @@
     padding: 20px;
 }
 
-/* Картинки в чате */
 .msg-attached-images {
     display: flex;
     flex-wrap: wrap;
@@ -237,7 +238,6 @@
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
 }
 
-/* Панель ввода */
 .chat-input-row {
     display: flex;
     align-items: center;

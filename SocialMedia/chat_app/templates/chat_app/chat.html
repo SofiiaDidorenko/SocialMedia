@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="{% static 'chat_app/css/chat_main.css' %}?v=6">
     <link rel="stylesheet" href="{% static 'chat_app/css/chat_message.css' %}">
     <link rel="stylesheet" href="{% static 'chat_app/css/chat_sidebar.css' %}">
+    <link rel="stylesheet" href="{% static 'chat_app/css/chat_menu.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -33,6 +34,6 @@
         window.currentUserId = "{{ request.user.id }}";
     </script>
     <script src="{% static 'chat_app/js/chat.js' %}"></script>
-    <!-- ИЗМЕНИЛИ ИМЯ ФАЙЛА НА group_chat_v2.js — браузер будет вынужден прочесть его заново -->
     <script src="{% static 'chat_app/js/group_chat_v2.js' %}"></script>
+    <script src="{% static 'chat_app/js/chat_menu.js' %}"></script>
 {% endblock %}

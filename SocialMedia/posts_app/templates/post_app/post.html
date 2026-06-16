@@ -20,10 +20,7 @@
 {% endblock %}
 
 {% block content %}
-<!-- ДОДАНО ГОЛОВНУ ОБГОРТКУ ДЛЯ СИНХРОНІЗАЦІЇ З CSS -->
 <div class="content-wrapper">
-
-    <!-- Блок швидкого створення публікації -->
     <div class="quick-create-post">
         <div class="quick-input-container">
             <input type="text" class="quick-post-input" placeholder="Текст публікації" readonly id="quick-create-trigger-input">
@@ -35,8 +32,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Стрічка з публікаціями -->
     <div class="posts-list">
         {% for post in posts %}
         <div class="post-card">

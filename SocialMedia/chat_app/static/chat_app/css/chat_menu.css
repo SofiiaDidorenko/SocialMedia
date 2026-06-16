@@ -1,0 +1,66 @@
+.card-options {
+    position: relative;
+    cursor: pointer;
+}
+
+.post-menu-trigger {
+    padding: 5px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.post-context-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: #EAE6F0; /* Фиолетово-серый фон как на дизайне */
+    border-radius: 16px;
+    padding: 6px 16px;
+    min-width: 240px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    z-index: 99999 !important; 
+    display: none; 
+    flex-direction: column;
+}
+
+.post-menu-row {
+    background: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    width: 100%;
+    cursor: pointer;
+    text-align: left;
+    font-family: inherit;
+}
+
+.post-menu-row .icons {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+}
+
+.post-menu-row p {
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+    font-weight: 500;
+    color: #1a1a1a;
+}
+
+.post-menu-divider {
+    height: 1px;
+    background-color: rgba(0, 0, 0, 0.06);
+    width: 100%;
+    margin: 2px 0;
+}
+
+.post-menu-row:hover p {
+    color: var(--brand-purple, #4B2C5E);
+}
+.delete-chat-btn:hover p,
+.leave-group-btn:hover p {
+    color: #DC3545;
+}

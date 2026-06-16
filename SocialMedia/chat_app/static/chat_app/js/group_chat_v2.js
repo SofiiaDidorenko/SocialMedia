@@ -218,7 +218,7 @@ document.addEventListener('DOMContentLoaded', function() {
     buildAlphabeticalSections();
 
 
-    function sendMessage() {
+        function sendMessage() {
         if (!messageTextInput || !ws || ws.readyState !== WebSocket.OPEN) return;
         const messageText = messageTextInput.value.trim();
         if (messageText === "") return;
@@ -277,7 +277,7 @@ document.addEventListener('DOMContentLoaded', function() {
         return rowDiv;
     }
 
-        async function openGroupChat(chatId, groupTitle, customAvatarUrl = null) {
+    async function openGroupChat(chatId, groupTitle, customAvatarUrl = null) {
         if (!chatId || !csrfToken) return;
 
         if (welcomeScreen) welcomeScreen.style.display = "none";
@@ -328,29 +328,38 @@ document.addEventListener('DOMContentLoaded', function() {
         connectWebSocket(chatId);
     }
     window.openGroupChat = openGroupChat;
+
     if (openModalBtn && groupModal) {
         openModalBtn.addEventListener('click', function() {
             groupModal.style.display = 'flex';
-            resetModal();
+            if (typeof resetModal === 'function') resetModal();
         });
-    }[closeStep1Btn, closeStep2Btn, cancelBtn].forEach(btn => {
-        if (btn) btn.addEventListener('click', () => groupModal.style.display = 'none');
+    }
+
+    [closeStep1Btn, closeStep2Btn, cancelBtn].forEach(btn => {
+        if (btn) btn.addEventListener('click', () => {
+            groupModal.style.display = 'none';
+        });
     });
+
     if (groupModal) {
         groupModal.addEventListener('click', (e) => {
             if (e.target === groupModal) groupModal.style.display = 'none';
         });
     }
-        if (searchInput) {
+
+    if (searchInput) {
         searchInput.addEventListener('input', function() {
             const query = this.value.toLowerCase().trim();
             const friendsListContainer = document.querySelector('.modal-friends-list');
             if (!friendsListContainer) return;
 
-            friendRows.forEach(row => {
-                const name = row.getAttribute('data-friend-name').toLowerCase();
-                row.style.display = name.includes(query) ? 'flex' : 'none';
-            });
+            if (typeof friendRows !== 'undefined') {
+                friendRows.forEach(row => {
+                    const name = row.getAttribute('data-friend-name').toLowerCase();
+                    row.style.display = name.includes(query) ? 'flex' : 'none';
+                });
+            }
 
             const letters = friendsListContainer.querySelectorAll('.friends-alphabet-letter');
             letters.forEach(letter => {
@@ -370,13 +379,15 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    checkboxes.forEach(cb => cb.addEventListener('change', updateSelectedCounter));
+
+       checkboxes.forEach(cb => cb.addEventListener('change', updateSelectedCounter));
 
     function updateSelectedCounter() {
         const checkedCount = document.querySelectorAll('.group-user-checkbox:checked').length;
         if (selectedCountSpan) selectedCountSpan.textContent = checkedCount;
         if (nextStepBtn) nextStepBtn.disabled = checkedCount === 0;
     }
+
     if (nextStepBtn) {
         nextStepBtn.addEventListener('click', function() {
             if (stepUsers) stepUsers.style.display = 'none';
@@ -385,32 +396,38 @@ document.addEventListener('DOMContentLoaded', function() {
             validateFormStep2();
         });
     }
+
     if (backStepBtn) {
         backStepBtn.addEventListener('click', function() {
             if (stepName) stepName.style.display = 'none';
             if (stepUsers) stepUsers.style.display = 'block';
         });
     }
+
         function renderFinalParticipants() {
         if (!selectedUsersList) return;
         selectedUsersList.innerHTML = ''; 
+        
         checkboxes.forEach(cb => {
             if (cb.checked) {
                 const row = cb.closest('.modal-friend-item-row');
+                if (!row) return;
+                
                 const name = row.getAttribute('data-friend-name');
                 const avatarImg = row.querySelector('.friend-item-avatar');
                 const avatarSrc = avatarImg ? avatarImg.getAttribute('src') : ''; 
 
                 const participantItem = document.createElement('div');
+                // 🌟 ВСТАНОВЛЮЄМО ТОЙ САМИЙ КЛАС, ЩО Й ПРИ СТВОРЕННІ ГРУПИ
                 participantItem.className = 'final-participant-item';
+                
                 let avatarHTML = '';
                 if (!avatarSrc || avatarSrc.includes('User1.png') || avatarSrc === '') {
                     const initials = name ? name.substring(0, 2).toUpperCase() : "UN";
                     avatarHTML = `<div class="participant-text-avatar">${initials}</div>`;
                 } else {
-                    avatarHTML = `<img src="${avatarSrc}" class="participant-avatar">`;
+                    avatarHTML = `<img src="${avatarSrc}" class="participant-avatar" alt="Avatar">`;
                 }
-
                 participantItem.innerHTML = `
                     <div class="participant-left-side">
                         ${avatarHTML}
@@ -423,27 +440,35 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
         selectedUsersList.querySelectorAll('.remove-participant-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
                 const userId = this.getAttribute('data-user-id');
                 const checkbox = document.getElementById(`chk-friend-${userId}`);
                 if (checkbox) {
                     checkbox.checked = false;
-                    updateSelectedCounter();
+                    // Перераховуємо лічильник "Вибрано: Х"
+                    if (typeof updateSelectedCounter === 'function') updateSelectedCounter();
+                    // Перемальовуємо цей список заново
                     renderFinalParticipants();
                 }
             });
         });
     }
 
+
     if (groupNameInput) groupNameInput.addEventListener('input', validateFormStep2);
+
     function validateFormStep2() {
         if (submitBtn && groupNameInput) {
             submitBtn.disabled = groupNameInput.value.trim() === '';
         }
     }
+
     if (avatarInput && avatarPreview) {
         avatarInput.addEventListener('change', function() {
-            const file = this.files;
+            const file = this.files[0];
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
@@ -457,19 +482,28 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+
     if (submitBtn && mainForm) {
         submitBtn.addEventListener('click', function(e) {
-            if (submitBtn.type !== 'submit') {
-                e.preventDefault();
-                mainForm.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+            e.preventDefault();
+            e.stopPropagation();
+            if (groupNameInput && groupNameInput.value.trim() !== '') {
+                mainForm.requestSubmit();
             }
         });
     }
-    if (mainForm) {
+
+        if (mainForm && !mainForm.dataset.submitListenerAttached) {
+        mainForm.dataset.submitListenerAttached = "true";
+
         mainForm.addEventListener('submit', function(e) {
             e.preventDefault();
+            e.stopPropagation();
+            e.stopImmediatePropagation();
+            
             if (groupNameInput && groupNameInput.value.trim() === '') return;
             const formData = new FormData(mainForm);
+            
             fetch(mainForm.action, {
                 method: 'POST',
                 body: formData,
@@ -484,30 +518,49 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(data => {
                 if (data.success) {
                     groupModal.style.display = 'none';
-                    resetModal();
                     const newChatId = data.chatId || data.chat_id;
                     const groupTitle = data.group_name || data.name || groupNameInput.value.trim();
                     const avatarUrl = data.avatar_url || null;
+                    const initials = data.initials || (groupTitle ? groupTitle.substring(0, 2).toUpperCase() : "GR");
+
+                    resetModal();
+
                     if (newChatId) {
-                        const groupList = document.getElementById('group-list');
+                        const groupList = document.getElementById('group-list') || document.querySelector('.contacts-list');
                         const emptyText = document.getElementById('group-empty');
                         if (emptyText) emptyText.remove();
+                        
                         if (groupList) {
-                            const existingRow = groupList.querySelector(`[data-chat-id="${newChatId}"]`);
-                            if (!existingRow) {
-                                const newBtn = document.createElement('button');
-                                newBtn.type = 'button';
-                                newBtn.className = 'chat-group-button select';
-                                newBtn.setAttribute('data-chat-id', newChatId);
-                                newBtn.setAttribute('data-chat-title', groupTitle);
-                                newBtn.style.cssText = "width: 100%; display: flex; align-items: center; gap: 12px; padding: 8px; border: none; background: none; border-radius: 12px; cursor: pointer; text-align: left; transition: background 0.2s;";
-                                const avatarHTML = avatarUrl ? `<img src="${avatarUrl}" alt="Group" class="chat-user-avatar" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; flex-shrink: 0;">` : `<div class="group-text-avatar" style="width: 40px; height: 40px; border-radius: 50%; background-color: #4e4359; color: #ffffff; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 13px; flex-shrink: 0;">${groupTitle.substring(0,2).toUpperCase()}</div>`;
-                                newBtn.innerHTML = `${avatarHTML} <div class="chat-user-info" style="flex-grow: 1; display: flex; flex-direction: column; gap: 2px; min-width: 0;"> <div style="display: flex; justify-content： space-between; align-items: center; width: 100%;"> <span class="chat-user-name" style="font-weight: 600; font-size: 13px; color: #1a1a1a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 4px;">${groupTitle}</span> <span class="chat-user-time" style="font-size： 11px; color： #8c8c8c; font-weight： 400; white-space： nowrap;">Зараз</span> </div> <div class="chat-user-message" style="font-size： 12px; color： #6c757d; white-space： nowrap; overflow： hidden; text-overflow： ellipsis; font-weight： 400;"> Групу створено </div> </div>`;
-                                if (groupList.firstChild) {
-                                    groupList.insertBefore(newBtn, groupList.firstChild);
-                                } else {
-                                    groupList.appendChild(newBtn);
-                                }
+                            const existingRow = groupList.querySelector(`[data-chat-id="${newChatId}"]`) || groupList.querySelector(`[data-chat-user="${newChatId}"]`);
+                            if (existingRow) existingRow.remove();
+
+                            const newBtn = document.createElement('button');
+                            newBtn.type = 'button';
+                            newBtn.className = 'chat-group-button select';
+                            newBtn.setAttribute('data-chat-id', newChatId);
+                            newBtn.setAttribute('data-chat-title', groupTitle);
+                            newBtn.style.cssText = "width: 100%; display: flex; align-items: center; gap: 12px; padding: 8px; border: none; background: none; border-radius: 12px; cursor: pointer; text-align: left; transition: background 0.2s;";
+                            
+                            const avatarHTML = avatarUrl ? 
+                                `<img src="${avatarUrl}" alt="Group" class="chat-user-avatar" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; flex-shrink: 0;">` : 
+                                `<div class="group-text-avatar" style="width: 40px; height: 40px; border-radius: 50%; background-color: #4e4359; color: #ffffff; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 13px; flex-shrink: 0;">${initials}</div>`;
+                            
+                            newBtn.innerHTML = `
+                                ${avatarHTML} 
+                                <div class="chat-user-info" style="flex-grow: 1; display: flex; flex-direction: column; gap: 2px; min-width: 0;"> 
+                                    <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;"> 
+                                        <span class="chat-user-name" style="font-weight: 600; font-size: 13px; color: #1a1a1a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 4px;">${groupTitle}</span> 
+                                        <span class="chat-user-time" style="font-size: 11px; color: #8c8c8c; font-weight: 400; white-space: nowrap;">Зараз</span> 
+                                    </div> 
+                                    <div class="chat-user-message" style="font-size: 12px; color: #6c757d; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 400;">Групу створено</div> 
+                                </div>
+                            `;
+                            
+                            document.querySelectorAll('.chat-group-button, .chat-user-button').forEach(b => b.classList.remove('select'));
+                            if (groupList.firstChild) {
+                                groupList.insertBefore(newBtn, groupList.firstChild);
+                            } else {
+                                groupList.appendChild(newBtn);
                             }
                         }
                         openGroupChat(newChatId, groupTitle, avatarUrl);
@@ -515,15 +568,16 @@ document.addEventListener('DOMContentLoaded', function() {
                         window.location.reload();
                     }
                 } else {
-                    alert('Помилка:');
+                    alert('Помилка збереження групи');
                 }
             })
             .catch(error => {
-                console.error('Ошибка:', error);
-                alert('Не вдалося створити групу.');
+                console.error('Помилка:', error);
+                alert('Не вдалося зберегти групу.');
             });
         });
     }
+
     document.addEventListener('click', function(event) {
         const button = event.target.closest('.chat-group-button');
         if (!button) return;
@@ -536,10 +590,11 @@ document.addEventListener('DOMContentLoaded', function() {
         const avatarUrl = imgEl ? imgEl.src : null;
         openGroupChat(chatId, groupTitle, avatarUrl);
     });
+
     function resetModal() {
         if (searchInput) searchInput.value = '';
         if (groupNameInput) groupNameInput.value = '';
-        friendRows.forEach(row => row.style.display = 'flex');
+        if (typeof friendRows !== 'undefined') friendRows.forEach(row => row.style.display = 'flex');
         checkboxes.forEach(cb => cb.checked = false);
         if (avatarPreview) {
             avatarPreview.style.backgroundImage = 'none';
@@ -550,4 +605,5 @@ document.addEventListener('DOMContentLoaded', function() {
         updateSelectedCounter();
         if (stepUsers) stepUsers.style.display = 'block';
         if (stepName) stepName.style.display = 'none';
-    }});
+    }
+});

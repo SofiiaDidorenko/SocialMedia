@@ -1,0 +1,29 @@
+{% load static %}
+<div class="card-options">
+    <img src="{% static 'icons/more.png' %}" alt="options" class="post-menu-trigger">
+    
+    <div class="post-context-menu" style="display: none;">
+        <button type="button" class="post-menu-row open-media">
+            <img src="{% static 'icons/Media.png' %}" class="icons" alt="media">
+            <p>Медіа</p>
+        </button>
+        <button type="button" class="post-menu-row edit-group-btn admin-only" style="display: none;">
+            <img src="{% static 'icons/edit.png' %}" class="icons" alt="edit">
+            <p>Редагувати групу</p>
+        </button>
+        
+        <div class="post-menu-divider admin-only" style="display: none;"></div>
+        
+        <button type="button" class="post-menu-row delete-chat-btn admin-only" style="display: none;">
+            <img src="{% static 'icons/delete.png' %}" class="icons" alt="delete">
+            <p>Видалити чат</p>
+        </button>
+        <div class="post-menu-divider member-only" style="display: none;"></div>
+        
+        <button type="button" class="post-menu-row leave-group-btn member-only" style="display: none;">
+            <img src="{% static 'icons/exit.png' %}" class="icons" alt="leave">
+            <p>Покинути групу</p>
+        </button>
+
+    </div>
+</div>

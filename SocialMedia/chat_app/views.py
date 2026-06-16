@@ -11,7 +11,6 @@ from django.utils import timezone
 from user_app.models import User
 from user_app.utils.friend_queries import get_user_by_section
 
-# Импортируем формы из локального файла forms.py приложения чата
 from .forms import GroupSelectUsersForm, GroupDetailsForm
 from .models import Chat, Message, MessageImage
 
@@ -50,9 +49,6 @@ class ChatView(LoginRequiredMixin, TemplateView):
         group_chats_with_data = []
         for chat in group_chats_query:
             words = chat.name.split() if chat.name else []
-            initials = ""
-            
-            # 🌟 ФИКС ИНИЦИАЛОВ: Берем только первые буквы слов, а не склеиваем списки
             if len(words) >= 2:
                 initials = f"{words[0][0]}{words[1][0]}".upper()
             elif len(words) == 1:
@@ -127,15 +123,31 @@ class GetOnlineStatusesView(LoginRequiredMixin, View):
         online_friend_ids = list(friends.filter(id__in=online_user_ids).values_list('id', flat=True))
         
         return JsonResponse({"online_users": online_friend_ids})
-
 class ChatWithView(LoginRequiredMixin, View):
     login_url = "auth"
 
     def post(self, request, userId):
+        # 1. Проверяем, заходит ли пользователь в групповой чат (userId в данном случае равен chat_id группы)
+        group_chat = Chat.objects.filter(id=userId, is_group=True, users=request.user).first()
+        
+        if group_chat:
+            avatar_url = group_chat.avatar.url if getattr(group_chat, 'avatar', None) else None
+            user_ids_list = list(group_chat.users.values_list('id', flat=True))
+            
+            return JsonResponse({
+                "success": True,
+                "chatId": group_chat.id,
+                "username": group_chat.name,
+                "avatar_url": avatar_url,
+                "adminId": group_chat.admin.id if group_chat.admin else None,  # 👑 Точный ID админа группы
+                "usersList": user_ids_list
+            })
+
+        # 2. Если это не группа, открываем или создаем обычный личный чат с другом
         try:
             other_user = User.objects.get(id=userId)
         except User.DoesNotExist:
-            return JsonResponse({"success": False, "error": "Користувача не знайдено"}, status=444)
+            return JsonResponse({"success": False, "error": "Чат або користувача не знайдено"}, status=444)
 
         friends = get_user_by_section(request.user, "friends")
         if other_user not in friends:
@@ -153,13 +165,17 @@ class ChatWithView(LoginRequiredMixin, View):
             display_name = other_user.username
 
         avatar_url = other_user.avatar.url if getattr(other_user, 'avatar', None) else "/static/icons/User1.png"
+        user_ids_list = [request.user.id, other_user.id]
 
         return JsonResponse({
             "success": True, 
             "chatId": chat.id, 
             "username": display_name,
-            "avatar_url": avatar_url
+            "avatar_url": avatar_url,
+            "adminId": None,  
+            "usersList": user_ids_list
         })
+
 
 
 class GetMessageView(LoginRequiredMixin, View): 
@@ -184,13 +200,10 @@ class GetMessageView(LoginRequiredMixin, View):
 
 
 class CreateGroupChatView(LoginRequiredMixin, View):
-    """ОБРОБНИК СТВОРЕННЯ ГРУПОВОГО ЧАТУ (POST-запит від group_chat.js)"""
     def post(self, request):
         form = GroupDetailsForm(request.POST, request.FILES)
-        
         if form.is_valid():
             user_ids = request.POST.getlist('selected_users')
-            
             if not user_ids:
                 return JsonResponse({'success': False, 'error': 'Будь ласка, оберіть хоча б одного учасника.'}, status=400)
             
@@ -198,7 +211,6 @@ class CreateGroupChatView(LoginRequiredMixin, View):
             chat.is_group = True
             chat.admin = request.user
             chat.save()
-            
             chat.users.add(request.user)
             
             for u_id in user_ids:
@@ -207,13 +219,63 @@ class CreateGroupChatView(LoginRequiredMixin, View):
                     chat.users.add(friend)
                 except User.DoesNotExist:
                     continue
-                    
+            
+            words = chat.name.split() if chat.name else []
+            if len(words) >= 2:
+                initials = f"{words[0][0]}{words[1][0]}".upper()
+            elif len(words) == 1:
+                initials = words[0][:2].upper() if len(words[0]) > 1 else words[0][0].upper()
+            else:
+                initials = "CH"
+
             return JsonResponse({
                 'success': True,
                 'chatId': chat.id,
-                'groupName': chat.name
+                'name': chat.name,
+                'avatar_url': chat.avatar.url if getattr(chat, 'avatar', None) else None,
+                'initials': initials,
+                'last_message': "Немає повідомлень",
+                'last_time': timezone.localtime(timezone.now()).strftime("%H:%M")
             }, status=200)
+        return JsonResponse({'success': False, 'error': 'Некоректні дані форми.'}, status=400)
+
+
+class UpdateGroupChatView(LoginRequiredMixin, View):
+    def post(self, request, chat_id):
+        try:
+            chat = Chat.objects.get(id=chat_id, admin=request.user, is_group=True)
+        except Chat.DoesNotExist:
+            return JsonResponse({"success": False, "error": "Групу не знайдено або ви не є її адміном"}, status=444)
+
+        form = GroupDetailsForm(request.POST, request.FILES, instance=chat)
+        if form.is_valid():
+            chat = form.save()
+            user_ids = request.POST.getlist('selected_users')
             
+            chat.users.clear()
+            chat.users.add(request.user)
+            for u_id in user_ids:
+                try:
+                    friend = User.objects.get(id=u_id)
+                    chat.users.add(friend)
+                except User.DoesNotExist:
+                    continue
+            
+            words = chat.name.split() if chat.name else []
+            if len(words) >= 2:
+                initials = f"{words[0][0]}{words[1][0]}".upper()
+            elif len(words) == 1:
+                initials = words[0][:2].upper() if len(words[0]) > 1 else words[0][0].upper()
+            else:
+                initials = "CH"
+
+            return JsonResponse({
+                'success': True,
+                'chatId': chat.id,
+                'name': chat.name,
+                'avatar_url': chat.avatar.url if getattr(chat, 'avatar', None) else None,
+                'initials': initials
+            }, status=200)
         return JsonResponse({'success': False, 'error': 'Некоректні дані форми.'}, status=400)
 
 
@@ -237,7 +299,6 @@ class SendMessageWithImagesView(LoginRequiredMixin, View):
         )
 
         saved_image_urls = []
-
         for image_file in uploaded_images:
             img_obj = MessageImage.objects.create(
                 message=message,

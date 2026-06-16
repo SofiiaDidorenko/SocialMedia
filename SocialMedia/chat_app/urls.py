@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import (ChatView,ChatWithView,CreateGroupChatView,GetMessageView,GetOnlineStatusesView,SendMessageWithImagesView)
+from .views import (ChatView,ChatWithView,CreateGroupChatView,GetMessageView,GetOnlineStatusesView,SendMessageWithImagesView,UpdateGroupChatView  )
 
 urlpatterns = [
     # Главная страница чатов
@@ -14,9 +14,12 @@ urlpatterns = [
     # Создание группового чата
     path("create_group_chat/", CreateGroupChatView.as_view(), name="create_group_chat"),
     
-    # 🌟 АПИ для онлайн статусов
+    # 🌟 Обработчик редактирования/обновления данных группы админом
+    path("chat/<int:chat_id>/update_group/", UpdateGroupChatView.as_view(), name="update_group"),
+    
+    # АПИ для онлайн статусов
     path("api/online-statuses/", GetOnlineStatusesView.as_view(), name="online_statuses"),
     
-    # 🌟 Обработчик отправки картинок с предпросмотра
+    # Обработчик отправки картинок с предпросмотра
     path("<int:chat_id>/send_message_with_images/", SendMessageWithImagesView.as_view(), name="send_message_with_images"),
 ]
