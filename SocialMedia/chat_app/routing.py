@@ -1,8 +1,8 @@
 from django.urls import path
-
-from .consumers import ChatConsumer
-
+from . import consumers
 
 websocket_urlpatterns = [
-    path("chat/<int:chat_id>/", ChatConsumer.as_asgi()),
+    # Зверніть увагу на префікс ws/ та регулярний вираз!
+    path('chat/<int:chat_id>/', consumers.ChatConsumer.as_asgi()),
+    path('ws/unread/', consumers.UnreadMessageConsumer.as_asgi()),
 ]

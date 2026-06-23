@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import (ChatView,ChatWithView,CreateGroupChatView,GetMessageView,GetOnlineStatusesView,SendMessageWithImagesView,UpdateGroupChatView  )
+from .views import (ChatView,ChatWithView,CreateGroupChatView,GetMessageView,GetOnlineStatusesView,SendMessageWithImagesView,UpdateGroupChatView, MarkChatAsReadView)  
 
 urlpatterns = [
     # Главная страница чатов
@@ -7,7 +7,7 @@ urlpatterns = [
     
     # Маршрут для инициализации/открытия личного чата
     path("chat_with/<int:userId>/", ChatWithView.as_view(), name="chat_with"),
-    
+    path("chat/mark_read/<int:chat_id>/", MarkChatAsReadView.as_view(), name="mark_read"),
     # Загрузка пагинации истории сообщений
     path("<int:chat_id>/messages/", GetMessageView.as_view(), name="message_history"),
     

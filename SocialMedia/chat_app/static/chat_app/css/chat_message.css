@@ -1,3 +1,131 @@
+.contacts-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+}
+
+.chat-user-button, 
+.chat-group-button {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px;
+    border: none;
+    background: none;
+    border-radius: 12px;
+    cursor: pointer;
+    text-align: left;
+    transition: background 0.2s;
+}
+
+.avatar-wrapper {
+    position: relative;
+    flex-shrink: 0 !important;
+    width: 44px;
+    height: 44px;
+}
+
+.avatar-wrapper img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+}
+
+.status-badge {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid #ffffff;
+    flex-shrink: 0 !important;
+}
+.status-badge.online { background-color: #2ec4b6; }
+.status-badge.offline { background-color: #a3a3a3; }
+
+.unread-dot {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 10px;
+    height: 10px;
+    background-color: #7b2cbf; 
+    border-radius: 50%;
+    border: 1px solid #ffffff;
+    flex-shrink: 0 !important;
+}
+
+.chat-user-info {
+    flex-grow: 1;
+    min-width: 0; 
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.chat-user-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: 8px;
+}
+
+.chat-user-name {
+    font-weight: 600;
+    font-size: 14px;
+    color: #1a1a1a;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-grow: 1;
+    min-width: 0;
+}
+
+.chat-time {
+    font-size: 12px;
+    color: #81818d;
+    white-space: nowrap;
+    flex-shrink: 0 !important;
+}
+
+.chat-last-msg {
+    margin: 0;
+    flex-grow: 1;
+    font-size: 13px;
+    color: #5c5c5c;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+}
+
+.unread-badge-counter {
+    background-color: #e63946;
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 10px;
+    min-width: 18px;
+    height: 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0 !important;
+    text-align: center;
+}
+
+.chat-user-button.select, 
+.chat-group-button.select {
+    background-color: #f0ebf7; 
+}
+
 .msg-row {
     display: flex;
     width: 100%;
@@ -6,12 +134,10 @@
     gap: 12px;
 }
 
-/* Моє повідомлення (Фіолетове, праворуч) */
 .msg-row--me {
     justify-content: flex-end;
 }
 
-/* Повідомлення друга (Сіре, ліворуч, з аватаркою) */
 .msg-row--friend {
     display: flex;
     align-items: flex-end;
@@ -25,7 +151,7 @@
     height: 36px;
     border-radius: 50%;
     object-fit: cover;
-    flex-shrink: 0;
+    flex-shrink: 0 !important;
     margin-bottom: 4px;
 }
 
@@ -33,8 +159,8 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    max-width: 70%; /* Обмежуємо загальну ширину контенту друга */
-    flex-grow: 1;    /* Дозволяє блоку займати доступне місце, але не більше max-width */
+    max-width: 70%; 
+    flex-grow: 1;    
 }
 
 .msg-author-name {
@@ -42,6 +168,7 @@
     color: #543C52;
     font-weight: 500;
     padding-left: 4px;
+    margin-bottom: 2px;
 }
 
 .msg-bubble {
@@ -50,49 +177,24 @@
     gap: 10px;              
     padding: 10px 14px;
     border-radius: 15px;
-    width: fit-content;    /* Стискає бабл під довжину тексту */
-    min-width: 60px;       /* Щоб короткі слова не стискали час */
+    width: fit-content;    
+    min-width: 60px;       
 }
-/* Повідомлення друга */
+
 .msg-bubble--friend {
     background: #FFFFFF;
     color: #070A1C;
-    border: 1px solid;
-    border-color: #E9E5EE;
+    border: 1px solid #E9E5EE;
     border-bottom-left-radius: 4px;
-    flex-shrink: 0;        /* КРИТИЧНО: забороняє flex-контейнеру сплющувати цей блок */
+    flex-shrink: 0 !important;        
     max-width: 100%;
 }
-.content-wrapper .quick-emoji-wrapper {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    width: 44px !important;
-    height: 44px !important;
-    background: transparent !important; /* Убираем серый фон фона */
-    border: 1px solid var(--border-color) !important; /* Тонкая рамка вокруг */
-    border-radius: 50% !important;
-    cursor: pointer !important;
-    transition: background-color 0.2s ease !important;
-}
 
-.content-wrapper .quick-emoji-wrapper:hover {
-    background: #F5F5F7 !important;
-}
-
-/* Иконка смайлика внутри */
-.content-wrapper .quick-emoji {
-    width: 42px !important;
-    height:42px !important;
-    object-fit: contain !important;
-    filter: invert(30%) sepia(0%) saturate(0%) hue-rotate(0deg) opacity(0.6) !important; /* Серый цвет под макет */
-}
-/* Твоє особисте повідомлення */
 .msg-bubble--me {
     background: #CDCED2;
     color: #070A1C;
     border-bottom-right-radius: 4px;
-    max-width: 70%;
+    max-width: 100%; 
 }
 
 .msg-text {
@@ -102,23 +204,59 @@
     word-break: break-word;
 }
 
-/* Контейнер для часу та галочки */
+.msg-attached-images {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 4px;
+    width: 100%;
+}
+
+.msg-attached-images img {
+    max-width: 150px;
+    max-height: 150px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
 .msg-meta {
     display: flex;
     align-items: center;
     gap: 3px;
-    white-space: nowrap;   /* Забороняє часу переноситися окремо від галочки */
-    margin-left: auto;     /* Якщо текст довгий, притискає мета-дані праворуч */
+    white-space: nowrap;   
+    margin-left: auto;     
     font-size: 11px;
     opacity: 0.7;
-    padding-bottom: 1px;   /* Опускає час трохи нижче для балансу */
-}
-.msg-bubble--me .msg-time,
-.msg-bubble--me .msg-status-check {
-    color: #81818D;
+    padding-bottom: 1px;   
 }
 
+.msg-bubble--me .msg-time,
+.msg-bubble--me .msg-status-check,
 .msg-bubble--friend .msg-time,
 .msg-bubble--friend .msg-status-check {
     color: #81818D;
+}
+
+.content-wrapper .quick-emoji-wrapper {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 44px !important;
+    height: 44px !important;
+    background: transparent !important; 
+    border: 1px solid var(--border-color) !important; 
+    border-radius: 50% !important;
+    cursor: pointer !important;
+    transition: background-color 0.2s ease !important;
+}
+
+.content-wrapper .quick-emoji-wrapper:hover {
+    background: #F5F5F7 !important;
+}
+
+.content-wrapper .quick-emoji {
+    width: 42px !important;
+    height: 42px !important;
+    object-fit: contain !important;
+    filter: invert(30%) sepia(0%) saturate(0%) hue-rotate(0deg) opacity(0.6) !important; 
 }

@@ -8,13 +8,14 @@
     <div class="contacts-list">
         {% for item in personal_chats %}
             <button type="button" class="chat-user-button" 
+                    data-chat-id="{{ item.chat.id }}" 
                     data-chat-user="{{ item.friend_id }}" 
                     data-chat-username="{{ item.username }}">
                 
-                <!-- Новая структура аватарки с индикатором -->
                 <div class="avatar-wrapper">
                     <img src="{{ item.avatar_url }}" alt="User">
                     <span class="status-badge offline"></span>
+                    <span class="unread-dot" {% if not item.unread_count %}style="display:none;"{% endif %}></span>
                 </div>
                 
                 <div class="chat-user-info">
@@ -22,7 +23,13 @@
                         <span class="chat-user-name">{{ item.username }}</span>
                         <span class="chat-time" data-chat-time-id="{{ item.friend_id }}">{{ item.last_time }}</span>
                     </div>
-                    <p class="chat-last-msg" data-chat-preview-id="{{ item.friend_id }}">{{ item.last_message }}</p>
+                    <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; gap: 8px;">
+                        <p class="chat-last-msg" data-chat-preview-id="{{ item.friend_id }}">{{ item.last_message }}</p>
+                        
+                        <span class="unread-badge-counter" data-raw-count="{{ item.unread_count|default:0 }}" {% if not item.unread_count %}style="display:none;"{% endif %}>
+                            {% if item.unread_count %}{{ item.unread_count }}{% endif %}
+                        </span>
+                    </div>
                 </div>
             </button>
         {% empty %}

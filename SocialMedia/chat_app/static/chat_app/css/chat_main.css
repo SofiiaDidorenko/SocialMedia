@@ -343,16 +343,14 @@
     justify-content: center;
     flex-shrink: 0;
     cursor: pointer;
-    width: 32px !important;
-    height: 32px !important;
+    width: 50px !important;
+    height: 50px !important;
 }
 
 .icon-only-btn1 img,
 .quick-emoji {
-    width: 28px !important;
-    height: 28px !important;
-    max-width: 28px !important;
-    max-height: 28px !important;
+    width: 43px !important;
+    height: 43px !important;
     object-fit: contain;
     transition: transform 0.1s ease;
 }
@@ -368,4 +366,42 @@
     margin: 15px 0;
     font-size: 12px;
     color: #a0a0a0;
+}
+/* 🔴 Красный круглый значок новых сообщений */
+.unread-badge-counter {
+    background-color: #FF3B30 !important;
+    color: #FFFFFF !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    min-width: 18px !important;
+    height: 18px !important;
+    border-radius: 50% !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 5px !important;
+    box-sizing: border-box !important;
+    line-height: 1 !important;
+    flex-shrink: 0 !important;
+    margin-left: auto !important;
+}
+
+/* 🌟 ИСПРАВЛЕНО: Прячем значок, если он пустой, равен "0" или не имеет атрибута */
+.unread-badge-counter:empty,
+.unread-badge-counter[data-raw-count="0"],
+.unread-badge-counter[data-raw-count=""] {
+    display: none !important;
+}
+.unread-dot {
+    width: 8px;
+    height: 8px;
+    min-width: 8px;
+    border-radius: 50%;
+    background-color: #7B61FF; /* фиолетовый */
+    flex-shrink: 0;
+    display: none;
+}
+.chat-user-button.has-unread .unread-dot,
+.chat-group-button.has-unread .unread-dot {
+    display: block;
 }

@@ -1,36 +1,25 @@
 {% load static %}
-
-<!-- Головне вікно чату -->
 <section class="chat-main empty-chat-state" id="chat-window-container">
-    
-    <!-- Стан за замовчуванням (коли чат ще не обрано) -->
     <div id="chat-welcome-screen">
         <h1 id="chat-title">Почніть нове спілкування</h1>
     </div>
-
-    <!-- Активний стан чату (показується через JS при кліку на контакт) -->
     <div id="chat-active-screen">
-        
-        <!-- Шапка активного чату -->
         <div class="chat-active-header">
             <div class="chat-header-user">
                 <img id="chat-active-avatar" src="{% static 'icons/User1.png' %}" alt="User">
-                <div>
-                    <h2 id="chat-active-name">Ім'я</h2>
+                <div style="display: flex; flex-direction: column; gap: 2px;">
+                    <h2 id="chat-active-name" style="margin: 0;">Ім'я</h2>
+                    <!-- 🌟 ПІДЗАГОЛОВОК: Сюди JS запише кількість людей у групі та онлайн -->
+                    <p id="chat-active-count" style="margin: 0; font-size: 12px; color: #8c8c8c; font-weight: 400; display: none;"></p>
                 </div>
             </div>
             <div class="chat-options-btn">{% include "chat_app/particles/chat_menu.html" %}</div>
         </div>
-
-        <!-- Область повідомлень діалогу -->
-        <div id="messages-display-area">
-            <!-- Маркер-сентинель для підвантаження старої історії при скролі вгору -->
+        
+        <div id="messages-display-area" class="custom-scrollbar">
             <div id="messages-load-sentinel" style="width: 100%; height: 1px; clear: both;"></div>
-            
-            <!-- Цикл Django для виведення початкової історії повідомлень з бази даних -->
             {% for msg in chat_messages %}
                 {% if msg.sender == request.user %}
-                    <!-- Твоє особисте повідомлення (фіолетове, праворуч) -->
                     <div class="msg-row msg-row--me">
                         <div class="msg-body-wrapper">
                             <div class="msg-bubble msg-bubble--me">
@@ -41,7 +30,6 @@
                                         {% endfor %}
                                     </div>
                                 {% endif %}
-                                
                                 <div class="msg-text">{{ msg.text }}</div>
                                 <div class="msg-meta">
                                     <span class="msg-time">{{ msg.created_at|date:"H:i" }}</span>
@@ -51,20 +39,17 @@
                         </div>
                     </div>
                 {% else %}
-                    <!-- Повідомлення співрозмовника/друга (сіре, ліворуч, з аватаркою) -->
                     <div class="msg-row msg-row--friend">
                         <img src="{% if msg.sender.avatar %}{{ msg.sender.avatar.url }}{% else %}{% static 'icons/User1.png' %}{% endif %}" class="msg-author-avatar" alt="Avatar">
                         <div class="msg-body-wrapper">
-                            <div class="msg-bubble msg-bubble--friend">
-                                <!-- 🌟 ОБНОВЛЕНО: Ім'я автора перенесено всередину міхура повідомлення перед усім контентом -->
-                                <span class="msg-author-name">
+                            <div class="msg-bubble msg-bubble--friend" style="display: flex; flex-direction: column; align-items: flex-start; gap: 4px;">
+                                <span class="msg-author-name" style="display: block; font-weight: 600; font-size: 13px; color: #5d4257; margin-bottom: 2px;">
                                     {% if msg.sender.first_name or msg.sender.last_name %}
                                         {{ msg.sender.first_name }} {{ msg.sender.last_name }}
                                     {% else %}
                                         {{ msg.sender.username }}
                                     {% endif %}
                                 </span>
-
                                 {% if msg.images.all %}
                                     <div class="msg-attached-images">
                                         {% for img_obj in msg.images.all %}
@@ -72,43 +57,38 @@
                                         {% endfor %}
                                     </div>
                                 {% endif %}
-                                
-                                <div class="msg-text">{{ msg.text }}</div>
-                                <div class="msg-meta">
-                                    <span class="msg-time">{{ msg.created_at|date:"H:i" }}</span>
-                                    <span class="msg-status-check">✓</span>
+                                <div style="display: flex; align-items: flex-end; justify-content: space-between; width: 100%; gap: 16px;">
+                                    <div class="msg-text" style="display: block; word-break: break-word;">{{ msg.text }}</div>
+                                    <div class="msg-meta" style="flex-shrink: 0; display: flex; align-items: center; gap: 4px;">
+                                        <span class="msg-time">{{ msg.created_at|date:"H:i" }}</span>
+                                        <span class="msg-status-check">✓</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 {% endif %}
             {% empty %}
-                <!-- Текст відображається, якщо в цьому чаті ще немає жодного повідомлення -->
+                <!-- 🌟 СИНТАКСИС ВИПРАВЛЕНО: Тег стоїть строго всередині циклу for і не ламає рендеринг -->
                 <p class="no-messages-yet" style="text-align: center; color: var(--text-muted); font-size: 14px; padding: 20px;">Напишіть перше повідомлення, щоб почати діалог.</p>
             {% endfor %}
         </div>
-
-        <!-- Нижня панель введення та надсилання повідомлення -->
-        <div class="chat-input-row">
-            
+        
+        <div class="chat-input-row" style="position: relative;">
             <div class="chat-input-wrapper">
                 <div id="image-preview-container" class="image-preview-container" style="display: none;"></div>
                 <input type="text" id="message-text-input" placeholder="Повідомлення">
             </div>
-            
-            <div class="quick-emoji-wrapper" id="quick-emoji-trigger">
+            <div class="quick-emoji-wrapper" id="quick-emoji-trigger" style="cursor: pointer;">
                 <img src="{% static 'icons/emoji.png' %}" alt="emoji" class="quick-emoji">
             </div>
-            
             <label class="icon-only-btn1" style="cursor: pointer;">
                 <input type="file" id="chat-file-input" name="image" multiple accept="image/*" style="display:none;">
                 <img src="{% static 'icons/photo.png' %}" alt="Фото">
             </label>
-            
             <button type="button" id="send-msg-btn" class="icon-only-btn1">
                 <img src="{% static 'icons/send_message.png' %}" alt="Надіслати">
             </button>
         </div>
-
     </div>
 </section>

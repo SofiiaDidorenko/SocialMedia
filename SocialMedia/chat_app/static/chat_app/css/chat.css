@@ -1,7 +1,8 @@
 @font-face {
     font-family: "GT Walsheim Pro";
-    src: url("../fonts/GT-Walsheim-Pro-Regular.ttf") format("truetype");
+    src: url("/static/chat_app/fonts/GT-Walsheim-Pro-Regular.ttf") format("truetype");
 }
+
 :root {
     --bg-color: #F8F7FA;
     --white: #FFFFFF;
@@ -28,8 +29,9 @@ body {
     height: calc(100vh - 110px);
     box-sizing: border-box;
 }
-/* --- ЕЛЕМЕНТИ СПИСКІВ ТА КНОПКИ КОРИСТУВАЧІВ --- */
-.chat-user-button {
+
+.chat-user-button,
+.chat-group-button {
     width: 100%;
     padding: 10px 5px;
     background: transparent;
@@ -44,23 +46,31 @@ body {
     transition: background-color 0.2s ease;
 }
 
-.chat-user-button:hover {
+.chat-user-button:hover,
+.chat-group-button:hover {
     background-color: #F5F5F7;
 }
 
-.chat-user-button img {
+.chat-user-button img,
+.chat-group-button img,
+.avatar-wrapper {
     width: 44px;
     height: 44px;
     border-radius: 50%;
     object-fit: cover;
-    flex-shrink: 0;
+    flex-shrink: 0 !important;
 }
 
+.avatar-wrapper img {
+    width: 100%;
+    height: 100%;
+}
 .chat-user-info {
     flex: 1;
     display: flex;
     flex-direction: column;
     gap: 4px;
+    min-width: 0;
     overflow: hidden;
 }
 
@@ -72,6 +82,7 @@ body {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    flex-grow: 1;
 }
 
 .chat-user-meta {
@@ -79,6 +90,8 @@ body {
     justify-content: space-between;
     align-items: baseline;
     width: 100%;
+    gap: 8px;
+    min-width: 0;
 }
 
 .chat-last-msg {
@@ -89,12 +102,61 @@ body {
     overflow: hidden;
     text-transform: none;
     text-overflow: ellipsis;
-    max-width: 150px;
+    flex-grow: 1;
+    min-width: 0;
 }
 
 .chat-time {
     font-size: 12px;
     color: #BDBDBD;
+    white-space: nowrap;
+    flex-shrink: 0 !important;
+}
+
+.status-badge {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid #ffffff;
+    flex-shrink: 0 !important;
+}
+.status-badge.online { background-color: #2ec4b6; }
+.status-badge.offline { background-color: #a3a3a3; }
+
+.unread-dot {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 10px;
+    height: 10px;
+    background-color: #7b2cbf; 
+    border-radius: 50%;
+    border: 1px solid #ffffff;
+    flex-shrink: 0 !important;
+}
+
+.unread-badge-counter {
+    background-color: #e63946;
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 10px;
+    min-width: 18px;
+    height: 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0 !important;
+    text-align: center;
+}
+
+.chat-user-button.select, 
+.chat-group-button.select {
+    background-color: #f0ebf7; 
 }
 
 .contacts-list::-webkit-scrollbar,
@@ -110,4 +172,3 @@ body {
     background: #E0E0E0;
     border-radius: 10px;
 }
-

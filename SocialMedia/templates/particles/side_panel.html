@@ -4,11 +4,9 @@
     <div class="profile-container">
         <div class="profile-head">
             <div class="profile-picture">
-              
-                <img src="{% static 'icons/example-photo.png' %}" alt="Profile Picture">
+                <img src="{% if request.user.avatar %}{{ request.user.avatar.url }}{% else %}{% static 'icons/example-photo.png' %}{% endif %}" alt="Profile Picture" style="object-fit: cover;">
             </div>
             <div class="profile-name">
-            
                 <h3>
                     {% if request.user.first_name %}
                         {{ request.user.first_name }}
@@ -16,7 +14,6 @@
                         Новий користувач
                     {% endif %}
                 </h3>
-               
                 <p>@{{ request.user.username }}</p>
             </div>
         </div>
@@ -30,21 +27,81 @@
                 <p>Читачі</p>
             </div>
             <div class="info-container">
-                <h3>222</h3>                   
+                <h3>{{ friends_count|default:"0" }}</h3>                   
                 <p>Друзі</p>
             </div>
         </div>
     </div>
-    <div class="request">
-        <nav>
-            <h3>Запити</h3>
-            <a href="{% url 'friends' %}">Дивитися всі</a>
-        </nav>
+
+    <div class="request" style="margin-bottom: 30px; display: block; box-sizing: border-box;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h3 style="margin: 0; font-size: 16px; font-weight: 700; color: #1a1a1a;">Запити</h3>
+            <a href="{% url 'friends' %}" style="font-size: 13px; color: #5d4257; font-weight: 600; text-decoration: none; text-align: right;">Дивитися всі</a>
+        </div>
+        <div id="sidebar-requests-list" style="display: block; margin-top: 14px; clear: both;">
+            <p style="color: #8c8c8c; font-size: 13px; margin: 0;">Завантаження...</p>
+        </div>
     </div>
-    <div class="message-block">
-        <nav>
-            <h3>Повідомлення</h3>
-            <a href="#">Дивитися всі</a>
-        </nav>
+
+    <div class="message-block" style="margin-top: 30px; display: block; box-sizing: border-box;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h3 style="margin: 0; font-size: 16px; font-weight: 700; color: #1a1a1a;">Повідомлення</h3>
+            <a href="{% url 'chat' %}" style="font-size: 13px; color: #5d4257; font-weight: 600; text-decoration: none; text-align: right;">Дивитися всі</a>
+        </div>
+        <div id="sidebar-messages-list" style="display: flex; flex-direction: column; gap: 8px; margin-top: 14px; clear: both; width: 100%;">
+            <!-- 🌟 ИСПРАВЛЕНО: Прямой вывод 3 последних личных чатов из базы данных -->
+            {% for chat in sidebar_recent_chats %}
+                <a href="{% url 'chat' %}?open={{ chat.id }}" style="display: flex; align-items: center; gap: 12px; padding: 8px; border-radius: 12px; text-decoration: none; box-sizing: border-box; width: 100%; transition: background 0.2s;" onmouseover="this.style.background='#f5f5f7'" onmouseout="this.style.background='none'">
+                    <img src="{{ chat.avatar_url }}" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; flex-shrink: 0;">
+                    <div style="display: flex; flex-direction: column; min-width: 0; flex-grow: 1; gap: 2px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                            <span style="font-size: 13px; font-weight: 600; color: #1a1a1a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 110px;">{{ chat.username }}</span>
+                            <span style="font-size: 11px; color: #8c8c8c; flex-shrink: 0;">{{ chat.last_time }}</span>
+                        </div>
+                        <p style="font-size: 12px; color: #6c757d; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 140px;">{{ chat.last_message }}</p>
+                    </div>
+                </a>
+            {% empty %}
+                <p style="color: #8c8c8c; font-size: 13px; margin: 0;">Повідомлень немає</p>
+            {% endfor %}
+        </div>
     </div>
 </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const requestsContainer = document.getElementById("sidebar-requests-list");
+
+    if (requestsContainer) {
+        fetch("/api/online-statuses/")
+            .then(res => res.json())
+            .then(data => {
+                const requests = data.friend_requests || [];
+                requestsContainer.innerHTML = "";
+
+                if (requests.length === 0) {
+                    requestsContainer.innerHTML = '<p style="color: #8c8c8c; font-size: 13px; margin: 0;">Нових запитів немає</p>';
+                    return;
+                }
+
+                requests.slice(0, 3).forEach(req => {
+                    const reqItem = document.createElement("div");
+                    reqItem.style.cssText = "display: flex; align-items: center; justify-content: space-between; padding: 6px 0; width: 100%; margin-bottom: 4px;";
+
+                    reqItem.innerHTML = `
+                        <div style="display: flex; align-items: center; gap: 10px; min-width: 0; flex-grow: 1;">
+                            <img src="${req.avatar_url || '/static/icons/User1.png'}" style="width: 36px; height: 36px; border-radius: 50%; object-fit: cover; flex-shrink: 0;">
+                            <span style="font-size: 13px; font-weight: 600; color: #1a1a1a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 110px;">${req.username}</span>
+                        </div>
+                        <div style="flex-shrink: 0;">
+                            <a href="/friends/accept/${req.id}/" style="padding: 4px 10px; background-color: #5d4257; color: #ffffff; border-radius: 8px; font-size: 11px; font-weight: 600; text-decoration: none; display: inline-block;">Прийняти</a>
+                        </div>`;
+                    requestsContainer.appendChild(reqItem);
+                });
+            })
+            .catch(() => {
+                requestsContainer.innerHTML = '<p style="color: #8c8c8c; font-size: 13px; margin: 0;">Нових запитів немає</p>';
+            });
+    }
+});
+</script>

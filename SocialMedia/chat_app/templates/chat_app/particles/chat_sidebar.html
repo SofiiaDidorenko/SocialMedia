@@ -1,5 +1,24 @@
 {% load static %}
-<aside class="chat-side">
-    {% include "chat_app/particles/chat_messages.html" %}
-    {% include "chat_app/particles/chat_groups.html" %}
+<aside class="chat-side" style="display: flex; flex-direction: column; gap: 20px;">
+    
+    <!-- Секція Особистих Повідомлень -->
+    <div class="sidebar-chat-section">
+        <!-- 🌟 ОНОВЛЕНО: Заголовок із баджем для сумарних особистих повідомлень -->
+        <h2 style="display: flex; align-items: center; justify-content: space-between; width: 100%; font-size: 16px; font-weight: 700;">
+            Повідомлення 
+            <span id="section-messages-badge" class="unread-badge-counter" data-raw-count="0" style="display: none;"></span>
+        </h2>
+        {% include "chat_app/particles/chat_messages.html" %}
+    </div>
+    
+    <!-- Секція Групових Чатів -->
+    <div class="sidebar-chat-section">
+        <!-- 🌟 ОНОВЛЕНО: Заголовок із баджем для сумарних групових повідомлень -->
+        <h2 style="display: flex; align-items: center; justify-content: space-between; width: 100%; font-size: 16px; font-weight: 700;">
+            Групи 
+            <span id="section-groups-badge" class="unread-badge-counter" data-raw-count="0" style="display: none;"></span>
+        </h2>
+        {% include "chat_app/particles/chat_groups.html" %}
+    </div>
+
 </aside>
